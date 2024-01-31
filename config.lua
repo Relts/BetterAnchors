@@ -16,26 +16,44 @@ local function createOptionsPanel()
     line:SetTexture("Interface\\COMMON\\UI-TooltipDivider-Transparent")
     line:SetSize(500, 2)
     line:SetPoint("TOP", title, "BOTTOM", 0, -10)
+
     -- Add checkbox to show/hide anchors
-    local checkbox = CreateFrame("CheckButton", "BetterAnchorsShowHideCheckbox", panel,
+    local checkboxShowHide = CreateFrame("CheckButton", "BetterAnchorsShowHideCheckbox", panel,
         "InterfaceOptionsCheckButtonTemplate")
-    checkbox:SetPoint("TOPLEFT", line, "BOTTOMLEFT", 0, -20)
-    checkbox:SetScript("OnClick", function(self)
+    checkboxShowHide:SetPoint("TOPLEFT", line, "BOTTOMLEFT", 0, -20)
+    checkboxShowHide:SetScript("OnClick", function(self)
         if self:GetChecked() then
-            addon:toggleFrames()
+            addon:showAllFrames()
             print("Anchors are now visible")
         else
-            addon:toggleFrames()
+            addon:hideAllFrames()
             print("Anchors are now hidden")
         end
     end)
-    checkbox:SetChecked(true)
-    checkbox.text:SetText("Show/Hide Anchors")
+    checkboxShowHide:SetChecked(addon.framesVisible) -- Set the checked state based on the framesVisible variable
+    checkboxShowHide.text:SetText("Show/Hide Anchors")
+    checkboxShowHide.text:SetPoint("left", checkboxShowHide, "right", 10, 0)
+
+    -- Add checkbox to lock/unlock anchors
+    local checkboxLockUnlock = CreateFrame("CheckButton", "BetterAnchorsLockUnlockCheckbox", panel,
+        "InterfaceOptionsCheckButtonTemplate")
+    checkboxLockUnlock:SetPoint("TOPLEFT", line, "BOTTOMLEFT", 0, -60)
+    checkboxLockUnlock:SetScript("OnClick", function(self)
+        if self:GetChecked() then
+            addon:lockAllFrames()
+            print("Anchors are now locked")
+        else
+            addon:unlockAllFrames()
+            print("Anchors are now unlocked")
+        end
+    end)
+    checkboxLockUnlock:SetChecked(addon.framesLocked) -- Set the checked state based on the framesLocked variable
+    checkboxLockUnlock.text:SetText("Lock/Unlock Anchors")
+    checkboxLockUnlock.text:SetPoint("left", checkboxLockUnlock, "right", 10, 0)
     return panel
 end
 
 createOptionsPanel()
 
---TODO add a checkbox to show/hide anchors
---TODO add a checkbox to lock/unlock anchors
+-- REVIEW ask nerc about why the check boxes dont remember the state they should be in
 --TODO add a checkbox to reset anchors to default positions
