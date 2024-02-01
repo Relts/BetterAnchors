@@ -1,21 +1,21 @@
 local addonName, addon = ...
-
 local framesLocked = true
 local framesVisible = true
+local framesScale = 1.0
 
+local lib = LibStub:GetLibrary("EditModeExpanded-1.0")
 
 BetterAnchorsDB = BetterAnchorsDB or {}
-
 --- List of Frames that get created ---
 local ANCHOR_FRAMES = {
     { name = "Cast Bars",            width = 300, height = 350 },
-    { name = "Text Warnings One",    width = 320, height = 40 },
-    { name = "Text Warnings Two",    width = 320, height = 40 },
+    { name = "Text Warnings One",    width = 320, height = 40, },
+    { name = "Text Warnings Two",    width = 320, height = 40, },
     { name = "Player Circle",        width = 170, height = 170 },
-    { name = "Icons",                width = 180, height = 60 },
+    { name = "Icons",                width = 180, height = 60, },
     { name = "Tank Icons",           width = 60,  height = 200 },
     { name = "Co-Tank Icons",        width = 60,  height = 200 },
-    { name = "Private Auras",        width = 70,  height = 70 },
+    { name = "Private Auras",        width = 70,  height = 70, },
     { name = "Player List",          width = 150, height = 180 },
     { name = "Raid Leader List One", width = 150, height = 300 },
     { name = "Raid Leader List Two", width = 150, height = 300 },
@@ -23,10 +23,11 @@ local ANCHOR_FRAMES = {
 
 local frames = {} -- Store the Frames
 
-local function CreateAnchorFrameByName(name, width, height)
+local function CreateAnchorFrameByName(name, width, height, scale)
     -- Create a frame
     local frame = CreateFrame("Frame", name, UIParent, "BackdropTemplate")
     frame:SetSize(width, height)
+    frame:SetScale(scale)
     frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
     frame:SetBackdrop({
         bgFile = "Interface\\Buttons\\WHITE8x8",
@@ -41,7 +42,7 @@ local function CreateAnchorFrameByName(name, width, height)
     frame:SetScript("OnDragStop", function(self)
         self:StopMovingOrSizing()
         local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
-        BetterAnchorsDB[name] = { point, relativePoint, xOfs, yOfs }
+        BetterAnchorsDB["positions"][name] = { point, relativePoint, xOfs, yOfs }
         -- call function here to store the position in the saved variables
     end)
     -- Add a text label to the frame
@@ -52,32 +53,42 @@ local function CreateAnchorFrameByName(name, width, height)
     --frame:Hide()
     frames[name] = frame -- Store the frame in the frames table
 end
-
 ----- List of Anchor Frames ----
 local function initAnchorFrames()
     for i, frame in ipairs(ANCHOR_FRAMES) do
-        CreateAnchorFrameByName(frame.name, frame.width, frame.height)
+        CreateAnchorFrameByName(frame.name, frame.width, frame.height, framesScale)
     end
 end
-
 -- fall back function that saves the positions
 -- Save the current position of each frame when the player logs out
 function addon:PLAYER_LOGOUT()
     for name, frame in pairs(frames) do
         local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
-        BetterAnchorsDB[name] = { point, relativePoint, xOfs, yOfs }
+
+        BetterAnchorsDB["positions"][name] = { point, relativePoint, xOfs, yOfs }
     end
     -- save the state of toggleUnlockAnchorFrames
     BetterAnchorsDB["framesLocked"] = framesLocked
     BetterAnchorsDB["framesVisible"] = framesVisible
 end
 
+local function setDefaultValues()
+    if BetterAnchorsDB["framesVisible"] == nil then
+        BetterAnchorsDB["framesVisible"] = framesVisible
+    end
+    if BetterAnchorsDB["framesLocked"] == nil then
+        BetterAnchorsDB["framesLocked"] = framesLocked
+    end
+end
 -- Restore the position of each frame when the player logs in
 function addon:PLAYER_LOGIN()
     initAnchorFrames()
+    setDefaultValues()
     for name, frame in pairs(frames) do
-        if BetterAnchorsDB[name] then
-            local point, relativePoint, xOfs, yOfs = unpack(BetterAnchorsDB[name])
+        print("Restoring position of " .. name)
+        if BetterAnchorsDB["positions"][name] then
+            local point, relativePoint, xOfs, yOfs = unpack(BetterAnchorsDB["positions"][name])
+            print(name, point, relativePoint, xOfs, yOfs)
             frame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs)
         end
     end
@@ -97,6 +108,8 @@ function addon:PLAYER_LOGIN()
 end
 
 function addon:lockAllFrames()
+    addon:SetOptionFramesLocked(true)
+    print("Locking Frames")
     for name, frame in pairs(frames) do
         frame:SetMovable(false)
         frame:EnableMouse(false)
@@ -105,6 +118,8 @@ function addon:lockAllFrames()
 end
 
 function addon:unlockAllFrames()
+    addon:SetOptionFramesLocked(false)
+    print("Unlocking Frames")
     for name, frame in pairs(frames) do
         frame:SetMovable(true)
         frame:EnableMouse(true)
@@ -123,6 +138,7 @@ function addon:toggleUnlockAnchorFrames()
 end
 
 function addon:hideAllFrames()
+    addon:SetOptionFramesVisible(false)
     for name, frame in pairs(frames) do
         frame:Hide()
         framesVisible = false
@@ -130,6 +146,7 @@ function addon:hideAllFrames()
 end
 
 function addon:showAllFrames()
+    addon:SetOptionFramesVisible(true)
     for name, frame in pairs(frames) do
         frame:Show()
         framesVisible = true
@@ -148,6 +165,20 @@ function addon:toggleFrames()
     end
 end
 
+-- REVIEW add a scale function to the frames
+function addon:setFrameScale(scale)
+    for name, frame in pairs(frames) do
+        frame:SetScale(scale)
+    end
+end
+
+-- add scale sub table to the saved variables
+-- index by names
+-- set the scale of each fram
+-- scale changed event
+-- lines 44 check for how its done
+-- 92 - 96 check how this was done.
+
 ------!SECTION Slash Commands !------
 ---- Toggle Commmand ------
 SLASH_TOGGLEFRAMES1 = "/betteranchors"
@@ -155,10 +186,9 @@ SlashCmdList["TOGGLEFRAMES"] = function(msg)
     addon:toggleFrames()
 end
 
-
 SLASH_BA1 = "/ba"
 SlashCmdList["BA"] = function(msg)
-    if msg == "lock" then
+    if msg == "lock" or msg == 'aiaicaptain' then
         addon:lockAllFrames()
         print("Frames are now locked")
     elseif msg == "unlock" then
@@ -188,7 +218,6 @@ local function debugTable(t)
     ViragDevTool:AddData(t)
 end
 
-
 local addonEventFrame = CreateFrame("Frame")
 addonEventFrame:SetScript("OnEvent", function(self, event, ...)
     debugTable(addon)
@@ -197,11 +226,17 @@ addonEventFrame:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
-
 -- login and reload events.
 addonEventFrame:RegisterEvent("PLAYER_LOGIN")
 addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 
+
+-- Print Function
+local originalPrint = print
+print = function(...)
+    local message = "|cff00ff00BetterAnchors:|r " .. table.concat({ ... }, " ")
+    DEFAULT_CHAT_FRAME:AddMessage(message, 1, 1, 1) -- Display in white
+end
 
 -- TODO Another Function that adds the frame to the edit mode
 -- TODO add scale to the frames

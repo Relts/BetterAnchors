@@ -5,6 +5,9 @@
 ## Notes: BetterAnchors is a simple addon that allows you to move weakauras in the edit mode.
 ## SavedVariables: BetterAnchorsDB
 
+embeds.xml
+
 # Files
 BetterAnchors.lua
+options.lua
 config.lua
