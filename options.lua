@@ -1,12 +1,11 @@
+local addonName, addon = ...
 print "--- Options Loaded ---"
 
-
-BetterAnchors_CHECK_BOX_OPTIONS = { -- Check Box Table
-    {                               -- Show Anchors Check Box
+addon.CHECK_BOX_OPTIONS = { -- Check Box Table
+    {                       -- Show Anchors Check Box
         name = "ShowHideAnchors",
-        text = "Show/Hide Anchors",
+        text = "Show Anchors",
         point = "TOPLEFT",
-        relativeTo = "line",
         relativePoint = "BOTTOMLEFT",
         xOffset = 0,
         yOffset = -20,
@@ -19,17 +18,13 @@ BetterAnchors_CHECK_BOX_OPTIONS = { -- Check Box Table
                 print("Anchors are now hidden")
             end
         end,
-        setOption = function(self, checked)
-            checkboxShowHide:SetChecked(checked)
-        end
     },
 
 
     { -- Lock Anchors Check Box
         name = "LockUnlockAnchors",
-        text = "Lock/Unlock Anchors",
+        text = "Lock Anchors",
         point = "TOPLEFT",
-        relativeTo = "line",
         relativePoint = "BOTTOMLEFT",
         xOffset = 0,
         yOffset = -60,
@@ -42,10 +37,5 @@ BetterAnchors_CHECK_BOX_OPTIONS = { -- Check Box Table
                 print("Anchors are now unlocked")
             end
         end,
-        setOption = function(self, checked)
-            checkboxLockUnlock:SetChecked(checked)
-        end
     },
 }
-
-return CHECK_BOX_OPTIONS

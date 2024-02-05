@@ -210,7 +210,7 @@ SlashCmdList["LOCKFRAMES"] = function(msg)
 end
 
 -- VDT Debug Table
-local function debugTable(t)
+function addon:debugTable(t)
     if not C_AddOns.IsAddOnLoaded("ViragDevTool") then
         print("ViragDevTool is not loaded")
         return
@@ -220,7 +220,7 @@ end
 
 local addonEventFrame = CreateFrame("Frame")
 addonEventFrame:SetScript("OnEvent", function(self, event, ...)
-    debugTable(addon)
+    addon:debugTable(addon)
     if addon[event] then
         addon[event](addon, ...)
     end
@@ -231,12 +231,13 @@ addonEventFrame:RegisterEvent("PLAYER_LOGIN")
 addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 
 
+
 -- Print Function
-local originalPrint = print
-print = function(...)
+local function BAPrint(...)
     local message = "|cff00ff00BetterAnchors:|r " .. table.concat({ ... }, " ")
     DEFAULT_CHAT_FRAME:AddMessage(message, 1, 1, 1) -- Display in white
 end
 
+-- FIXME this is printing everything
 -- TODO Another Function that adds the frame to the edit mode
 -- TODO add scale to the frames
