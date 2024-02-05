@@ -1,57 +1,119 @@
 local addonName, addon = ...
-local framesLocked = true
-local framesVisible = true
-local framesScale = 1.0
+local EME = LibStub("EditModeExpanded-1.0")
 
-local lib = LibStub:GetLibrary("EditModeExpanded-1.0")
 
-BetterAnchorsDB = BetterAnchorsDB or {}
 --- List of Frames that get created ---
 local ANCHOR_FRAMES = {
-    { name = "Cast Bars",            width = 300, height = 350 },
-    { name = "Text Warnings One",    width = 320, height = 40, },
-    { name = "Text Warnings Two",    width = 320, height = 40, },
-    { name = "Player Circle",        width = 170, height = 170 },
-    { name = "Icons",                width = 180, height = 60, },
-    { name = "Tank Icons",           width = 60,  height = 200 },
-    { name = "Co-Tank Icons",        width = 60,  height = 200 },
-    { name = "Private Auras",        width = 70,  height = 70, },
-    { name = "Player List",          width = 150, height = 180 },
-    { name = "Raid Leader List One", width = 150, height = 300 },
-    { name = "Raid Leader List Two", width = 150, height = 300 },
+    { name = "Cast Bars",            width = 300, height = 350, defaultX = 0, defaultY = 110 },
+    { name = "Text Warnings One",    width = 320, height = 40,  defaultX = 0, defaultY = 120 },
+    { name = "Text Warnings Two",    width = 320, height = 40,  defaultX = 0, defaultY = 130 },
+    { name = "Player Circle",        width = 170, height = 170, defaultX = 0, defaultY = 140 },
+    { name = "Icons",                width = 180, height = 60,  defaultX = 0, defaultY = 150 },
+    { name = "Tank Icons",           width = 60,  height = 200, defaultX = 0, defaultY = 160 },
+    { name = "Co-Tank Icons",        width = 60,  height = 200, defaultX = 0, defaultY = 170 },
+    { name = "Private Auras",        width = 70,  height = 70,  defaultX = 0, defaultY = 180 },
+    { name = "Player List",          width = 150, height = 180, defaultX = 0, defaultY = 190 },
+    { name = "Raid Leader List One", width = 150, height = 300, defaultX = 0, defaultY = 200 },
+    { name = "Raid Leader List Two", width = 150, height = 300, defaultX = 0, defaultY = 210 },
 }
 
-local frames = {} -- Store the Frames
+local eventFrame = CreateFrame("Frame")
+eventFrame:RegisterEvent("PLAYER_LOGIN")
 
-local function CreateAnchorFrameByName(name, width, height, scale)
+
+local frames = {} -- Store the Frames
+local function CreateAnchorFrame(frameInfo)
     -- Create a frame
-    local frame = CreateFrame("Frame", name, UIParent, "BackdropTemplate")
-    frame:SetSize(width, height)
-    frame:SetScale(scale)
-    frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-    frame:SetBackdrop({
+    local frame = CreateFrame("Frame", frameInfo.name, UIParent)
+    frame:SetSize(frameInfo.width, frameInfo.height)
+    frame:SetPoint("CENTER", frameInfo.defaultX, frameInfo.defaultY)
+    frame.scale = 1
+
+    local backdrop = CreateFrame("Frame", nil, frame, "BackdropTemplate")
+    backdrop:SetBackdrop({
         bgFile = "Interface\\Buttons\\WHITE8x8",
         edgeFile = "Interface\\Buttons\\WHITE8x8",
         edgeSize = 1,
     })
-    frame:SetBackdropColor(0, 0, 0, 0.5)
+    backdrop:SetBackdropColor(0, 0, 0, 0.5)
+    backdrop:SetAllPoints()
+    backdrop:Hide()
+    frame.backdrop = backdrop
 
     -- Add a text label to the frame
-    local label = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    local label = backdrop:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     label:SetAllPoints()
-    label:SetText(name)
+    label:SetText(frameInfo.name)
     frame:Show()
+
+    table.insert(frames, frame)
+
+    if not BetterAnchorsDB then
+        BetterAnchorsDB = {}
+    end
+    EME:RegisterFrame(frame, frameInfo.name, BetterAnchorsDB[frameInfo.name])
+    EME:RegisterHideable(frame)
+    EME:UpdateFrameResize(frame)
+
+    EME:RegisterCustomButton(frame, "Increase Scale", function()
+        frame.scale = frame.scale + 0.1
+        frame:SetScale(frame.scale)
+    end)
+
+    EME:RegisterCustomButton(frame, "Decrease Scale", function()
+        frame.scale = frame.scale - 0.1
+        frame:SetScale(frame.scale)
+    end)
 end
 
 ----- List of Anchor Frames ----
 local function initAnchorFrames()
-    for i, frame in ipairs(ANCHOR_FRAMES) do
-        CreateAnchorFrameByName(frame.name, frame.width, frame.height, framesScale)
+    for i, frameInfo in ipairs(ANCHOR_FRAMES) do
+        CreateAnchorFrame(frameInfo)
+    end
+end
+
+eventFrame:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_LOGIN" then
+        initAnchorFrames()
+    end
+end)
+
+
+local function onEnterEditMode()
+    for i, frame in ipairs(frames) do
+        frame.backdrop:Show()
+    end
+end
+
+local function onLeaveEditMode()
+    for i, frame in ipairs(frames) do
+        frame.backdrop:Hide()
+    end
+end
+
+EventRegistry:RegisterCallback("EditMode.Enter", onEnterEditMode)
+EventRegistry:RegisterCallback("EditMode.Exit", onLeaveEditMode)
+
+
+local framesInteractable
+local function toggleAllFramesInteractable()
+    framesInteractable = not framesInteractable
+    for _, frame in ipairs(frames) do
+        frame:EnableMouse(framesInteractable)
+        if framesInteractable then
+            frame.backdrop:Show()
+        else
+            frame.backdrop:Hide()
+        end
     end
 end
 
 
--- Restore the position of each frame when the player logs in
-function addon:PLAYER_LOGIN()
-    initAnchorFrames()
+local function SlashCmdHandler()
+    toggleAllFramesInteractable()
 end
+
+SlashCmdList["BETTERANCHORS"] = SlashCmdHandler
+SLASH_BETTERANCHORS1 = "/betteranchors"
+SLASH_BETTERANCHORS2 = "/ba"
