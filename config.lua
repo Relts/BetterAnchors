@@ -1,5 +1,5 @@
 local addonName, addon = ...
-print("----------- config.lua has been loaded -------")
+addon:print("----------- config.lua has been loaded -------")
 -- options.lua
 
 local initOptions = false
@@ -29,7 +29,7 @@ end
 
 function addon:SetOptionFramesVisible(checked)
     if not initOptions then
-        createOptionsPanel()
+        addon:createOptionsPanel()
     end
     local checkbox = getCheckBoxByName("ShowHideAnchors")
     assert(checkbox, "Checkbox ShowHideAnchors not found")
@@ -38,7 +38,7 @@ end
 
 function addon:SetOptionFramesLocked(checked)
     if not initOptions then
-        createOptionsPanel()
+        addon:createOptionsPanel()
     end
     local checkbox = getCheckBoxByName("LockUnlockAnchors")
     assert(checkbox, "Checkbox LockUnlockAnchors not found")
@@ -46,7 +46,7 @@ function addon:SetOptionFramesLocked(checked)
 end
 
 -- Create a panel for the Interface Options
-local function createOptionsPanel()
+function addon:createOptionsPanel()
     if initOptions then
         return
     end
@@ -70,7 +70,7 @@ local function createOptionsPanel()
     initOptions = true
 end
 
-createOptionsPanel()
+addon:createOptionsPanel()
 
 --TODO add a checkbox to reset anchors to default positions
 -- SLIDERS have a "OnValueChanged" script
