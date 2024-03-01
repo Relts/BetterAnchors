@@ -12,3 +12,4 @@ BetterAnchors.lua
 options.lua
 config.lua
 gridoverlay.lua
+optionsFrame.lua

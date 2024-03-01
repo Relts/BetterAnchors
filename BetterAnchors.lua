@@ -19,6 +19,7 @@ local ANCHOR_FRAMES = {
     { name = "Player List",          width = 150, height = 180 },
     { name = "Raid Leader List One", width = 150, height = 300 },
     { name = "Raid Leader List Two", width = 150, height = 300 },
+    -- { name = "Raid List Three",      width = 150, height = 300 }
 }
 
 local frames = {} -- Store the Frames
@@ -168,9 +169,6 @@ function addon:toggleFrames()
     end
 end
 
---TODO add in a customise frames function
-
-
 -- REVIEW add a scale function to the frames
 function addon:setFrameScale(scale)
     for name, frame in pairs(frames) do
@@ -233,6 +231,7 @@ function addon:debugTable(t)
 end
 
 local addonEventFrame = CreateFrame("Frame")
+
 addonEventFrame:SetScript("OnEvent", function(self, event, ...)
     addon:debugTable(addon)
     if addon[event] then
