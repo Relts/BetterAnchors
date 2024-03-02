@@ -5,9 +5,10 @@ local framesScale = 1.0
 
 
 BetterAnchorsDB = BetterAnchorsDB or {}
+BetterAnchors = BetterAnchors or {}
 
 --- List of Frames that get created ---
-local ANCHOR_FRAMES = {
+BetterAnchors.ANCHOR_FRAMES = {
     { name = "Cast Bars",            width = 300, height = 350 },
     { name = "Text Warnings One",    width = 320, height = 40, },
     { name = "Text Warnings Two",    width = 320, height = 40, },
@@ -21,6 +22,7 @@ local ANCHOR_FRAMES = {
     { name = "Raid Leader List Two", width = 150, height = 300 },
     -- { name = "Raid List Three",      width = 150, height = 300 }
 }
+-- local ANCHOR_FRAMES = BetterAnchors.ANCHOR_FRAMES
 
 local frames = {} -- Store the Frames
 
@@ -59,7 +61,7 @@ local function CreateAnchorFrameByName(name, width, height, scale)
 end
 ----- List of Anchor Frames ----
 local function initAnchorFrames()
-    for i, frame in ipairs(ANCHOR_FRAMES) do
+    for i, frame in ipairs(BetterAnchors.ANCHOR_FRAMES) do
         CreateAnchorFrameByName(frame.name, frame.width, frame.height, framesScale)
     end
 end
@@ -134,10 +136,8 @@ end
 function addon:toggleUnlockAnchorFrames()
     if framesLocked then
         addon:unlockAllFrames()
-        addon:print("Frames are now unlocked")
     else
         addon:lockAllFrames()
-        addon:print("Frames are now locked")
     end
 end
 
@@ -147,6 +147,7 @@ function addon:hideAllFrames()
         frame:Hide()
         framesVisible = false
     end
+    addon:print("Anchors are now hidden")
 end
 
 function addon:showAllFrames()
@@ -155,16 +156,15 @@ function addon:showAllFrames()
         frame:Show()
         framesVisible = true
     end
+    addon:print("Anchors are now visible")
 end
 
 function addon:toggleFrames()
     for name, frame in pairs(frames) do
         if frame:IsShown() then
             addon:hideAllFrames()
-            print("Anchors are now hidden")
         else
             addon:showAllFrames()
-            addon:print("Anchors are now visible")
         end
     end
 end
@@ -194,16 +194,15 @@ SLASH_BA1 = "/ba"
 SlashCmdList["BA"] = function(msg)
     if msg == "lock" or msg == 'aiaicaptain' then
         addon:lockAllFrames()
-        addon:print("Frames are now locked")
     elseif msg == "unlock" then
         addon:unlockAllFrames()
-        addon:print("Frames are now unlocked")
     elseif msg == "config" then
         InterfaceOptionsFrame_OpenToCategory("BetterAnchors")
         InterfaceOptionsFrame_OpenToCategory("BetterAnchors")
         addon:print("Opening BetterAnchors Config")
     else
         addon:toggleFrames()
+        addon:showOptionsFrame()
     end
 end
 

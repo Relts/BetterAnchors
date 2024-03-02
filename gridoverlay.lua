@@ -98,7 +98,7 @@ function addon:loadGrid(gridSize)
 end
 
 function addon:hideGrid()
-    if addon.frame:IsShown() then
+    if addon.frame and addon.frame:IsShown() then
         addon.frame:Hide()
     end
 end
