@@ -2,27 +2,42 @@ local addonName, addon = ...
 local framesLocked = true
 local framesVisible = true
 local framesScale = 1.0
-
+local SCALE_ADJUSTMENT = 0.1
 
 BetterAnchorsDB = BetterAnchorsDB or {}
 BetterAnchors = BetterAnchors or {}
 
+-- set the default values of the saved variables if they are not set
+local function setDefaultValues()
+    BetterAnchorsDB = BetterAnchorsDB or {}
+    if BetterAnchorsDB["positions"] == nil then
+        BetterAnchorsDB["positions"] = BetterAnchorsDB["positions"] or { "CENTER", "CENTER", 0, 0 }
+    end
+    if BetterAnchorsDB["Scale"] == nil then
+        BetterAnchorsDB["Scale"] = BetterAnchorsDB["Scale"] or framesScale
+    end
+    if BetterAnchorsDB["framesVisible"] == nil then
+        BetterAnchorsDB["framesVisible"] = framesVisible
+    end
+    if BetterAnchorsDB["framesLocked"] == nil then
+        BetterAnchorsDB["framesLocked"] = framesLocked
+    end
+end
+
 --- List of Frames that get created ---
 BetterAnchors.ANCHOR_FRAMES = {
-    { name = "Cast Bars",            width = 300, height = 350 },
-    { name = "Text Warnings One",    width = 320, height = 40, },
-    { name = "Text Warnings Two",    width = 320, height = 40, },
-    { name = "Player Circle",        width = 170, height = 170 },
-    { name = "Icons",                width = 180, height = 60, },
-    { name = "Tank Icons",           width = 60,  height = 200 },
-    { name = "Co-Tank Icons",        width = 60,  height = 200 },
-    { name = "Private Auras",        width = 70,  height = 70, },
-    { name = "Player List",          width = 150, height = 180 },
-    { name = "Raid Leader List One", width = 150, height = 300 },
-    { name = "Raid Leader List Two", width = 150, height = 300 },
-    -- { name = "Raid List Three",      width = 150, height = 300 }
+    { name = "Cast Bars",            width = 300, height = 350, scale = 1, },
+    { name = "Text Warnings One",    width = 320, height = 40,  scale = 1, },
+    { name = "Text Warnings Two",    width = 320, height = 40,  scale = 1, },
+    { name = "Player Circle",        width = 170, height = 170, scale = 1, },
+    { name = "Icons",                width = 180, height = 60,  scale = 1, },
+    { name = "Tank Icons",           width = 60,  height = 200, scale = 1, },
+    { name = "Co-Tank Icons",        width = 60,  height = 200, scale = 1, },
+    { name = "Private Auras",        width = 70,  height = 70,  scale = 1, },
+    { name = "Player List",          width = 150, height = 180, scale = 1, },
+    { name = "Raid Leader List One", width = 150, height = 300, scale = 1, },
+    { name = "Raid Leader List Two", width = 150, height = 300, scale = 1, }
 }
--- local ANCHOR_FRAMES = BetterAnchors.ANCHOR_FRAMES
 
 local frames = {} -- Store the Frames
 
@@ -42,60 +57,60 @@ local function CreateAnchorFrameByName(name, width, height, scale)
 
     frame:SetBackdropColor(0, 0, 0, 0.5)
     frame:RegisterForDrag("LeftButton")
+
     frame:SetScript("OnDragStart", function(self)
         self:StartMoving()
     end)
+
     frame:SetScript("OnDragStop", function(self)
         self:StopMovingOrSizing()
         local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
-        BetterAnchorsDB["positions"][name] = { point, relativePoint, xOfs, yOfs }
+        BetterAnchorsDB["positions"][name] = tostring({ point, relativePoint, xOfs, yOfs })
         -- call function here to store the position in the saved variables
     end)
+
     -- Add a text label to the frame
     local label = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     label:SetAllPoints()
     label:SetText(name)
     frame:Show()
-    --frame:Hide()
     frames[name] = frame -- Store the frame in the frames table
 end
 ----- List of Anchor Frames ----
 local function initAnchorFrames()
     for i, frame in ipairs(BetterAnchors.ANCHOR_FRAMES) do
-        CreateAnchorFrameByName(frame.name, frame.width, frame.height, framesScale)
+        CreateAnchorFrameByName(frame.name, frame.width, frame.height, BetterAnchorsDB.Scale or frame.scale)
     end
 end
+
 -- fall back function that saves the positions
 -- Save the current position of each frame when the player logs out
 function addon:PLAYER_LOGOUT()
     for name, frame in pairs(frames) do
         local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
-
         BetterAnchorsDB["positions"][name] = { point, relativePoint, xOfs, yOfs }
+        BetterAnchorsDB[name] = BetterAnchorsDB[name] or {}
+        BetterAnchorsDB[name].Scale = frame:GetScale()
     end
     -- save the state of toggleUnlockAnchorFrames
     BetterAnchorsDB["framesLocked"] = framesLocked
     BetterAnchorsDB["framesVisible"] = framesVisible
 end
 
-local function setDefaultValues()
-    if BetterAnchorsDB["framesVisible"] == nil then
-        BetterAnchorsDB["framesVisible"] = framesVisible
-    end
-    if BetterAnchorsDB["framesLocked"] == nil then
-        BetterAnchorsDB["framesLocked"] = framesLocked
-    end
-end
 -- Restore the position of each frame when the player logs in
 function addon:PLAYER_LOGIN()
-    initAnchorFrames()
     setDefaultValues()
+    initAnchorFrames()
     for name, frame in pairs(frames) do
         addon:print("Restoring position of " .. name)
         if BetterAnchorsDB["positions"][name] then
             local point, relativePoint, xOfs, yOfs = unpack(BetterAnchorsDB["positions"][name])
             addon:print(name, point, relativePoint, xOfs, yOfs)
             frame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs)
+        end
+        -- Add the scale restoration code here
+        if BetterAnchorsDB[name] and BetterAnchorsDB[name].Scale then
+            frame:SetScale(BetterAnchorsDB[name].Scale)
         end
     end
     -- Restore the state of toggleUnlockAnchorFrames
@@ -169,19 +184,32 @@ function addon:toggleFrames()
     end
 end
 
--- REVIEW add a scale function to the frames
-function addon:setFrameScale(scale)
-    for name, frame in pairs(frames) do
-        frame:SetScale(scale)
+-- Scale Frames by name
+function addon:increaseFrameScaleByName(name)
+    local frame = frames[name]
+    if frame then
+        local currentScale = frame:GetScale()
+        local newScale = currentScale + SCALE_ADJUSTMENT
+        frame:SetScale(newScale)
+        BetterAnchorsDB[name] = BetterAnchorsDB[name] or {}
+        BetterAnchorsDB[name].Scale = newScale
+    else
+        print("Frame with name " .. name .. " not found.")
     end
 end
 
--- add scale sub table to the saved variables
--- index by names
--- set the scale of each fram
--- scale changed event
--- lines 44 check for how its done
--- 92 - 96 check how this was done.
+function addon:decreaseFrameScaleByName(name)
+    local frame = frames[name]
+    if frame then
+        local currentScale = frame:GetScale()
+        local newScale = currentScale - SCALE_ADJUSTMENT
+        frame:SetScale(newScale)
+        BetterAnchorsDB[name] = BetterAnchorsDB[name] or {}
+        BetterAnchorsDB[name].Scale = newScale
+    else
+        print("Frame with name " .. name .. " not found.")
+    end
+end
 
 ------!SECTION Slash Commands !------
 ---- Toggle Commmand ------
@@ -238,23 +266,36 @@ addonEventFrame:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
--- login and reload events.
-addonEventFrame:RegisterEvent("PLAYER_LOGIN")
-addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
-
 -- Print Function
 function addon:print(...)
     local message = "|cff00ff00BetterAnchors:|r " .. table.concat({ ... }, " ")
     DEFAULT_CHAT_FRAME:AddMessage(message, 1, 1, 1) -- Display in white
 end
 
--- TODO add scale to the frames
--- TODO add menu option when you load /ba
+-- login and reload events.
+-- First Time login event, creates the databse
+local function eventHandler(self, event, arg1)
+    if event == "ADDON_LOADED" and arg1 == "BetterAnchors" then
+        if BetterAnchorsDB == nil then
+            setDefaultValues()
+        end
+        -- Run the PLAYER_LOGIN code here, after the saved variables have been initialized
+        addon:PLAYER_LOGIN()
+    end
+end
+
+local f = CreateFrame("Frame")
+f:SetScript("OnEvent", eventHandler)
+f:RegisterEvent("ADDON_LOADED")
+
+addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
+
+
 -- TODO make the frames transparent when you close /ba
 -- TODO add a scale slider to all the frames
 -- TODO create a default postion for the frames
--- FEATURE make profiles for the frames?
 -- TODO create object pool for the frames
 -- TODO create garbage collection
 -- TODO lock the player circle frame and add a lock icon
 -- TODO message that your version of BA is out of date and should update asap
+-- TODO add in a new frame called Raid Map, this is for things like neltharion etc

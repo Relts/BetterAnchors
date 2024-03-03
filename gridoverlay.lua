@@ -42,7 +42,7 @@ function addon:setLines(w, h)
     local lines_w = GetScreenWidth() / w
     local lines_h = GetScreenHeight() / h
     self.frame.texturePool:ReleaseAll()
-    -- Rest of the function
+
     for i = -w / 2, w / 2 do
         local line = self.frame.texturePool:Acquire()
         line:SetColorTexture(unpack(self:getLineColor(i)))
@@ -79,7 +79,7 @@ SlashCmdList["BAGRID"] = function(msg, editbox)
             addon.frame:Hide()
         else
             -- if no proper grid size is found and the frame is not available then show the usage
-            print(
+            addon:print(
                 "Usage: '/bagrid <value>' Value options are '32'/'64'/'96'/'128' or 'uw'/'uw2'/'4k' for Ultrawide Monitors")
         end
         return

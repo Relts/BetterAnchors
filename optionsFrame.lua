@@ -12,8 +12,11 @@ local buttonData = {
     { text = "86 x 36",  grid = 'uw2' },
     -- 4k Monitors 16:9
     { text = "128 x 72", grid = '4k' },
-    { text = "Hide",     func = function() addon:hideGrid() end }
+    { text = "Hide",     func = function() addon:hideGrid() end },
+    { text = "ST UP",    func = function() addon:increaseFrameScaleByName("Cast Bars") end },
+    { text = "ST DOWN",  func = function() addon:decreaseFrameScaleByName("Cast Bars") end }
 }
+
 
 local function createFrame()
     local frame = CreateFrame("Frame", "ScaleFrame", UIParent, "BackdropTemplate")
@@ -157,7 +160,7 @@ end
 local function createButtons(frame, gridSection)
     local buttonHeight = 25
     local spacing = 5
-    local rows = { { 4 }, { 3 }, { 1 }, } -- 4 buttons in the first row, 3 in the second
+    local rows = { { 4 }, { 3 }, { 3 }, } -- 4 buttons in the first row, 3 in the second
 
     gridSection:SetSize(280, (#rows * (buttonHeight + spacing)))
 
