@@ -9,7 +9,8 @@ embeds.xml
 
 # Files
 BetterAnchors.lua
-options.lua
-config.lua
+# options.lua
+# config.lua
+options_Functions.lua
 gridoverlay.lua
 optionsFrame.lua

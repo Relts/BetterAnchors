@@ -13,14 +13,11 @@ local buttonData = {
     -- 4k Monitors 16:9
     { text = "128 x 72", grid = '4k' },
     { text = "Hide",     func = function() addon:hideGrid() end },
-    { text = "ST UP",    func = function() addon:increaseFrameScaleByName("Cast Bars") end },
-    { text = "ST DOWN",  func = function() addon:decreaseFrameScaleByName("Cast Bars") end }
 }
 
-
 local function createFrame()
-    local frame = CreateFrame("Frame", "ScaleFrame", UIParent, "BackdropTemplate")
-    frame:SetSize(320, 600)
+    local frame = CreateFrame("Frame", "OptionsFrame", UIParent, "BackdropTemplate")
+    frame:SetSize(340, 600)
     frame:SetPoint("CENTER")
     frame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     frame:SetBackdrop({
@@ -47,16 +44,21 @@ local function makeFrameMovable(frame)
     frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 end
 
+function addon:optionsCloseButton()
+    addon:hideAllTextures()
+    addon:hideGrid()
+    addon:hideOptionsFrame()
+    addon:toggleUnlockAnchorFrames()
+end
+
 local function createCloseButton(frame)
     local closeButton = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
     closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -5)
     closeButton:SetSize(20, 20)
     closeButton:SetScript("OnClick", function()
-        frame:Hide()
-        addon:hideAllFrames()
+        addon:optionsCloseButton()
     end)
 end
-
 
 ---- Create the Title ----
 local function createTitle(frame, titleText)
@@ -78,17 +80,57 @@ local function createTitle(frame, titleText)
     return title, titleHeight
 end
 
-local function createSlider(option)
+
+
+-- This function creates a slider with increase and decrease buttons
+-- The frameName argument is used to specify which frame the slider should affect
+local function createSlider(option, frameName)
     local slider = CreateFrame("Slider", nil, option, "OptionsSliderTemplate")
-    slider:SetSize(140, 20)
-    slider:SetPoint("RIGHT", option, "RIGHT", -5, 0)
-    slider:SetMinMaxValues(0, 100)
-    slider:SetValue(50)
-    slider:SetValueStep(1)
+    slider:SetSize(120, 20)
+    slider:SetPoint("RIGHT", option, "RIGHT", -25, 0)
+    slider:SetMinMaxValues(0.1, 2)
+    slider:SetValue(1) -- NOTE change this so it takes the current value from the saved variables
+    slider:SetValueStep(0.1)
     slider:SetOrientation("HORIZONTAL")
+    -- slider:SetScript("OnValueChanged", function(self, value)
+    --     addon:setFrameScaleByName(frameName, value) -- Use the frameName variable
+    -- end)
+    -- FIXME this is causing the frame to grow larger than it should and it is causing lua taint when the button is pressed to decrease it below 0
+
+
+    -- Remove the low and high labels
+    slider.Low:SetText("")
+    slider.High:SetText("")
+
+    local decreaseButton = CreateFrame("Button", nil, slider, "UIPanelButtonTemplate")
+    decreaseButton:SetSize(20, 20)
+    decreaseButton:SetPoint("RIGHT", slider, "LEFT", -5, 0)
+    decreaseButton:SetText("<")
+    decreaseButton:SetScript("OnClick", function()
+        local currentValue = slider:GetValue()
+        if currentValue > 0.1 then
+            slider:SetValue(currentValue - 0.1)
+            addon:decreaseFrameScaleByName(frameName)
+        end
+    end)
+
+    local increaseButton = CreateFrame("Button", nil, slider, "UIPanelButtonTemplate")
+    increaseButton:SetSize(20, 20)
+    increaseButton:SetPoint("LEFT", slider, "RIGHT", 5, 0)
+    increaseButton:SetText(">")
+    increaseButton:SetScript("OnClick", function()
+        local currentValue = slider:GetValue()
+        if currentValue < 100 then
+            slider:SetValue(currentValue + 0.1)
+            addon:increaseFrameScaleByName(frameName) -- Use the frameName variable
+        end
+    end)
+
     return slider
 end
 
+-- This function creates an option with a slider
+-- The optionName argument is used to specify the name of the option
 local function createOption(frame, i, optionName, titleHeight)
     local option = CreateFrame("Frame", nil, frame)
     local frameWidth = frame:GetWidth()
@@ -100,9 +142,10 @@ local function createOption(frame, i, optionName, titleHeight)
 
     local optionNameText = option:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     optionNameText:SetPoint("LEFT", option, "LEFT", 5, 0)
-    optionNameText:SetText(optionName.name) -- Assuming optionName is a table with a 'name' field
+    optionNameText:SetText(optionName.name)              -- Assuming optionName is a table with a 'name' field
 
-    local slider = createSlider(option)
+    local slider = createSlider(option, optionName.name) -- Pass optionName to createSlider
+
     return slider
 end
 
@@ -160,7 +203,7 @@ end
 local function createButtons(frame, gridSection)
     local buttonHeight = 25
     local spacing = 5
-    local rows = { { 4 }, { 3 }, { 3 }, } -- 4 buttons in the first row, 3 in the second
+    local rows = { { 4 }, { 3 }, { 1 }, } -- 4 buttons in the first row, 3 in the second
 
     gridSection:SetSize(280, (#rows * (buttonHeight + spacing)))
 
@@ -204,7 +247,23 @@ end
 setupFrame()
 
 function addon:showOptionsFrame()
-    ScaleFrame:Show()
+    if OptionsFrame then
+        OptionsFrame:Show()
+    end
+end
+
+function addon:hideOptionsFrame()
+    if OptionsFrame then
+        OptionsFrame:Hide()
+    end
+end
+
+function addon:toggleOptionsFrame()
+    if OptionsFrame:IsShown() then
+        addon:hideOptionsFrame()
+    else
+        addon:showOptionsFrame()
+    end
 end
 
 -- TODO make buttons work on a increment of 10 as a slider instead of different buttons.
