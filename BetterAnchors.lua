@@ -228,6 +228,7 @@ function addon:hideAllTextures()
     for name, frame in pairs(frames) do
         frame.backgroundTexture:Hide()
         frame.label:Hide()
+        frame.scaleLabel:Hide()
     end
     addon:print("Anchors are now hidden")
 end
@@ -236,6 +237,7 @@ function addon:showAllTextures()
     for name, frame in pairs(frames) do
         frame.backgroundTexture:Show()
         frame.label:Show()
+        frame.scaleLabel:Show()
     end
     addon:print("Anchors are now visible")
 end

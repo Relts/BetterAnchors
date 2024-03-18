@@ -1,5 +1,6 @@
 local addonName, addon = ...
 local ANCHOR_FRAMES = BetterAnchors.ANCHOR_FRAMES
+local SCALE_ADJUSTMENT = addon.SCALE_ADJUSTMENT
 
 local buttonData = {
     -- Standard Monitors 16:9
@@ -86,16 +87,20 @@ end
 -- The frameName argument is used to specify which frame the slider should affect
 local function createSlider(option, frameName)
     local slider = CreateFrame("Slider", nil, option, "OptionsSliderTemplate")
-    slider:SetSize(120, 20)
+    slider:SetSize(100, 20)
     slider:SetPoint("RIGHT", option, "RIGHT", -25, 0)
     slider:SetMinMaxValues(0.1, 2)
     slider:SetValue(1) -- NOTE change this so it takes the current value from the saved variables
-    slider:SetValueStep(0.1)
+    slider:SetValueStep(SCALE_ADJUSTMENT)
     slider:SetOrientation("HORIZONTAL")
-    -- slider:SetScript("OnValueChanged", function(self, value)
-    --     addon:setFrameScaleByName(frameName, value) -- Use the frameName variable
-    -- end)
-    -- FIXME this is causing the frame to grow larger than it should and it is causing lua taint when the button is pressed to decrease it below 0
+    slider:SetScript("OnValueChanged", function(self, value, isUserInput)
+        if isUserInput then
+            -- Round the value to the nearest tenth
+            local newValue = addon:round(value, 1)
+            addon:setFrameScaleByName(frameName, newValue)
+            addon:updateScaleLabel(frameName) -- FIXME not working on slider change
+        end
+    end)
 
 
     -- Remove the low and high labels
@@ -109,7 +114,7 @@ local function createSlider(option, frameName)
     decreaseButton:SetScript("OnClick", function()
         local currentValue = slider:GetValue()
         if currentValue > 0.1 then
-            local newValue = math.floor((currentValue - 0.1) * 10 + 0.5) / 10
+            local newValue = math.floor((currentValue - SCALE_ADJUSTMENT) * 10 + 0.5) / 10
             slider:SetValue(newValue)
             addon:decreaseFrameScaleByName(frameName)
         end
@@ -122,7 +127,7 @@ local function createSlider(option, frameName)
     increaseButton:SetScript("OnClick", function()
         local currentValue = slider:GetValue()
         if currentValue < 100 then
-            local newValue = math.floor((currentValue + 0.1) * 10 + 0.5) / 10
+            local newValue = math.floor((currentValue + SCALE_ADJUSTMENT) * 10 + 0.5) / 10
             slider:SetValue(newValue)
             addon:increaseFrameScaleByName(frameName)
         end

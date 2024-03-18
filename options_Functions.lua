@@ -8,7 +8,7 @@ local SCALE_ADJUSTMENT = addon.SCALE_ADJUSTMENT
 ----------------------------------------------------------
 
 -- Custom round function
-local function round(num, numDecimalPlaces)
+function addon:round(num, numDecimalPlaces)
     local mult = 10 ^ (numDecimalPlaces or 0)
     return math.floor(num * mult + 0.5) / mult
 end
@@ -27,7 +27,7 @@ function addon:increaseFrameScaleByName(name)
     local frame = getFrameByName(name)
     if frame then
         local currentScale = frame:GetScale()
-        local newScale = round((currentScale + SCALE_ADJUSTMENT), 2)
+        local newScale = addon:round((currentScale + SCALE_ADJUSTMENT), 2)
         if newScale <= 2 then
             frame:SetScale(newScale)
             BetterAnchorsDB[name] = BetterAnchorsDB[name] or {}
@@ -44,7 +44,7 @@ function addon:decreaseFrameScaleByName(name)
     local frame = getFrameByName(name)
     if frame then
         local currentScale = frame:GetScale()
-        local newScale = round((currentScale - SCALE_ADJUSTMENT), 2)
+        local newScale = addon:round((currentScale - SCALE_ADJUSTMENT), 2)
         if newScale >= 0.1 then
             frame:SetScale(newScale)
             BetterAnchorsDB[name] = BetterAnchorsDB[name] or {}
@@ -61,7 +61,9 @@ function addon:setFrameScaleByName(name, scale)
     local frame = getFrameByName(name)
     if frame then
         if scale > 0 then
-            frame:SetScale(scale)
+            -- Round the scale to the nearest hundredth
+            local newScale = addon:round(scale, 2)
+            frame:SetScale(newScale)
         else
             addon:errorPrint("Cannot set scale to 0 for " .. name)
         end
