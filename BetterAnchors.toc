@@ -11,6 +11,6 @@ embeds.xml
 BetterAnchors.lua
 # options.lua
 # config.lua
-options_Functions.lua
-gridoverlay.lua
+optionsFunctions.lua
+gridOverlay.lua
 optionsFrame.lua
