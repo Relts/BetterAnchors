@@ -81,10 +81,28 @@ local function createTitle(frame, titleText)
     return title, titleHeight
 end
 
+-- Helper function to create a button
+local function createButton(parent, point, text, onClick)
+    local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
+    button:SetSize(18, 18)
+    button:SetPoint(point, parent, point == "RIGHT" and "LEFT" or "RIGHT", point == "RIGHT" and -5 or 5, 0)
+    button:SetText(text)
+    button:SetScript("OnClick", onClick)
+    return button
+end
 
+-- Helper function to adjust slider value
+local function adjustSliderValue(slider, frameName, adjustment)
+    local currentValue = slider:GetValue()
+    local newValue = math.floor((currentValue + adjustment) * 10 + 0.5) / 10
+    slider:SetValue(newValue)
+    if adjustment < 0 then
+        addon:decreaseFrameScaleByName(frameName)
+    else
+        addon:increaseFrameScaleByName(frameName)
+    end
+end
 
--- This function creates a slider with increase and decrease buttons
--- The frameName argument is used to specify which frame the slider should affect
 local function createSlider(option, frameName)
     local slider = CreateFrame("Slider", nil, option, "OptionsSliderTemplate")
     slider:SetSize(90, 20)
@@ -102,34 +120,21 @@ local function createSlider(option, frameName)
         end
     end)
 
-
     -- Remove the low and high labels
     slider.Low:SetText("")
     slider.High:SetText("")
 
-    local decreaseButton = CreateFrame("Button", nil, slider, "UIPanelButtonTemplate")
-    decreaseButton:SetSize(18, 18)
-    decreaseButton:SetPoint("RIGHT", slider, "LEFT", -5, 0)
-    decreaseButton:SetText("<")
-    decreaseButton:SetScript("OnClick", function()
-        local currentValue = slider:GetValue()
-        if currentValue > 0.1 then
-            local newValue = math.floor((currentValue - SCALE_ADJUSTMENT) * 10 + 0.5) / 10
-            slider:SetValue(newValue)
-            addon:decreaseFrameScaleByName(frameName)
+    -- Create decrease button
+    createButton(slider, "RIGHT", "<", function()
+        if slider:GetValue() > 0.1 then
+            adjustSliderValue(slider, frameName, -SCALE_ADJUSTMENT)
         end
     end)
 
-    local increaseButton = CreateFrame("Button", nil, slider, "UIPanelButtonTemplate")
-    increaseButton:SetSize(18, 18)
-    increaseButton:SetPoint("LEFT", slider, "RIGHT", 5, 0)
-    increaseButton:SetText(">")
-    increaseButton:SetScript("OnClick", function()
-        local currentValue = slider:GetValue()
-        if currentValue < 100 then
-            local newValue = math.floor((currentValue + SCALE_ADJUSTMENT) * 10 + 0.5) / 10
-            slider:SetValue(newValue)
-            addon:increaseFrameScaleByName(frameName)
+    -- Create increase button
+    createButton(slider, "LEFT", ">", function()
+        if slider:GetValue() < 100 then
+            adjustSliderValue(slider, frameName, SCALE_ADJUSTMENT)
         end
     end)
 
@@ -143,8 +148,8 @@ local function createOption(frame, i, optionName, titleHeight)
     local frameWidth = frame:GetWidth()
     option:SetSize(frameWidth - 20, 20)
     local verticalOffset = i == 1 and -titleHeight - 30 or
-        -titleHeight - 30 -
-        35 * (i - 1) -- Adjust vertical offset for the first option
+        -titleHeight - 32 -
+        30 * (i - 1) -- Adjust vertical offset for the first option
     option:SetPoint("TOP", frame, "TOP", 0, verticalOffset)
 
     local optionNameText = option:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -163,8 +168,6 @@ local function createSliders(frame, titleHeight)
     end
     return lastSlider
 end
-
-
 
 -- ------------- Grid Section ------------ --
 local function addGridSection(frame, lastSlider)
