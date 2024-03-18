@@ -60,7 +60,7 @@ local frames = {} -- Store the Frames
 function addon:updateScaleLabel(name)
     local frame = frames[name]
     if frame then
-        local newScale = tostring(BetterAnchorsDB[name].Scale)
+        local newScale = tostring(BetterAnchorsDB[name].Scale or 1) -- Use 1 as the default scale
         frame.scaleLabel:SetText("Scale: " .. newScale)
         addon:print("New scale of " .. name .. " is: " .. newScale)
     end
@@ -100,10 +100,11 @@ local function CreateAnchorFrameByName(name, width, height, scale)
     -- Add a text label for the scale
     frame.scaleLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     frame.scaleLabel:SetPoint("CENTER", frame, "CENTER", 0, -40)                 -- Adjust the position as needed
+    BetterAnchorsDB[name] = BetterAnchorsDB[name] or { Scale = 1 }               -- Initialize Scale to 1
     frame.scaleLabel:SetText("Scale: " .. tostring(BetterAnchorsDB[name].Scale)) -- Retrieve the scale from the saved variables
 
     frame:Show()
-    frames[name] = frame -- Store the frame in the frames table
+    frames[name] = frame -- Store the frame in the frames tables
 end
 
 ----- List of Anchor Frames ----
@@ -129,8 +130,12 @@ end
 
 -- Restore the position of each frame when the player logs in
 function addon:PLAYER_LOGIN()
+    -- Set default values
     setDefaultValues()
+
+    -- Initialize anchor frames
     initAnchorFrames()
+
     for name, frame in pairs(frames) do
         addon:print("Restoring position of " .. name)
         if BetterAnchorsDB["positions"][name] then
@@ -138,11 +143,15 @@ function addon:PLAYER_LOGIN()
             addon:print(name, point, relativePoint, xOfs, yOfs)
             frame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs)
         end
+
         -- Add the scale restoration code here
-        if BetterAnchorsDB[name] and BetterAnchorsDB[name].Scale then
+        BetterAnchorsDB[name] = BetterAnchorsDB[name] or { Scale = 1 } -- Initialize Scale to 1
+        if BetterAnchorsDB[name].Scale then
             frame:SetScale(BetterAnchorsDB[name].Scale)
+            addon:updateScaleLabel(name) -- Update the scale label
         end
     end
+
     -- Restore the state of toggleUnlockAnchorFrames
     if BetterAnchorsDB["framesLocked"] then
         addon:lockAllFrames()
