@@ -5,12 +5,7 @@ local framesVisible = true
 local framesTextureVisible = true
 local framesScale = 1.0
 
--- Define SCALE_ADJUSTMENT before loading options_Functions.lua
 addon.SCALE_ADJUSTMENT = 0.1
-
--- Load options_Functions.lua
-local optionsFunctions = LoadAddOn("options_Functions")
-
 
 BetterAnchorsDB = BetterAnchorsDB or {}
 BetterAnchors = BetterAnchors or {}
@@ -57,10 +52,10 @@ BetterAnchors.ANCHOR_FRAMES = {
 local frames = {} -- Store the Frames
 
 -- Function to update the scale label
-function addon:updateScaleLabel(name)
+function addon:updateScaleLabel(name, overRideScale)
     local frame = frames[name]
     if frame then
-        local newScale = tostring(BetterAnchorsDB[name].Scale or 1) -- Use 1 as the default scale
+        local newScale = overRideScale or tostring(BetterAnchorsDB[name].Scale or 1) -- Use 1 as the default scale
         frame.scaleLabel:SetText("Scale: " .. newScale)
         addon:print("New scale of " .. name .. " is: " .. newScale)
     end
@@ -284,10 +279,6 @@ SlashCmdList["BA"] = function(msg)
         addon:lockAllFrames()
     elseif msg == "unlock" then
         addon:unlockAllFrames()
-    elseif msg == "config" then
-        InterfaceOptionsFrame_OpenToCategory("BetterAnchors")
-        InterfaceOptionsFrame_OpenToCategory("BetterAnchors")
-        addon:print("Opening BetterAnchors Config")
     elseif msg == "show" then -- Change Alpha of the Frames
         addon:showAllTextures()
         -- frame:SetAlpha(1)

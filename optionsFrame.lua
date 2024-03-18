@@ -87,10 +87,10 @@ end
 -- The frameName argument is used to specify which frame the slider should affect
 local function createSlider(option, frameName)
     local slider = CreateFrame("Slider", nil, option, "OptionsSliderTemplate")
-    slider:SetSize(100, 20)
+    slider:SetSize(90, 20)
     slider:SetPoint("RIGHT", option, "RIGHT", -25, 0)
     slider:SetMinMaxValues(0.1, 2)
-    slider:SetValue(1) -- NOTE change this so it takes the current value from the saved variables
+    slider:SetValue(1) -- FIXME change this so it takes the current value from the saved variables
     slider:SetValueStep(SCALE_ADJUSTMENT)
     slider:SetOrientation("HORIZONTAL")
     slider:SetScript("OnValueChanged", function(self, value, isUserInput)
@@ -98,7 +98,7 @@ local function createSlider(option, frameName)
             -- Round the value to the nearest tenth
             local newValue = addon:round(value, 1)
             addon:setFrameScaleByName(frameName, newValue)
-            addon:updateScaleLabel(frameName) -- FIXME not working on slider change
+            addon:updateScaleLabel(frameName, newValue)
         end
     end)
 
@@ -108,7 +108,7 @@ local function createSlider(option, frameName)
     slider.High:SetText("")
 
     local decreaseButton = CreateFrame("Button", nil, slider, "UIPanelButtonTemplate")
-    decreaseButton:SetSize(20, 20)
+    decreaseButton:SetSize(18, 18)
     decreaseButton:SetPoint("RIGHT", slider, "LEFT", -5, 0)
     decreaseButton:SetText("<")
     decreaseButton:SetScript("OnClick", function()
@@ -121,7 +121,7 @@ local function createSlider(option, frameName)
     end)
 
     local increaseButton = CreateFrame("Button", nil, slider, "UIPanelButtonTemplate")
-    increaseButton:SetSize(20, 20)
+    increaseButton:SetSize(18, 18)
     increaseButton:SetPoint("LEFT", slider, "RIGHT", 5, 0)
     increaseButton:SetText(">")
     increaseButton:SetScript("OnClick", function()
@@ -273,5 +273,4 @@ function addon:toggleOptionsFrame()
     end
 end
 
--- TODO make buttons work on a increment of 10 as a slider instead of different buttons.
 -- REVIEW script on value change for the slider OnValueChanged
