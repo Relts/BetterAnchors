@@ -4,10 +4,13 @@ local framesLocked = false
 local framesVisible = true
 local framesTextureVisible = true
 local framesScale = 1.0
-local MOVE_FRAME_VALUE = 0.1
 
--- local MOVE_FRAME_UP = 0.01
--- local MOVE_FRAME_DOWN = -0.01
+-- Define SCALE_ADJUSTMENT before loading options_Functions.lua
+addon.SCALE_ADJUSTMENT = 0.1
+
+-- Load options_Functions.lua
+local optionsFunctions = LoadAddOn("options_Functions")
+
 
 BetterAnchorsDB = BetterAnchorsDB or {}
 BetterAnchors = BetterAnchors or {}
@@ -53,6 +56,16 @@ BetterAnchors.ANCHOR_FRAMES = {
 
 local frames = {} -- Store the Frames
 
+-- Function to update the scale label
+function addon:updateScaleLabel(name)
+    local frame = frames[name]
+    if frame then
+        local newScale = tostring(BetterAnchorsDB[name].Scale)
+        frame.scaleLabel:SetText("Scale: " .. newScale)
+        addon:print("New scale of " .. name .. " is: " .. newScale)
+    end
+end
+
 local function CreateAnchorFrameByName(name, width, height, scale)
     -- Create a frame
     local frame = CreateFrame("Frame", name, UIParent)
@@ -84,19 +97,10 @@ local function CreateAnchorFrameByName(name, width, height, scale)
     frame.label:SetAllPoints()
     frame.label:SetText(name)
 
-    -- Create the up button
-    local upButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-    upButton:SetSize(25, 25)                                         -- Set the size of the button
-    upButton:SetText("^")                                            -- Set the text of the button to an up arrow
-    upButton:SetPoint("RIGHT", frame, "RIGHT", 0, 0)                 -- Position the button to the right of the frame
-    upButton:SetScript("OnClick", function() moveFrameUp(frame) end) -- Add the moveFrameUp function to the button
-
-    -- Create the down button
-    local downButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-    downButton:SetSize(25, 25)                                           -- Set the size of the button
-    downButton:SetText("v")                                              -- Set the text of the button to a down arrow
-    downButton:SetPoint("TOP", upButton, "BOTTOM", 0, 0)                 -- Position the button below the up button
-    downButton:SetScript("OnClick", function() moveFrameDown(frame) end) -- Add the moveFrameDown function to the button -- Position the button below the up button
+    -- Add a text label for the scale
+    frame.scaleLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    frame.scaleLabel:SetPoint("CENTER", frame, "CENTER", 0, -40)                 -- Adjust the position as needed
+    frame.scaleLabel:SetText("Scale: " .. tostring(BetterAnchorsDB[name].Scale)) -- Retrieve the scale from the saved variables
 
     frame:Show()
     frames[name] = frame -- Store the frame in the frames table
@@ -259,39 +263,6 @@ end
 --     end
 -- end
 
-
-
-function addon:moveFrameUp(frameName)
-    local frame = _G[frameName]
-    if frame then
-        local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
-        frame:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + MOVE_FRAME_VALUE)
-    end
-end
-
-function addon:moveFrameDown(frameName)
-    local frame = _G[frameName]
-    if frame then
-        local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
-        frame:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs - MOVE_FRAME_VALUE)
-    end
-end
-
-function addon:moveFrameLeft(frameName)
-    local frame = _G[frameName]
-    if frame then
-        local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
-        frame:SetPoint(point, relativeTo, relativePoint, xOfs - MOVE_FRAME_VALUE, yOfs)
-    end
-end
-
-function addon:moveFrameRight(frameName)
-    local frame = _G[frameName]
-    if frame then
-        local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
-        frame:SetPoint(point, relativeTo, relativePoint, xOfs + MOVE_FRAME_VALUE, yOfs)
-    end
-end
 
 ------!SECTION Slash Commands !------
 ---- Toggle Commmand ------

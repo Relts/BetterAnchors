@@ -1,6 +1,17 @@
 local addonName, addon = ...
 local ANCHOR_FRAMES = BetterAnchors.ANCHOR_FRAMES
-local SCALE_ADJUSTMENT = 0.1
+local SCALE_ADJUSTMENT = addon.SCALE_ADJUSTMENT
+
+
+----------------------------------------------------------
+-- Scale Functions
+----------------------------------------------------------
+
+-- Custom round function
+local function round(num, numDecimalPlaces)
+    local mult = 10 ^ (numDecimalPlaces or 0)
+    return math.floor(num * mult + 0.5) / mult
+end
 
 -- Get Frame By Name
 local function getFrameByName(name)
@@ -16,11 +27,12 @@ function addon:increaseFrameScaleByName(name)
     local frame = getFrameByName(name)
     if frame then
         local currentScale = frame:GetScale()
-        local newScale = currentScale + SCALE_ADJUSTMENT
+        local newScale = round((currentScale + SCALE_ADJUSTMENT), 2)
         if newScale <= 2 then
             frame:SetScale(newScale)
             BetterAnchorsDB[name] = BetterAnchorsDB[name] or {}
             BetterAnchorsDB[name].Scale = newScale
+            addon:updateScaleLabel(name)
         else
             addon:errorPrint("Cannot increase scale: new scale value would be greater than 2")
         end
@@ -32,9 +44,12 @@ function addon:decreaseFrameScaleByName(name)
     local frame = getFrameByName(name)
     if frame then
         local currentScale = frame:GetScale()
-        local newScale = currentScale - SCALE_ADJUSTMENT
+        local newScale = round((currentScale - SCALE_ADJUSTMENT), 2)
         if newScale >= 0.1 then
             frame:SetScale(newScale)
+            BetterAnchorsDB[name] = BetterAnchorsDB[name] or {}
+            BetterAnchorsDB[name].Scale = newScale
+            addon:updateScaleLabel(name)
         else
             addon:errorPrint("Cannot decrease scale: new scale value would be less than 0.1")
         end

@@ -109,7 +109,8 @@ local function createSlider(option, frameName)
     decreaseButton:SetScript("OnClick", function()
         local currentValue = slider:GetValue()
         if currentValue > 0.1 then
-            slider:SetValue(currentValue - 0.1)
+            local newValue = math.floor((currentValue - 0.1) * 10 + 0.5) / 10
+            slider:SetValue(newValue)
             addon:decreaseFrameScaleByName(frameName)
         end
     end)
@@ -121,8 +122,9 @@ local function createSlider(option, frameName)
     increaseButton:SetScript("OnClick", function()
         local currentValue = slider:GetValue()
         if currentValue < 100 then
-            slider:SetValue(currentValue + 0.1)
-            addon:increaseFrameScaleByName(frameName) -- Use the frameName variable
+            local newValue = math.floor((currentValue + 0.1) * 10 + 0.5) / 10
+            slider:SetValue(newValue)
+            addon:increaseFrameScaleByName(frameName)
         end
     end)
 
