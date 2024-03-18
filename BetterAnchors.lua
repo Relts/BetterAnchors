@@ -4,7 +4,6 @@ local framesLocked = false
 local framesVisible = true
 local framesTextureVisible = true
 local framesScale = 1.0
-local SCALE_ADJUSTMENT = 0.1
 local MOVE_FRAME_VALUE = 0.1
 
 -- local MOVE_FRAME_UP = 0.01
