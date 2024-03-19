@@ -48,7 +48,7 @@ end
 function addon:optionsCloseButton()
     addon:hideAllTextures()
     addon:hideGrid()
-    addon:hideOptionsFrame()
+    addon:manageOptionsFrame("hide")
     addon:toggleUnlockAnchorFrames()
 end
 
@@ -141,7 +141,6 @@ local function createSlider(option, frameName)
     return slider
 end
 
--- This function creates an option with a slider
 -- The optionName argument is used to specify the name of the option
 local function createOption(frame, i, optionName, titleHeight)
     local option = CreateFrame("Frame", nil, frame)
@@ -236,7 +235,6 @@ local function createButtons(frame, gridSection)
     end
 end
 
-
 local function setupFrame()
     local frame = createFrame()
     makeFrameMovable(frame)
@@ -256,23 +254,19 @@ end
 
 setupFrame()
 
-function addon:showOptionsFrame()
+function addon:manageOptionsFrame(action)
     if OptionsFrame then
-        OptionsFrame:Show()
-    end
-end
-
-function addon:hideOptionsFrame()
-    if OptionsFrame then
-        OptionsFrame:Hide()
-    end
-end
-
-function addon:toggleOptionsFrame()
-    if OptionsFrame:IsShown() then
-        addon:hideOptionsFrame()
-    else
-        addon:showOptionsFrame()
+        if action == "show" then
+            OptionsFrame:Show()
+        elseif action == "hide" then
+            OptionsFrame:Hide()
+        elseif action == "toggle" then
+            if OptionsFrame:IsShown() then
+                OptionsFrame:Hide()
+            else
+                OptionsFrame:Show()
+            end
+        end
     end
 end
 

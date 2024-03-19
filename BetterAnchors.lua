@@ -287,7 +287,7 @@ SlashCmdList["BA"] = function(msg)
         -- frame:SetAlpha(0)
     else
         addon:toggleTextures()
-        addon:toggleOptionsFrame()
+        addon:manageOptionsFrame("toggle")
         addon:toggleUnlockAnchorFrames()
     end
 end
