@@ -190,35 +190,8 @@ function addon:toggleUnlockAnchorFrames()
     end
 end
 
---------------------------------_
------ Hide Show Frames ---------
---------------------------------
+--- Texture Show Hide ---
 
-
--- function addon:hideAllFrames()
---     addon:SetOptionFramesVisible(false)
---     for name, frame in pairs(frames) do
---         -- frame:Hide()
---         frame.backgroundTexture:Hide()
---         framesVisible = false
---     end
---     addon:print("Anchors are now hidden")
--- end
-
--- function addon:showAllFrames()
---     addon:SetOptionFramesVisible(true)
---     for name, frame in pairs(frames) do
---         -- frame:Show()
---         frame.backgroundTexture:Show()
---         framesVisible = true
---     end
---     addon:print("Anchors are now visible")
--- end
-
-
---------------------------------
------ Texture show hide --------
---------------------------------
 function addon:hideAllTextures()
     for name, frame in pairs(frames) do
         frame.backgroundTexture:Hide()
@@ -253,45 +226,23 @@ function addon:toggleTextures()
     end
 end
 
--- function addon:toggleFrames()
---     local anyFrameVisible = false
---     for name, frame in pairs(frames) do
---         if frame.backgroundTexture:IsShown() then
---             anyFrameVisible = true
---             break
---         end
---     end
-
---     if anyFrameVisible then
---         addon:hideAllFrames()
---     else
---         addon:showAllFrames()
---     end
--- end
-
-
-------!SECTION Slash Commands !------
----- Toggle Commmand ------
-
+---- Chat Commands ---
 SLASH_BA1 = "/ba"
 SlashCmdList["BA"] = function(msg)
     if msg == "lock" or msg == 'aiaicaptain' then
         addon:lockAllFrames()
     elseif msg == "unlock" then
         addon:unlockAllFrames()
-    elseif msg == "show" then -- Change Alpha of the Frames
+    elseif msg == "show" then
         addon:showAllTextures()
-        -- frame:SetAlpha(1)
-    elseif msg == "hide" then -- Change Alpha of the Frames
+    elseif msg == "hide" then
         addon:hideAllTextures()
-        -- frame:SetAlpha(0)
     else
         addon:toggleTextures()
         addon:manageOptionsFrame("toggle")
         addon:toggleUnlockAnchorFrames()
     end
 end
-
 
 -- VDT Debug Table
 function addon:debugTable(t)
