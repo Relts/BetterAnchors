@@ -51,7 +51,6 @@ BetterAnchors.ANCHOR_FRAMES = {
 
 local frames = {} -- Store the Frames
 
--- Function to update the scale label
 function addon:updateScaleLabel(name, overRideScale)
     local frame = frames[name]
     if frame then
@@ -69,6 +68,8 @@ local function CreateAnchorFrameByName(name, width, height, scale)
     frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 
     frame:SetFrameStrata("HIGH")
+
+    -- local border = CreateBorder(frame, 1) -- 2 is the thickness of the border
 
     -- Separate the frame from the backgroundTexture
     frame.backgroundTexture = frame:CreateTexture(nil, "BACKGROUND")
@@ -102,14 +103,13 @@ local function CreateAnchorFrameByName(name, width, height, scale)
     frames[name] = frame -- Store the frame in the frames tables
 end
 
------ List of Anchor Frames ----
 local function initAnchorFrames()
     for i, frame in ipairs(BetterAnchors.ANCHOR_FRAMES) do
         CreateAnchorFrameByName(frame.name, frame.width, frame.height, BetterAnchorsDB.Scale or frame.scale)
     end
 end
 
--- fall back function that saves the positions
+--- Login and Logout Events ---
 -- Save the current position of each frame when the player logs out
 function addon:PLAYER_LOGOUT()
     for name, frame in pairs(frames) do
@@ -123,7 +123,6 @@ function addon:PLAYER_LOGOUT()
     BetterAnchorsDB["framesVisible"] = framesVisible
 end
 
--- Restore the position of each frame when the player logs in
 function addon:PLAYER_LOGIN()
     -- Set default values
     setDefaultValues()
@@ -162,6 +161,7 @@ function addon:PLAYER_LOGIN()
     end
 end
 
+--- Lock and Unlock Frames ---
 function addon:lockAllFrames()
     -- addon:SetOptionFramesLocked(true)
     addon:print("Locking Frames")
