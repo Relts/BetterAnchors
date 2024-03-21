@@ -49,7 +49,7 @@ function addon:optionsCloseButton()
     addon:hideAllTextures()
     addon:hideGrid()
     addon:manageOptionsFrame("hide")
-    addon:toggleUnlockAnchorFrames()
+    addon:lockAllFrames()
 end
 
 local function createCloseButton(frame)

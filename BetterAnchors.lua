@@ -121,6 +121,7 @@ function addon:PLAYER_LOGOUT()
     -- save the state of toggleUnlockAnchorFrames
     BetterAnchorsDB["framesLocked"] = framesLocked
     BetterAnchorsDB["framesVisible"] = framesVisible
+    BetterAnchorsDB["framesTextureVisible"] = framesTextureVisible
 end
 
 function addon:PLAYER_LOGIN()
@@ -131,7 +132,7 @@ function addon:PLAYER_LOGIN()
     initAnchorFrames()
 
     for name, frame in pairs(frames) do
-        addon:print("Restoring position of " .. name)
+        -- addon:print("Restoring position of " .. name)
         if BetterAnchorsDB["positions"][name] then
             local point, relativePoint, xOfs, yOfs = unpack(BetterAnchorsDB["positions"][name])
             addon:print(name, point, relativePoint, xOfs, yOfs)
