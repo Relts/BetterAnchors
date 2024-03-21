@@ -87,8 +87,6 @@ SlashCmdList["BAGRID"] = function(msg, editbox)
     addon:setLines(gridInfo.w, gridInfo.h)
 end
 
------ Functions for other addons to use ----
-
 function addon:loadGrid(gridSize)
     self:createLineParentFrame()
     local size = GRID_SIZES[gridSize]

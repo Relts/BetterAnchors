@@ -191,7 +191,6 @@ function addon:toggleUnlockAnchorFrames()
 end
 
 --- Texture Show Hide ---
-
 function addon:hideAllTextures()
     for name, frame in pairs(frames) do
         frame.backgroundTexture:Hide()
@@ -295,3 +294,10 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 
 -- TODO lock the player circle frame and add a lock icon
 -- TODO message that your version of BA is out of date and should update asap
+-- TODO add a border to the frames
+-- TODO change the names of the frames
+-- TODO add X Y coordinates to the frames
+-- TODO add X Y Nudger to each frame
+
+
+-- FIXME issue when the player reloads ui or logs in and doesn't restore the frame lock or unlock.

@@ -61,7 +61,6 @@ local function createCloseButton(frame)
     end)
 end
 
----- Create the Title ----
 local function createTitle(frame, titleText)
     -- Create the title
     local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
