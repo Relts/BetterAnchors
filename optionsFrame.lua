@@ -16,11 +16,10 @@ local buttonData = {
     { text = "Hide",     func = function() addon:hideGrid() end },
 }
 
-local function createFrame()
+local function createOptionsFrame()
     local frame = CreateFrame("Frame", "OptionsFrame", UIParent, "BackdropTemplate")
     frame:SetSize(340, 600)
     frame:SetPoint("CENTER")
-    local position = BetterAnchorsDB.optionsFramePosition
     frame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     frame:SetBackdrop({
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -33,8 +32,12 @@ local function createFrame()
 
     -- Set the background color of the frame --
     frame:SetBackdropColor(0, 0, 0, 0.8)
+
+
     if not BetterAnchorsDB.optionsFrameIsVisible then
         frame:Hide()
+    else
+        frame:Show()
     end
     return frame
 end
@@ -132,14 +135,14 @@ local function createSlider(option, frameName)
     slider.High:SetText("")
 
     -- Create decrease button
-    createButton(slider, "RIGHT", "<", function()
+    createButton(slider, "RIGHT", "-", function()
         if slider:GetValue() > 0.1 then
             adjustSliderValue(slider, frameName, -SCALE_ADJUSTMENT)
         end
     end)
 
     -- Create increase button
-    createButton(slider, "LEFT", ">", function()
+    createButton(slider, "LEFT", "+", function()
         if slider:GetValue() < 100 then
             adjustSliderValue(slider, frameName, SCALE_ADJUSTMENT)
         end
@@ -243,7 +246,7 @@ local function createButtons(frame, gridSection)
 end
 
 local function setupFrame()
-    local frame = createFrame()
+    local frame = createOptionsFrame()
     makeFrameMovable(frame)
 
     -- Create the title and get its height
@@ -268,13 +271,17 @@ function addon:manageOptionsFrame(action)
     if OptionsFrame then
         if action == "show" then
             OptionsFrame:Show()
+            BetterAnchorsDB.optionsFrameIsVisible = true
         elseif action == "hide" then
             OptionsFrame:Hide()
+            BetterAnchorsDB.optionsFrameIsVisible = false
         elseif action == "toggle" then
             if OptionsFrame:IsShown() then
                 OptionsFrame:Hide()
+                BetterAnchorsDB.optionsFrameIsVisible = false
             else
                 OptionsFrame:Show()
+                BetterAnchorsDB.optionsFrameIsVisible = true
             end
         end
     end

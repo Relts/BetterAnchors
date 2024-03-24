@@ -346,6 +346,3 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO change the names of the frames
 -- TODO Minimap Icon
 -- TODO Minimap Icon Function - show/hide when clicked
-
-
--- FIXME frames show on reload but the options frame always hides
