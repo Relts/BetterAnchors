@@ -31,6 +31,15 @@ local function setDefaultValues()
     BetterAnchorsDB["framesVisible"] = BetterAnchorsDB["framesVisible"] or framesVisible
     BetterAnchorsDB["framesTextureVisible"] = BetterAnchorsDB["framesTextureVisible"] or framesTextureVisible
     BetterAnchorsDB["framesLocked"] = BetterAnchorsDB["framesLocked"] or framesLocked
+    -- Restore the state of framesTextureVisible
+    if BetterAnchorsDB.framesTextureVisible ~= nil then
+        framesTextureVisible = BetterAnchorsDB.framesTextureVisible
+        if framesTextureVisible then
+            addon:showAllTextures()
+        else
+            addon:hideAllTextures()
+        end
+    end
 end
 
 --- List of Frames that get created ---
@@ -154,7 +163,9 @@ function addon:PLAYER_LOGIN()
         addon:unlockAllFrames()
     end
 
+
     -- Restore the state of togleFrameTexutres
+    print("framesTextureVisible", BetterAnchorsDB["framesTextureVisible"])
     if BetterAnchorsDB["framesTextureVisible"] then
         addon:showAllTextures()
     else
@@ -199,6 +210,7 @@ function addon:hideAllTextures()
         frame.scaleLabel:Hide()
     end
     addon:print("Anchors are now hidden")
+    framesTextureVisible = false
 end
 
 function addon:showAllTextures()
@@ -208,6 +220,7 @@ function addon:showAllTextures()
         frame.scaleLabel:Show()
     end
     addon:print("Anchors are now visible")
+    framesTextureVisible = true
 end
 
 function addon:toggleTextures()
