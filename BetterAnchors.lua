@@ -29,7 +29,10 @@ local function setDefaultValues()
     }
     BetterAnchorsDB["Scale"] = BetterAnchorsDB["Scale"] or framesScale
     BetterAnchorsDB["framesVisible"] = BetterAnchorsDB["framesVisible"] or framesVisible
-    BetterAnchorsDB["framesTextureVisible"] = BetterAnchorsDB["framesTextureVisible"] or framesTextureVisible
+    if BetterAnchorsDB["framesTextureVisible"] == nil then
+        BetterAnchorsDB["framesTextureVisible"] = framesTextureVisible
+    end
+
     BetterAnchorsDB["framesLocked"] = BetterAnchorsDB["framesLocked"] or framesLocked
     -- Restore the state of framesTextureVisible
     if BetterAnchorsDB.framesTextureVisible ~= nil then
@@ -312,6 +315,3 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO change the names of the frames
 -- TODO add X Y coordinates to the frames
 -- TODO add X Y Nudger to each frame
-
-
--- FIXME issue when the player reloads ui or logs in and doesn't restore the frame lock or unlock.
