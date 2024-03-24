@@ -115,7 +115,7 @@ local function createSlider(option, frameName)
     slider:SetSize(90, 20)
     slider:SetPoint("RIGHT", option, "RIGHT", -25, 0)
     slider:SetMinMaxValues(0.1, 2)
-    slider:SetValue(1) -- FIXME change this so it takes the current value from the saved variables
+    slider:SetValue(BetterAnchorsDB[frameName].Scale or 1)
     slider:SetValueStep(SCALE_ADJUSTMENT)
     slider:SetOrientation("HORIZONTAL")
     slider:SetScript("OnValueChanged", function(self, value, isUserInput)
@@ -259,9 +259,12 @@ local function setupFrame()
     createCloseButton(frame)
 end
 
-setupFrame()
+
 
 function addon:manageOptionsFrame(action)
+    if not OptionsFrame then
+        setupFrame()
+    end
     if OptionsFrame then
         if action == "show" then
             OptionsFrame:Show()
@@ -276,5 +279,3 @@ function addon:manageOptionsFrame(action)
         end
     end
 end
-
--- REVIEW script on value change for the slider OnValueChanged
