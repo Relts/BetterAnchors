@@ -55,7 +55,7 @@ BetterAnchors.ANCHOR_FRAMES = {
     { name = "Cast Bars",            width = 300, height = 150, scale = 1, moveable = true, },
     { name = "Text Warnings One",    width = 320, height = 40,  scale = 1, moveable = true, },
     { name = "Text Warnings Two",    width = 320, height = 40,  scale = 1, moveable = true, },
-    { name = "Player Circle",        width = 170, height = 170, scale = 1, moveable = true, },
+    { name = "Player Circle",        width = 170, height = 170, scale = 1, moveable = false, },
     { name = "Icons",                width = 180, height = 60,  scale = 1, moveable = true, },
     { name = "Tank Icons",           width = 60,  height = 200, scale = 1, moveable = true, },
     { name = "Co-Tank Icons",        width = 60,  height = 200, scale = 1, moveable = true, },
@@ -77,7 +77,7 @@ function addon:updateScaleLabel(name, overRideScale)
     end
 end
 
-local function CreateAnchorFrameByName(name, width, height, scale)
+local function CreateAnchorFrameByName(name, width, height, scale, moveable)
     -- Create a frame
     local frame = CreateFrame("Frame", name, UIParent)
     frame:SetSize(width, height)
@@ -91,17 +91,39 @@ local function CreateAnchorFrameByName(name, width, height, scale)
     frame.backgroundTexture:SetAllPoints(frame)
     frame.backgroundTexture:SetColorTexture(0, 0, 0, 0.5)
 
-    frame:RegisterForDrag("LeftButton")
+    frame.lockTexture = frame:CreateTexture(nil, "OVERLAY")
+    frame.lockTexture:SetAtlas("Forge-Lock")
+    frame.lockTexture:SetSize(20, 20)
+    frame.lockTexture:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
+    frame.lockTexture:SetAlpha(0)
+    if moveable then
+        frame:RegisterForDrag("LeftButton")
 
-    frame:SetScript("OnDragStart", function(self)
-        self:StartMoving()
-    end)
+        frame:SetScript("OnDragStart", function(self)
+            self:StartMoving()
+        end)
 
-    frame:SetScript("OnDragStop", function(self)
-        self:StopMovingOrSizing()
-        local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
-        BetterAnchorsDB["positions"][name] = { point, relativePoint, xOfs, yOfs }
-    end)
+        frame:SetScript("OnDragStop", function(self)
+            self:StopMovingOrSizing()
+            local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
+            BetterAnchorsDB["positions"][name] = { point, relativePoint, xOfs, yOfs }
+        end)
+    else
+        frame.lockTexture:SetAlpha(1)
+    end
+
+
+    frame.lockFrame = function()
+        if not moveable then return end
+        frame:SetMovable(false)
+        frame:EnableMouse(false)
+    end
+
+    frame.unlockFrame = function()
+        if not moveable then return end
+        frame:SetMovable(true)
+        frame:EnableMouse(true)
+    end
 
     -- Add a text label to the frame
     frame.label = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
@@ -120,7 +142,8 @@ end
 
 local function initAnchorFrames()
     for i, frame in ipairs(BetterAnchors.ANCHOR_FRAMES) do
-        CreateAnchorFrameByName(frame.name, frame.width, frame.height, BetterAnchorsDB.Scale or frame.scale)
+        CreateAnchorFrameByName(frame.name, frame.width, frame.height, BetterAnchorsDB.Scale or frame.scale,
+            frame.moveable)
     end
 end
 
@@ -184,8 +207,7 @@ function addon:lockAllFrames()
     -- addon:SetOptionFramesLocked(true)
     addon:print("Locking Frames")
     for name, frame in pairs(frames) do
-        frame:SetMovable(false)
-        frame:EnableMouse(false)
+        frame:lockFrame()
         framesLocked = true
     end
 end
@@ -194,8 +216,7 @@ function addon:unlockAllFrames()
     -- addon:SetOptionFramesLocked(false)
     addon:print("Unlocking Frames")
     for name, frame in pairs(frames) do
-        frame:SetMovable(true)
-        frame:EnableMouse(true)
+        frame:unlockFrame()
         framesLocked = false
     end
 end
@@ -214,6 +235,7 @@ function addon:hideAllTextures()
         frame.backgroundTexture:Hide()
         frame.label:Hide()
         frame.scaleLabel:Hide()
+        frame.lockTexture:Hide()
     end
     addon:print("Anchors are now hidden")
     framesTextureVisible = false
@@ -224,6 +246,7 @@ function addon:showAllTextures()
         frame.backgroundTexture:Show()
         frame.label:Show()
         frame.scaleLabel:Show()
+        frame.lockTexture:Show()
     end
     addon:print("Anchors are now visible")
     framesTextureVisible = true
@@ -312,7 +335,6 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 
 
 
--- TODO lock the player circle frame and add a lock icon
 -- TODO message that your version of BA is out of date and should update asap
 -- TODO add a border to the frames
 -- TODO change the names of the frames
