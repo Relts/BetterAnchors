@@ -20,6 +20,7 @@ local function createFrame()
     local frame = CreateFrame("Frame", "OptionsFrame", UIParent, "BackdropTemplate")
     frame:SetSize(340, 600)
     frame:SetPoint("CENTER")
+    local position = BetterAnchorsDB.optionsFramePosition
     frame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     frame:SetBackdrop({
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -32,7 +33,9 @@ local function createFrame()
 
     -- Set the background color of the frame --
     frame:SetBackdropColor(0, 0, 0, 0.8)
-
+    if not BetterAnchorsDB.optionsFrameIsVisible then
+        frame:Hide()
+    end
     return frame
 end
 
@@ -42,7 +45,11 @@ local function makeFrameMovable(frame)
     frame:EnableMouse(true)
     frame:RegisterForDrag("LeftButton")
     frame:SetScript("OnDragStart", frame.StartMoving)
-    frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+    frame:SetScript("OnDragStop", function(self)
+        self:StopMovingOrSizing()
+        local x, y = self:GetLeft(), self:GetTop()
+        BetterAnchorsDB.optionsFramePosition = { x = x, y = y }
+    end)
 end
 
 function addon:optionsCloseButton()
@@ -50,6 +57,7 @@ function addon:optionsCloseButton()
     addon:hideGrid()
     addon:manageOptionsFrame("hide")
     addon:lockAllFrames()
+    BetterAnchorsDB.optionsFrameIsVisible = false
 end
 
 local function createCloseButton(frame)

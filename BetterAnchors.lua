@@ -43,22 +43,27 @@ local function setDefaultValues()
             addon:hideAllTextures()
         end
     end
+    BetterAnchorsDB.optionsFramePosition = BetterAnchorsDB.optionsFramePosition or { x = 0, y = 0 }
+    if BetterAnchorsDB.optionsFrameIsVisible == nil then
+        BetterAnchorsDB.optionsFrameIsVisible = true
+    end
+    addon:manageOptionsFrame(BetterAnchorsDB.optionsFrameIsVisible)
 end
 
 --- List of Frames that get created ---
 BetterAnchors.ANCHOR_FRAMES = {
-    { name = "Cast Bars",            width = 300, height = 150, scale = 1, },
-    { name = "Text Warnings One",    width = 320, height = 40,  scale = 1, },
-    { name = "Text Warnings Two",    width = 320, height = 40,  scale = 1, },
-    { name = "Player Circle",        width = 170, height = 170, scale = 1, },
-    { name = "Icons",                width = 180, height = 60,  scale = 1, },
-    { name = "Tank Icons",           width = 60,  height = 200, scale = 1, },
-    { name = "Co-Tank Icons",        width = 60,  height = 200, scale = 1, },
-    { name = "Private Auras",        width = 70,  height = 70,  scale = 1, },
-    { name = "Player List",          width = 150, height = 180, scale = 1, },
-    { name = "Raid Leader List One", width = 150, height = 300, scale = 1, },
-    { name = "Raid Leader List Two", width = 150, height = 300, scale = 1, },
-    { name = "Map Frame",            width = 300, height = 180, scale = 1 }
+    { name = "Cast Bars",            width = 300, height = 150, scale = 1, moveable = true, },
+    { name = "Text Warnings One",    width = 320, height = 40,  scale = 1, moveable = true, },
+    { name = "Text Warnings Two",    width = 320, height = 40,  scale = 1, moveable = true, },
+    { name = "Player Circle",        width = 170, height = 170, scale = 1, moveable = true, },
+    { name = "Icons",                width = 180, height = 60,  scale = 1, moveable = true, },
+    { name = "Tank Icons",           width = 60,  height = 200, scale = 1, moveable = true, },
+    { name = "Co-Tank Icons",        width = 60,  height = 200, scale = 1, moveable = true, },
+    { name = "Private Auras",        width = 70,  height = 70,  scale = 1, moveable = true, },
+    { name = "Player List",          width = 150, height = 180, scale = 1, moveable = true, },
+    { name = "Raid Leader List One", width = 150, height = 300, scale = 1, moveable = true, },
+    { name = "Raid Leader List Two", width = 150, height = 300, scale = 1, moveable = true, },
+    { name = "Map Frame",            width = 300, height = 180, scale = 1, moveable = true, }
 }
 
 local frames = {} -- Store the Frames
@@ -80,8 +85,6 @@ local function CreateAnchorFrameByName(name, width, height, scale)
     frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 
     frame:SetFrameStrata("HIGH")
-
-    -- local border = CreateBorder(frame, 1) -- 2 is the thickness of the border
 
     -- Separate the frame from the backgroundTexture
     frame.backgroundTexture = frame:CreateTexture(nil, "BACKGROUND")
