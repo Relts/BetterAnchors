@@ -346,3 +346,4 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO change the names of the frames
 -- TODO Minimap Icon
 -- TODO Minimap Icon Function - show/hide when clicked
+-- TODO clear out print messages and debug messages
