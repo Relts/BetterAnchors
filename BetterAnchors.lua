@@ -52,17 +52,17 @@ end
 
 --- List of Frames that get created ---
 BetterAnchors.ANCHOR_FRAMES = {
-    { name = "Cast Bars",            width = 300, height = 150, scale = 1, moveable = true, },
-    { name = "Text Warnings One",    width = 320, height = 40,  scale = 1, moveable = true, },
+    { name = "Cast Bars",            width = 300, height = 120, scale = 1, moveable = true, },
+    { name = "Text Warnings One",    width = 350, height = 50,  scale = 1, moveable = true, },
     { name = "Text Warnings Two",    width = 320, height = 40,  scale = 1, moveable = true, },
     { name = "Player Circle",        width = 170, height = 170, scale = 1, moveable = false, },
-    { name = "Icons",                width = 180, height = 60,  scale = 1, moveable = true, },
+    { name = "Icons",                width = 200, height = 60,  scale = 1, moveable = true, },
     { name = "Tank Icons",           width = 70,  height = 215, scale = 1, moveable = true, },
     { name = "Co-Tank Icons",        width = 70,  height = 215, scale = 1, moveable = true, },
     { name = "Private Auras",        width = 70,  height = 70,  scale = 1, moveable = true, },
-    { name = "Player List",          width = 150, height = 180, scale = 1, moveable = true, },
-    { name = "Raid Leader List One", width = 150, height = 300, scale = 1, moveable = true, },
-    { name = "Raid Leader List Two", width = 150, height = 300, scale = 1, moveable = true, },
+    { name = "Player List",          width = 170, height = 180, scale = 1, moveable = true, },
+    { name = "Raid Leader List One", width = 170, height = 300, scale = 1, moveable = true, },
+    { name = "Raid Leader List Two", width = 170, height = 300, scale = 1, moveable = true, },
     { name = "Map Frame",            width = 300, height = 180, scale = 1, moveable = true, }
 }
 
@@ -101,7 +101,7 @@ local function CreateAnchorFrameByName(name, width, height, scale, moveable)
     frame.lockTexture = frame:CreateTexture(nil, "OVERLAY")
     frame.lockTexture:SetAtlas("Forge-Lock")
     frame.lockTexture:SetSize(20, 20)
-    frame.lockTexture:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
+    frame.lockTexture:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -5)
     frame.lockTexture:SetAlpha(0)
     if moveable then
         frame:RegisterForDrag("LeftButton")
@@ -347,3 +347,4 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO Minimap Icon
 -- TODO Minimap Icon Function - show/hide when clicked
 -- TODO clear out print messages and debug messages
+-- TODO Version 2 - Grid Snapping
