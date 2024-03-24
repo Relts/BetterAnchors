@@ -77,19 +77,26 @@ function addon:updateScaleLabel(name, overRideScale)
     end
 end
 
+local BA_BACKDROP_TEMPLATE = {
+    bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+    tile = true,
+    tileSize = 16,
+    edgeSize = 16,
+    insets = { left = 4, right = 4, top = 4, bottom = 4 }
+}
+
 local function CreateAnchorFrameByName(name, width, height, scale, moveable)
     -- Create a frame
-    local frame = CreateFrame("Frame", name, UIParent)
+    local frame = CreateFrame("Frame", name, UIParent, BackdropTemplateMixin and "BackdropTemplate")
     frame:SetSize(width, height)
     frame:SetScale(scale)
     frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 
     frame:SetFrameStrata("HIGH")
 
-    -- Separate the frame from the backgroundTexture
-    frame.backgroundTexture = frame:CreateTexture(nil, "BACKGROUND")
-    frame.backgroundTexture:SetAllPoints(frame)
-    frame.backgroundTexture:SetColorTexture(0, 0, 0, 0.5)
+    -- use the backdrop template
+    frame:SetBackdrop(BA_BACKDROP_TEMPLATE)
 
     frame.lockTexture = frame:CreateTexture(nil, "OVERLAY")
     frame.lockTexture:SetAtlas("Forge-Lock")
@@ -232,7 +239,7 @@ end
 --- Texture Show Hide ---
 function addon:hideAllTextures()
     for name, frame in pairs(frames) do
-        frame.backgroundTexture:Hide()
+        frame:ClearBackdrop()
         frame.label:Hide()
         frame.scaleLabel:Hide()
         frame.lockTexture:Hide()
@@ -243,7 +250,7 @@ end
 
 function addon:showAllTextures()
     for name, frame in pairs(frames) do
-        frame.backgroundTexture:Show()
+        frame:SetBackdrop(BA_BACKDROP_TEMPLATE)
         frame.label:Show()
         frame.scaleLabel:Show()
         frame.lockTexture:Show()
@@ -255,7 +262,7 @@ end
 function addon:toggleTextures()
     local anyTextureVisible = false
     for name, frame in pairs(frames) do
-        if frame.backgroundTexture:IsShown() then
+        if frame:GetBackdrop() then
             anyTextureVisible = true
             break
         end
@@ -336,7 +343,6 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 
 
 -- TODO message that your version of BA is out of date and should update asap
--- TODO add a border to the frames
 -- TODO change the names of the frames
 -- TODO add X Y coordinates to the frames
 -- TODO add X Y Nudger to each frame
