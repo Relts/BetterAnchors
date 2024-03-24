@@ -57,8 +57,8 @@ BetterAnchors.ANCHOR_FRAMES = {
     { name = "Text Warnings Two",    width = 320, height = 40,  scale = 1, moveable = true, },
     { name = "Player Circle",        width = 170, height = 170, scale = 1, moveable = false, },
     { name = "Icons",                width = 180, height = 60,  scale = 1, moveable = true, },
-    { name = "Tank Icons",           width = 60,  height = 200, scale = 1, moveable = true, },
-    { name = "Co-Tank Icons",        width = 60,  height = 200, scale = 1, moveable = true, },
+    { name = "Tank Icons",           width = 70,  height = 215, scale = 1, moveable = true, },
+    { name = "Co-Tank Icons",        width = 70,  height = 215, scale = 1, moveable = true, },
     { name = "Private Auras",        width = 70,  height = 70,  scale = 1, moveable = true, },
     { name = "Player List",          width = 150, height = 180, scale = 1, moveable = true, },
     { name = "Raid Leader List One", width = 150, height = 300, scale = 1, moveable = true, },
@@ -71,8 +71,8 @@ local frames = {} -- Store the Frames
 function addon:updateScaleLabel(name, overRideScale)
     local frame = frames[name]
     if frame then
-        local newScale = overRideScale or tostring(BetterAnchorsDB[name].Scale or 1) -- Use 1 as the default scale
-        frame.scaleLabel:SetText("Scale: " .. newScale)
+        local newScale = overRideScale or BetterAnchorsDB[name].Scale or 1 -- Use 1 as the default scale
+        frame.scaleLabel:SetText(string.format("Scale: %.1f", self:round(newScale, 1)))
         addon:print("New scale of " .. name .. " is: " .. newScale)
     end
 end
@@ -133,15 +133,16 @@ local function CreateAnchorFrameByName(name, width, height, scale, moveable)
     end
 
     -- Add a text label to the frame
-    frame.label = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-    frame.label:SetAllPoints()
+    frame.label = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
+    frame.label:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, 0)
+    frame.label:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 0)
     frame.label:SetText(name)
 
     -- Add a text label for the scale
     frame.scaleLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    frame.scaleLabel:SetPoint("CENTER", frame, "CENTER", 0, -40)                 -- Adjust the position as needed
     BetterAnchorsDB[name] = BetterAnchorsDB[name] or { Scale = 1 }               -- Initialize Scale to 1
     frame.scaleLabel:SetText("Scale: " .. tostring(BetterAnchorsDB[name].Scale)) -- Retrieve the scale from the saved variables
+    frame.scaleLabel:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -10)
 
     frame:Show()
     frames[name] = frame -- Store the frame in the frames tables
@@ -342,7 +343,9 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 
 
 
--- TODO message that your version of BA is out of date and should update asap
 -- TODO change the names of the frames
--- TODO add X Y coordinates to the frames
--- TODO add X Y Nudger to each frame
+-- TODO Minimap Icon
+-- TODO Minimap Icon Function - show/hide when clicked
+
+
+-- FIXME frames show on reload but the options frame always hides
