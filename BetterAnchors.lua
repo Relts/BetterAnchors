@@ -99,7 +99,7 @@ local function CreateAnchorFrameByName(name, width, height, scale, moveable)
     frame:SetBackdrop(BA_BACKDROP_TEMPLATE)
 
     frame.lockTexture = frame:CreateTexture(nil, "OVERLAY")
-    frame.lockTexture:SetAtlas("Forge-Lock")
+    frame.lockTexture:SetAtlas("Garr_LockedBuilding")
     frame.lockTexture:SetSize(20, 20)
     frame.lockTexture:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -5)
     frame.lockTexture:SetAlpha(0)
