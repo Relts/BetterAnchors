@@ -80,7 +80,7 @@ local function createTitle(frame, titleText)
 
     -- Create the line below the title
     local line = frame:CreateTexture(nil, "ARTWORK")
-    line:SetColorTexture(1, 1, 1, 0.5) -- Set the color and alpha of the line
+    line:SetColorTexture(1, 1, 1, 0.3) -- Set the color and alpha of the line
     line:SetHeight(1)
 
     -- Position the line 10 units below the title and make it the same width as the createLineBreak line
