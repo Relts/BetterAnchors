@@ -370,5 +370,3 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO add option to reset the position of the frames back to default.
 -- TODO add an arrow that points the grow direction of the WA
 -- TODO Version 2 - Grid Snapping
--- FIXME Raid Leader List Two is not saving the position correctly
--- FIXME Text Warnings Two is not saving the position correctly
