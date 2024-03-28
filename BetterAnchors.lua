@@ -82,6 +82,16 @@ local BA_BACKDROP_TEMPLATE = {
     insets = { left = 4, right = 4, top = 4, bottom = 4 }
 }
 
+local function createFrameInnerLine(frame, width, height, point, relativeFrame, relativePoint, offsetX, offsetY)
+    local r, g, b = 1, 1, 0 -- Set the color to yellow
+    local line = frame:CreateTexture(nil, "OVERLAY")
+    line:SetSize(width, height)
+    line:SetColorTexture(r, g, b)
+    line:SetPoint(point, relativeFrame, relativePoint, offsetX, offsetY)
+    return line
+end
+
+
 local function CreateAnchorFrameByName(name, width, height, scale, moveable)
     -- Create a frame
     local frame = CreateFrame("Frame", name, UIParent, BackdropTemplateMixin and "BackdropTemplate")
@@ -139,6 +149,12 @@ local function CreateAnchorFrameByName(name, width, height, scale, moveable)
     BetterAnchorsDB[name] = BetterAnchorsDB[name] or { Scale = 1 }               -- Initialize Scale to 1
     frame.scaleLabel:SetText("Scale: " .. tostring(BetterAnchorsDB[name].Scale)) -- Retrieve the scale from the saved variables
     frame.scaleLabel:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -10)
+
+    -- Add lines to the frame
+    frame.topLine = createFrameInnerLine(frame, 2, 15, "TOP", frame, "TOP", 0, -5)
+    frame.bottomLine = createFrameInnerLine(frame, 2, 15, "BOTTOM", frame, "BOTTOM", 0, 5)
+    frame.leftLine = createFrameInnerLine(frame, 15, 2, "LEFT", frame, "LEFT", 5, 0)
+    frame.rightLine = createFrameInnerLine(frame, 15, 2, "RIGHT", frame, "RIGHT", -5, 0)
 
     frame:Show()
     frames[name] = frame -- Store the frame in the frames tables
@@ -240,6 +256,10 @@ function addon:hideAllTextures()
         frame.label:Hide()
         frame.scaleLabel:Hide()
         frame.lockTexture:Hide()
+        frame.topLine:Hide()
+        frame.bottomLine:Hide()
+        frame.leftLine:Hide()
+        frame.rightLine:Hide()
     end
     addon:print("Anchors are now hidden")
     framesTextureVisible = false
@@ -251,6 +271,10 @@ function addon:showAllTextures()
         frame.label:Show()
         frame.scaleLabel:Show()
         frame.lockTexture:Show()
+        frame.topLine:Show()
+        frame.bottomLine:Show()
+        frame.leftLine:Show()
+        frame.rightLine:Show()
     end
     addon:print("Anchors are now visible")
     framesTextureVisible = true
