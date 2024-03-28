@@ -35,7 +35,6 @@ end
 function addon:setLines(w, h)
     if not self.frame then
         -- Initialize frame here or handle the error
-        addon:print("Error: frame is not initialized")
         return
     end
 

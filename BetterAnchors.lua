@@ -69,7 +69,7 @@ function addon:updateScaleLabel(name, overRideScale)
     if frame then
         local newScale = overRideScale or BetterAnchorsDB[name].Scale or 1 -- Use 1 as the default scale
         frame.scaleLabel:SetText(string.format("Scale: %.1f", self:round(newScale, 1)))
-        addon:print("New scale of " .. name .. " is: " .. newScale)
+        -- addon:print("New scale of " .. name .. " is: " .. newScale)
     end
 end
 
@@ -190,10 +190,9 @@ function addon:PLAYER_LOGIN()
     initAnchorFrames()
 
     for name, frame in pairs(frames) do
-        -- addon:print("Restoring position of " .. name)
         if BetterAnchorsDB["positions"][name] then
             local point, relativePoint, xOfs, yOfs = unpack(BetterAnchorsDB["positions"][name])
-            addon:print(name, point, relativePoint, xOfs, yOfs)
+            -- addon:print(name, point, relativePoint, xOfs, yOfs)
             frame:SetPoint(point, UIParent, relativePoint, xOfs, yOfs)
         end
 
@@ -214,7 +213,7 @@ function addon:PLAYER_LOGIN()
 
 
     -- Restore the state of togleFrameTexutres
-    print("framesTextureVisible", BetterAnchorsDB["framesTextureVisible"])
+    -- print("framesTextureVisible", BetterAnchorsDB["framesTextureVisible"])
     if BetterAnchorsDB["framesTextureVisible"] then
         addon:showAllTextures()
     else
@@ -225,7 +224,7 @@ end
 --- Lock and Unlock Frames ---
 function addon:lockAllFrames()
     -- addon:SetOptionFramesLocked(true)
-    addon:print("Locking Frames")
+    addon:print("Anchors are now locked")
     for name, frame in pairs(frames) do
         frame:lockFrame()
         framesLocked = true
@@ -234,7 +233,7 @@ end
 
 function addon:unlockAllFrames()
     -- addon:SetOptionFramesLocked(false)
-    addon:print("Unlocking Frames")
+    addon:print("Anchors are now unlocked")
     for name, frame in pairs(frames) do
         frame:unlockFrame()
         framesLocked = false
@@ -314,14 +313,6 @@ SlashCmdList["BA"] = function(msg)
     end
 end
 
--- VDT Debug Table
-function addon:debugTable(t)
-    if not C_AddOns.IsAddOnLoaded("ViragDevTool") then
-        print("ViragDevTool is not loaded")
-        return
-    end
-    ViragDevTool:AddData(t)
-end
 
 local addonEventFrame = CreateFrame("Frame")
 
@@ -366,7 +357,6 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO change the names of the frames
 -- TODO Minimap Icon
 -- TODO Minimap Icon Function - show/hide when clicked
--- TODO clear out print messages and debug messages
 -- TODO add option to reset the position of the frames back to default.
 -- TODO add an arrow that points the grow direction of the WA
 -- TODO Version 2 - Grid Snapping
