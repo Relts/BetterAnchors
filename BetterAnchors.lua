@@ -50,16 +50,16 @@ end
 
 --- List of Frames that get created ---
 BetterAnchors.ANCHOR_FRAMES = {
-    { name = "Cast Bars",            width = 300, height = 120, scale = 1, moveable = true, },
+    { name = "Cast Bars",            width = 320, height = 120, scale = 1, moveable = true, },
     { name = "Text Warnings One",    width = 350, height = 50,  scale = 1, moveable = true, },
-    { name = "Player Circle",        width = 170, height = 170, scale = 1, moveable = false, },
+    { name = "Player Circle",        width = 130, height = 130, scale = 1, moveable = false, },
     { name = "Icons",                width = 200, height = 60,  scale = 1, moveable = true, },
     { name = "Tank Icons",           width = 70,  height = 215, scale = 1, moveable = true, },
     { name = "Co-Tank Icons",        width = 70,  height = 215, scale = 1, moveable = true, },
     { name = "Private Auras",        width = 70,  height = 70,  scale = 1, moveable = true, },
     { name = "Player List",          width = 170, height = 180, scale = 1, moveable = true, },
-    { name = "Raid Leader List One", width = 170, height = 300, scale = 1, moveable = true, },
-    { name = "Map Frame",            width = 300, height = 180, scale = 1, moveable = true, }
+    { name = "Raid Leader List One", width = 170, height = 450, scale = 1, moveable = true, },
+    { name = "Map Frame",            width = 320, height = 180, scale = 1, moveable = true, }
 }
 
 local frames = {} -- Store the Frames

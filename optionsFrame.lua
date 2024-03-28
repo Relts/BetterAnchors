@@ -18,7 +18,7 @@ local buttonData = {
 
 local function createOptionsFrame()
     local frame = CreateFrame("Frame", "OptionsFrame", UIParent, "BackdropTemplate")
-    frame:SetSize(320, 560)
+    frame:SetSize(320, 500)
     frame:SetPoint("CENTER")
     frame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     frame:SetBackdrop({
