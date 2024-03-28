@@ -161,7 +161,7 @@ local function createOption(frame, i, optionName, titleHeight)
         30 * (i - 1) -- Adjust vertical offset for the first option
     option:SetPoint("TOP", frame, "TOP", 0, verticalOffset)
 
-    local optionNameText = option:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    local optionNameText = option:CreateFontString(nil, "OVERLAY", "GameFontWhite")
     optionNameText:SetPoint("LEFT", option, "LEFT", 5, 0)
     optionNameText:SetText(optionName.name)              -- Assuming optionName is a table with a 'name' field
 

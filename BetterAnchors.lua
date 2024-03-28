@@ -22,8 +22,6 @@ local function setDefaultValues()
         ["Co-Tank Icons"] = { "TOP", "TOP", -359, -227 },
         ["Map Frame"] = { "TOP", "TOP", -2, -75 },
         ["Player Circle"] = { "CENTER", "CENTER", -1, 1 },
-        ["Raid Leader List Two"] = { "LEFT", "LEFT", 447.9999694824219, -17 },
-        ["Text Warnings Two"] = { "CENTER", "CENTER", -0.1790575981140137, 108.3590393066406 },
         ["Private Auras"] = { "CENTER", "CENTER", -253, 55.99999618530273 },
         ["Text Warnings One"] = { "CENTER", "CENTER", -1, 154 },
     }
@@ -54,7 +52,6 @@ end
 BetterAnchors.ANCHOR_FRAMES = {
     { name = "Cast Bars",            width = 300, height = 120, scale = 1, moveable = true, },
     { name = "Text Warnings One",    width = 350, height = 50,  scale = 1, moveable = true, },
-    { name = "Text Warnings Two",    width = 320, height = 40,  scale = 1, moveable = true, },
     { name = "Player Circle",        width = 170, height = 170, scale = 1, moveable = false, },
     { name = "Icons",                width = 200, height = 60,  scale = 1, moveable = true, },
     { name = "Tank Icons",           width = 70,  height = 215, scale = 1, moveable = true, },
@@ -62,7 +59,6 @@ BetterAnchors.ANCHOR_FRAMES = {
     { name = "Private Auras",        width = 70,  height = 70,  scale = 1, moveable = true, },
     { name = "Player List",          width = 170, height = 180, scale = 1, moveable = true, },
     { name = "Raid Leader List One", width = 170, height = 300, scale = 1, moveable = true, },
-    { name = "Raid Leader List Two", width = 170, height = 300, scale = 1, moveable = true, },
     { name = "Map Frame",            width = 300, height = 180, scale = 1, moveable = true, }
 }
 
@@ -347,4 +343,8 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO Minimap Icon
 -- TODO Minimap Icon Function - show/hide when clicked
 -- TODO clear out print messages and debug messages
+-- TODO add option to reset the position of the frames back to default.
+-- TODO add an arrow that points the grow direction of the WA
 -- TODO Version 2 - Grid Snapping
+-- FIXME Raid Leader List Two is not saving the position correctly
+-- FIXME Text Warnings Two is not saving the position correctly
