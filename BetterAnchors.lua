@@ -295,6 +295,26 @@ function addon:toggleTextures()
     end
 end
 
+--Default Positions --
+function addon:resetFramePositions() --FIXME not correctly restoring the default values
+    -- Ensure the default values are set
+    setDefaultValues()
+
+    for frameName, position in pairs(BetterAnchorsDB["positions"]) do
+        local frame = _G[frameName] -- get the frame by its name
+        if frame then
+            frame:ClearAllPoints()  -- clear all current anchor points
+            local point, relativeFrame, relativePoint, offsetX, offsetY = unpack(position)
+            if type(relativeFrame) == "string" then
+                relativeFrame = frame[relativeFrame]                              -- get the region from the frame
+            end
+            frame:SetPoint(point, relativeFrame, relativePoint, offsetX, offsetY) -- set the frame's position back to its default position
+            BetterAnchorsDB["positions"][frameName] =
+                position                                                          -- overwrite the position in the SharedVariables
+        end
+    end
+end
+
 ---- Chat Commands ---
 SLASH_BA1 = "/ba"
 SlashCmdList["BA"] = function(msg)
@@ -306,6 +326,8 @@ SlashCmdList["BA"] = function(msg)
         addon:showAllTextures()
     elseif msg == "hide" then
         addon:hideAllTextures()
+    elseif msg == "reset" then
+        addon:resetFramePositions()
     else
         addon:toggleTextures()
         addon:manageOptionsFrame("toggle")
