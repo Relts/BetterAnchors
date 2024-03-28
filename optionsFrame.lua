@@ -74,7 +74,7 @@ end
 
 local function createTitle(frame, titleText)
     -- Create the title
-    local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge2")
     title:SetPoint("TOP", frame, "TOP", 0, -15)
     title:SetText(titleText)
 
@@ -250,7 +250,7 @@ local function setupFrame()
     makeFrameMovable(frame)
 
     -- Create the title and get its height
-    local title, titleHeight = createTitle(frame, "Scale Frames")
+    local title, titleHeight = createTitle(frame, "Better Anchors")
 
     -- Create the sliders
     local lastSlider = createSliders(frame, titleHeight) -- Pass titleHeight to createSliders
