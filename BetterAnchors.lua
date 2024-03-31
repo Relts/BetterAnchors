@@ -213,7 +213,6 @@ function addon:PLAYER_LOGIN()
         addon:unlockAllFrames()
     end
 
-
     -- Restore the state of togleFrameTexutres
     -- print("framesTextureVisible", BetterAnchorsDB["framesTextureVisible"])
     if BetterAnchorsDB["framesTextureVisible"] then
@@ -263,7 +262,7 @@ function addon:hideAllTextures()
         frame.rightLine:Hide()
     end
     addon:print("Anchors are now hidden")
-    framesTextureVisible = false
+    BetterAnchorsDB["framesTextureVisible"] = false
 end
 
 function addon:showAllTextures()
@@ -278,7 +277,7 @@ function addon:showAllTextures()
         frame.rightLine:Show()
     end
     addon:print("Anchors are now visible")
-    framesTextureVisible = true
+    BetterAnchorsDB["framesTextureVisible"] = false
 end
 
 function addon:toggleTextures()
@@ -382,6 +381,8 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO Minimap Icon
 -- TODO Minimap Icon Function - show/hide when clicked
 -- TODO add option to reset the position of the frames back to default.
+-- TODO remove the BA: prefix from the frame names labels on the frames and options window
+
 
 -- TODO Version 2 - Grid Snapping
 -- TODO clean up the way saved variables are saved.
