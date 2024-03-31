@@ -118,6 +118,7 @@ local function createSlider(option, frameName)
     slider:SetSize(90, 20)
     slider:SetPoint("RIGHT", option, "RIGHT", -25, 0)
     slider:SetMinMaxValues(0.1, 2)
+    BetterAnchorsDB[frameName] = BetterAnchorsDB[frameName] or {}
     slider:SetValue(BetterAnchorsDB[frameName].Scale or 1)
     slider:SetValueStep(SCALE_ADJUSTMENT)
     slider:SetOrientation("HORIZONTAL")

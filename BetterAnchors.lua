@@ -21,7 +21,7 @@ local function setDefaultValues()
         ["Icons"] = { "CENTER", "CENTER", -318, 125.9999923706055 },
         ["Co-Tank Icons"] = { "TOP", "TOP", -359, -227 },
         ["Map Frame"] = { "TOP", "TOP", -2, -75 },
-        ["Player Circle"] = { "CENTER", "CENTER", -1, 1 },
+        ["Player Circle"] = { "CENTER", "CENTER", 0, -20 },
         ["Private Auras"] = { "CENTER", "CENTER", -253, 55.99999618530273 },
         ["Text Warnings One"] = { "CENTER", "CENTER", -1, 154 },
     }
@@ -150,11 +150,11 @@ local function CreateAnchorFrameByName(name, width, height, scale, moveable)
     frame.scaleLabel:SetText("Scale: " .. tostring(BetterAnchorsDB[name].Scale)) -- Retrieve the scale from the saved variables
     frame.scaleLabel:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -10)
 
-    -- Add lines to the frame
-    frame.topLine = createFrameInnerLine(frame, 2, 15, "TOP", frame, "TOP", 0, -5)
-    frame.bottomLine = createFrameInnerLine(frame, 2, 15, "BOTTOM", frame, "BOTTOM", 0, 5)
-    frame.leftLine = createFrameInnerLine(frame, 15, 2, "LEFT", frame, "LEFT", 5, 0)
-    frame.rightLine = createFrameInnerLine(frame, 15, 2, "RIGHT", frame, "RIGHT", -5, 0)
+    -- Add lines to the frame (First X, then Y)
+    frame.topLine = createFrameInnerLine(frame, 1, 12, "TOP", frame, "TOP", 0, 5)
+    frame.bottomLine = createFrameInnerLine(frame, 1, 12, "BOTTOM", frame, "BOTTOM", 0, -5)
+    frame.leftLine = createFrameInnerLine(frame, 12, 1, "LEFT", frame, "LEFT", -5, 0)
+    frame.rightLine = createFrameInnerLine(frame, 12, 1, "RIGHT", frame, "RIGHT", 5, 0)
 
     frame:Show()
     frames[name] = frame -- Store the frame in the frames tables
