@@ -14,16 +14,16 @@ BetterAnchors = BetterAnchors or {}
 local function setDefaultValues()
     BetterAnchorsDB = BetterAnchorsDB or {}
     BetterAnchorsDB["positions"] = BetterAnchorsDB["positions"] or {
-        ["Tank Icons"] = { "TOP", "TOP", -280, -228.9999847412109 },
-        ["Cast Bars"] = { "CENTER", "CENTER", -1, 253 },
-        ["Player List"] = { "CENTER", "CENTER", -272, -75 },
-        ["Raid Leader List One"] = { "TOPLEFT", "TOPLEFT", 446.9999694824219, -148 },
-        ["Icons"] = { "CENTER", "CENTER", -318, 125.9999923706055 },
-        ["Co-Tank Icons"] = { "TOP", "TOP", -359, -227 },
-        ["Map Frame"] = { "TOP", "TOP", -2, -75 },
-        ["Player Circle"] = { "CENTER", "CENTER", 0, -20 },
-        ["Private Auras"] = { "CENTER", "CENTER", -253, 55.99999618530273 },
-        ["Text Warnings One"] = { "CENTER", "CENTER", -1, 154 },
+        ["BA: Tank Icons"] = { "TOP", "TOP", -280, -228.9999847412109 },
+        ["BA: Cast Bars"] = { "CENTER", "CENTER", -1, 253 },
+        ["BA: Player List"] = { "CENTER", "CENTER", -272, -75 },
+        ["BA: Raid Leader List One"] = { "TOPLEFT", "TOPLEFT", 446.9999694824219, -148 },
+        ["BA: Icons"] = { "CENTER", "CENTER", -318, 125.9999923706055 },
+        ["BA: Co-Tank Icons"] = { "TOP", "TOP", -359, -227 },
+        ["BA: Map Frame"] = { "TOP", "TOP", -2, -75 },
+        ["BA: Player Circle"] = { "CENTER", "CENTER", 0, -20 },
+        ["BA: Private Auras"] = { "CENTER", "CENTER", -253, 55.99999618530273 },
+        ["BA: Text Warnings One"] = { "CENTER", "CENTER", -1, 154 },
     }
     BetterAnchorsDB["Scale"] = BetterAnchorsDB["Scale"] or framesScale
     BetterAnchorsDB["framesVisible"] = BetterAnchorsDB["framesVisible"] or framesVisible
@@ -50,16 +50,16 @@ end
 
 --- List of Frames that get created ---
 BetterAnchors.ANCHOR_FRAMES = {
-    { name = "Cast Bars",            width = 320, height = 120, scale = 1, moveable = true, },
-    { name = "Text Warnings One",    width = 350, height = 50,  scale = 1, moveable = true, },
-    { name = "Player Circle",        width = 130, height = 130, scale = 1, moveable = false, },
-    { name = "Icons",                width = 200, height = 60,  scale = 1, moveable = true, },
-    { name = "Tank Icons",           width = 70,  height = 215, scale = 1, moveable = true, },
-    { name = "Co-Tank Icons",        width = 70,  height = 215, scale = 1, moveable = true, },
-    { name = "Private Auras",        width = 70,  height = 70,  scale = 1, moveable = true, },
-    { name = "Player List",          width = 170, height = 180, scale = 1, moveable = true, },
-    { name = "Raid Leader List One", width = 170, height = 450, scale = 1, moveable = true, },
-    { name = "Map Frame",            width = 320, height = 180, scale = 1, moveable = true, }
+    { name = "BA: Cast Bars",            width = 320, height = 120, scale = 1, moveable = true, },
+    { name = "BA: Text Warnings One",    width = 350, height = 50,  scale = 1, moveable = true, },
+    { name = "BA: Player Circle",        width = 130, height = 130, scale = 1, moveable = false, },
+    { name = "BA: Icons",                width = 200, height = 60,  scale = 1, moveable = true, },
+    { name = "BA: Tank Icons",           width = 70,  height = 215, scale = 1, moveable = true, },
+    { name = "BA: Co-Tank Icons",        width = 70,  height = 215, scale = 1, moveable = true, },
+    { name = "BA: Private Auras",        width = 70,  height = 70,  scale = 1, moveable = true, },
+    { name = "BA: Player List",          width = 170, height = 180, scale = 1, moveable = true, },
+    { name = "BA: Raid Leader List One", width = 170, height = 450, scale = 1, moveable = true, },
+    { name = "BA: Map Frame",            width = 320, height = 180, scale = 1, moveable = true, }
 }
 
 local frames = {} -- Store the Frames
@@ -114,12 +114,14 @@ local function CreateAnchorFrameByName(name, width, height, scale, moveable)
 
         frame:SetScript("OnDragStart", function(self)
             self:StartMoving()
+            self:SetUserPlaced(false)
         end)
 
         frame:SetScript("OnDragStop", function(self)
             self:StopMovingOrSizing()
             local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
             BetterAnchorsDB["positions"][name] = { point, relativePoint, xOfs, yOfs }
+            frame:SetUserPlaced(false)
         end)
     else
         frame.lockTexture:SetAlpha(1)
@@ -380,5 +382,6 @@ addonEventFrame:RegisterEvent("PLAYER_LOGOUT")
 -- TODO Minimap Icon
 -- TODO Minimap Icon Function - show/hide when clicked
 -- TODO add option to reset the position of the frames back to default.
--- TODO add an arrow that points the grow direction of the WA
+
 -- TODO Version 2 - Grid Snapping
+-- TODO clean up the way saved variables are saved.

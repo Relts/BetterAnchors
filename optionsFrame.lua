@@ -47,11 +47,24 @@ local function makeFrameMovable(frame)
     frame:SetMovable(true)
     frame:EnableMouse(true)
     frame:RegisterForDrag("LeftButton")
-    frame:SetScript("OnDragStart", frame.StartMoving)
+    frame:SetScript("OnDragStart", function(self)
+        self:StartMoving()
+        self:SetUserPlaced(false)
+    end)
     frame:SetScript("OnDragStop", function(self)
         self:StopMovingOrSizing()
         local x, y = self:GetLeft(), self:GetTop()
         BetterAnchorsDB.optionsFramePosition = { x = x, y = y }
+        frame:SetUserPlaced(false)
+    end)
+
+    -- Restore the frame's position when the UI is loaded or reloaded --
+    frame:HookScript("OnShow", function(self)
+        local position = BetterAnchorsDB.optionsFramePosition
+        if position then
+            self:ClearAllPoints()
+            self:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", position.x, position.y)
+        end
     end)
 end
 
@@ -118,7 +131,7 @@ local function createSlider(option, frameName)
     slider:SetSize(90, 20)
     slider:SetPoint("RIGHT", option, "RIGHT", -25, 0)
     slider:SetMinMaxValues(0.1, 2)
-    BetterAnchorsDB[frameName] = BetterAnchorsDB[frameName] or {}
+    -- BetterAnchorsDB[frameName] = BetterAnchorsDB[frameName] or {}
     slider:SetValue(BetterAnchorsDB[frameName].Scale or 1)
     slider:SetValueStep(SCALE_ADJUSTMENT)
     slider:SetOrientation("HORIZONTAL")
