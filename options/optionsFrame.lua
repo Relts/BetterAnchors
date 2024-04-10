@@ -140,3 +140,10 @@ function BetterAnchors:ToggleOptionsFrame()
         self:ShowOptionsFrame()
     end
 end
+
+-- TODO: add grid buttons
+-- TODO: add options frame title
+-- TODO: add close button to options frame
+-- TODO: add reset button to reset all
+
+-- TODO: If we are bored add grid snapping

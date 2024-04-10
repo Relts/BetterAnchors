@@ -1,8 +1,8 @@
 local addonName, BetterAnchors = ...
 
 
--- minimap icon
--- ldb brocker
+-- TODO: minimap icon
+-- TODO: ldb brocker
 
 local function OnLoad()
     -- called when all files and the saved variables of this addon are loaded
