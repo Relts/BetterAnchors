@@ -7,12 +7,24 @@ local addonName, BetterAnchors = ...
 
 local function BuildOptionsForOptionsFrame()
     local anchorFrames = BetterAnchors.anchorFrames
-    local index = 0
+    local lastElement = nil
+
+    local title = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge2")
+    title:SetPoint("TOPLEFT", BetterAnchors.optionsFrame, "TOPLEFT", 10, -10)
+    title:SetPoint("TOPRIGHT", BetterAnchors.optionsFrame, "TOPRIGHT", -10, -10)
+    title:SetText(addonName)
+
+    lastElement = title
+
+
+
+
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
         frame:SetSize(1, 30)
-        frame:SetPoint("TOPLEFT", BetterAnchors.optionsFrame, "TOPLEFT", 10, (-35 * index) - 10)
-        frame:SetPoint("TOPRIGHT", BetterAnchors.optionsFrame, "TOPRIGHT", -10, (-35 * index) - 10)
+        frame:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+        frame:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
+
 
         frame:EnableMouse(true)
         frame.overlay = frame:CreateTexture(nil, "HIGHLIGHT")
@@ -20,8 +32,6 @@ local function BuildOptionsForOptionsFrame()
         frame.overlay:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -1, 1)
         frame.overlay:SetAtlas("perks-list-active")
         frame.overlay:SetAlpha(1)
-
-
 
         local frameLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         frameLabel:SetPoint("LEFT", 5, 0)
@@ -77,8 +87,14 @@ local function BuildOptionsForOptionsFrame()
 
         anchorFrame.optionSliderFrame = frame
 
-        index = index + 1
+        lastElement = frame
     end
+
+    local line = BetterAnchors.optionsFrame:CreateTexture(nil, "BACKGROUND")
+    line:SetColorTexture(1, 1, 1, 0.3)                         -- Set the color and alpha of the line
+    line:SetHeight(1)                                          -- Set the height of the line
+    line:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5) -- Set the position of the line
+    line:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
 end
 
 
