@@ -17,8 +17,6 @@ local function BuildOptionsForOptionsFrame()
     lastElement = title
 
 
-
-
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
         frame:SetSize(1, 30)
@@ -98,10 +96,9 @@ local function BuildOptionsForOptionsFrame()
 end
 
 
-
 local function CreateOptionsFrame()
     local optionsFrame = CreateFrame("Frame", "BetterAnchorsOptionsFrame", UIParent, "BackdropTemplate")
-    optionsFrame:SetSize(320, 600)
+    optionsFrame:SetSize(290, 600)
     optionsFrame:SetPoint("CENTER")
     optionsFrame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     optionsFrame:SetBackdrop({
@@ -112,6 +109,15 @@ local function CreateOptionsFrame()
         edgeSize = 16,
         insets = { left = 4, right = 4, top = 4, bottom = 4 }
     })
+
+    local closeButton = CreateFrame("Button", nil, optionsFrame, "UIPanelCloseButton")
+    closeButton:SetSize(20, 20)
+    closeButton:SetPoint("TOPRIGHT", optionsFrame, "TOPRIGHT", -5, -5)
+    closeButton:SetScript("OnClick", function()
+        BetterAnchors:HideOptionsFrame()
+        BetterAnchors:HideFrames()
+        BetterAnchors:HideGrid()
+    end)
 
     -- Set the background color of the frame --
     optionsFrame:SetBackdropColor(0, 0, 0, 0.8)
@@ -158,8 +164,6 @@ function BetterAnchors:ToggleOptionsFrame()
 end
 
 -- TODO: add grid buttons
--- TODO: add options frame title
 -- TODO: add close button to options frame
 -- TODO: add reset button to reset all
-
 -- TODO: If we are bored add grid snapping
