@@ -38,16 +38,15 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
         #
         buttonData -- Calculate the width of each button based on the buttonFrame width
 
-    -- Variable to keep track of the last button pressed
+
     local lastButtonPressed = nil
 
     for i, data in ipairs(buttonData) do
         local button = CreateFrame("Button", nil, buttonFrame, "BigGoldRedThreeSliceButtonTemplate") -- Create the button inside the buttonFrame
         button:SetNormalFontObject("GameFontNormalSmall")
         button:SetText(data.text)
-        button:SetSize(buttonWidth, 25) -- Set the width of the button
+        button:SetSize(buttonWidth, 25)
 
-        -- Add a variable to keep track of the grid state
         button.gridShown = false
 
         if i == 1 then
@@ -71,13 +70,14 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
                 -- Show or hide the grid based on the button's state
                 if button.gridShown then
                     BetterAnchors:HideGrid(data.grid)
+                    button:SetButtonState("NORMAL", false)
                     button.gridShown = false
                 else
                     BetterAnchors:ShowGrid(data.grid)
+                    button:SetButtonState("PUSHED", true)
                     button.gridShown = true
                 end
 
-                -- Update the last button pressed
                 lastButtonPressed = button
             end
         end)
@@ -87,5 +87,3 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
 
     return buttonFrame
 end
-
--- TODO: add grid buttons and keep pressed state for showing and hiding.
