@@ -15,7 +15,6 @@ local ultrawideButtonData = {
 }
 
 
-
 local function BuildOptionsForOptionsFrame()
     local anchorFrames = BetterAnchors.anchorFrames
     local lastElement = nil
@@ -50,7 +49,7 @@ local function BuildOptionsForOptionsFrame()
         local currentScale = anchorFrame:GetScale()
         currentScale = math.floor(currentScale * 100) / 100
         local slider = CreateFrame("Slider", nil, frame, "MinimalSliderTemplate")
-        slider:SetSize(100, 20) -- change the size of the slider
+        slider:SetSize(90, 20) -- change the size of the slider
         slider:SetPoint("RIGHT", frame, "RIGHT", 0, 0)
         slider:SetMinMaxValues(0.5, 2)
         slider:SetValueStep(0.01)
@@ -130,7 +129,7 @@ end
 
 local function CreateOptionsFrame()
     local optionsFrame = CreateFrame("Frame", "BetterAnchorsOptionsFrame", UIParent, "BackdropTemplate")
-    optionsFrame:SetSize(280, 600)
+    optionsFrame:SetSize(270, 515)
     optionsFrame:SetPoint("CENTER")
     optionsFrame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     optionsFrame:SetBackdrop({
@@ -195,6 +194,4 @@ function BetterAnchors:ToggleOptionsFrame()
     end
 end
 
--- TODO: add grid buttons and keep pressed state for showing and hiding.
--- TODO: If we are bored add grid snapping
 -- TODO: make the frame fit the height of the last element

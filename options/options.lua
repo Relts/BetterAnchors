@@ -65,3 +65,5 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
 
     return buttonFrame
 end
+
+-- TODO: add grid buttons and keep pressed state for showing and hiding.

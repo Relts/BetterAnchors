@@ -1,7 +1,6 @@
 local addonName, BetterAnchors = ...
+
 --- List of Frames that get created ---
-
-
 local BA_BACKDROP_TEMPLATE = {
     bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
     edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -10,7 +9,6 @@ local BA_BACKDROP_TEMPLATE = {
     edgeSize = 16,
     insets = { left = 4, right = 4, top = 4, bottom = 4 }
 }
-
 
 local FRAME_DEFAULT_ALIGN_HELPERS = {
     top = {
@@ -38,8 +36,6 @@ local FRAME_DEFAULT_ALIGN_HELPERS = {
         y = 0
     },
 }
-
-
 
 local function CreateAnchorFrame(frameInfo)
     local frame = CreateFrame("Frame", frameInfo.name, UIParent, BackdropTemplateMixin and "BackdropTemplate")
@@ -97,6 +93,7 @@ local function CreateAnchorFrame(frameInfo)
         local point, _, relativePoint, xOfs, yOfs = self:GetPoint()
         BetterAnchorsDB.positions[frameInfo.name] = { point, relativePoint, xOfs, yOfs }
     end)
+
 
 
     frame.LockFrame = function()
@@ -159,12 +156,12 @@ local function CreateAnchorFrame(frameInfo)
 end
 
 
-
 function BetterAnchors:CreateAnchorFrame(frameInfo)
     local frame = CreateAnchorFrame(frameInfo)
     frame.moveable = frameInfo.moveable
     frame:SetSize(frameInfo.width, frameInfo.height)
     frame:SetAnchorScale(frameInfo.scale)
+
 
     if not frameInfo.moveable then
         frame:SetScript("OnMouseDown", nil)
@@ -185,3 +182,6 @@ function BetterAnchors:CreateAnchorFrame(frameInfo)
     end
     self.anchorFrames[frameInfo.name] = frame
 end
+
+-- TODO create mouseover colour change
+-- TODO create tooltip for the lock icon
