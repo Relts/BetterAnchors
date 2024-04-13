@@ -1,10 +1,26 @@
 local addonName, BetterAnchors = ...
 
-function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement)
+
+function BetterAnchors:CreateLineSeparator(lastElement, padding)
+    local lineSeparator = BetterAnchors.optionsFrame:CreateTexture(nil, "OVERLAY")
+    lineSeparator:SetColorTexture(1, 1, 1, 0.3) -- Set the color and alpha of the line
+    lineSeparator:SetHeight(1)
+    lineSeparator:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", padding.left, padding.top)
+    lineSeparator:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", padding.right, padding.bottom)
+
+    return lineSeparator
+end
+
+function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, titlePadding)
+    local paddingLeft = titlePadding and titlePadding.left or -5
+    local paddingRight = titlePadding and titlePadding.right or 5
+    local paddingTop = titlePadding and titlePadding.top or -10
+    local paddingBottom = titlePadding and titlePadding.bottom or -10
+
     -- Monitor Title
     local monitorTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    monitorTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", -5, -10)
-    monitorTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 5, -10)
+    monitorTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", paddingLeft, paddingTop)
+    monitorTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", paddingRight, paddingBottom)
     monitorTitle:SetText(titleText)
     monitorTitle:SetJustifyH("LEFT")
 
