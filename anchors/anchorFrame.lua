@@ -152,8 +152,16 @@ local function CreateAnchorFrame(frameInfo)
         frame:SetPoint(point, x, y)
         BetterAnchorsDB.positions[frameInfo.name] = { point, point, x, y }
     end
+
+    local highlight = frame:CreateTexture(nil, "HIGHLIGHT")
+    highlight:SetAllPoints(true)
+    highlight:SetColorTexture(1, 1, 0, 0.2)
+    highlight:SetBlendMode("ADD")
+    frame.highlight = highlight
+
     return frame
 end
+
 
 
 function BetterAnchors:CreateAnchorFrame(frameInfo)
@@ -161,6 +169,13 @@ function BetterAnchors:CreateAnchorFrame(frameInfo)
     frame.moveable = frameInfo.moveable
     frame:SetSize(frameInfo.width, frameInfo.height)
     frame:SetAnchorScale(frameInfo.scale)
+
+    frame:SetScript("OnEnter", function(self)
+        self.highlight:Show()
+    end)
+    frame:SetScript("OnLeave", function(self)
+        self.highlight:Hide()
+    end)
 
 
     if not frameInfo.moveable then
@@ -182,6 +197,3 @@ function BetterAnchors:CreateAnchorFrame(frameInfo)
     end
     self.anchorFrames[frameInfo.name] = frame
 end
-
--- TODO create mouseover colour change
--- TODO create tooltip for the lock icon

@@ -33,6 +33,13 @@ local function BuildOptionsForOptionsFrame()
         frame:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
 
 
+        frame:SetScript("OnEnter", function()
+            anchorFrame:EnableDrawLayer("HIGHLIGHT")
+        end)
+        frame:SetScript("OnLeave", function()
+            anchorFrame:DisableDrawLayer("HIGHLIGHT")
+        end)
+
         frame:EnableMouse(true)
         frame.overlay = frame:CreateTexture(nil, "HIGHLIGHT")
         frame.overlay:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -1)
@@ -56,7 +63,6 @@ local function BuildOptionsForOptionsFrame()
         slider:SetObeyStepOnDrag(true)
         slider:SetValue(currentScale)
 
-
         slider:SetScript("OnMouseWheel", function(self, delta)
             if not self:IsEnabled() then
                 return
@@ -74,9 +80,11 @@ local function BuildOptionsForOptionsFrame()
 
         slider:SetScript("OnEnter", function()
             frame:EnableDrawLayer("HIGHLIGHT")
+            anchorFrame:EnableDrawLayer("HIGHLIGHT")
         end)
         slider:SetScript("OnLeave", function()
             frame:DisableDrawLayer("HIGHLIGHT")
+            anchorFrame:DisableDrawLayer("HIGHLIGHT")
         end)
 
         slider.valueText = slider:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -90,6 +98,8 @@ local function BuildOptionsForOptionsFrame()
             local roundedValue = math.floor(value * 100) / 100
             self.valueText:SetText(roundedValue)
         end)
+
+
         frame.slider = slider
 
         anchorFrame.optionSliderFrame = frame
