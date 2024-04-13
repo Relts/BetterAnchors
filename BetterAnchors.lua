@@ -61,3 +61,11 @@ SlashCmdList["BA"] = function(msg)
         BetterAnchors:ToggleFrames()
     end
 end
+
+
+-- Dev Mode
+C_Timer.After(5, function()
+    BetterAnchors:ToggleOptionsFrame()
+    BetterAnchors:ToggleFrames()
+    print("Dev Mode")
+end)

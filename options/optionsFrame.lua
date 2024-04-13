@@ -1,8 +1,33 @@
 local addonName, BetterAnchors = ...
 
+local buttonData = {
+    -- Standard Monitors 16:9
+    { text = "32",       grid = '32' },
+    { text = "64",       grid = '64' },
+    { text = "96",       grid = '96' },
+    { text = "128",      grid = '128' },
+    -- Ultrawide Monitors 21:9
+    { text = "128 x 54", grid = 'uw' },
+    { text = "86 x 36",  grid = 'uw2' },
+    -- 4k Monitors 16:9
+    { text = "128 x 72", grid = '4k' },
+    { text = "Hide",     func = function() BetterAnchors:HideGrid() end },
+}
 
--- create options frame with option elements
--- move frame logic
+local standardButtonData = {
+    -- Standard Monitors 16:9
+    { text = "32",  grid = '32' },
+    { text = "64",  grid = '64' },
+    { text = "96",  grid = '96' },
+    { text = "128", grid = '128' },
+}
+
+local ultrawideButtonData = {
+    -- Ultrawide Monitors 21:9
+    { text = "128 x 54", grid = 'uw' },
+    { text = "86 x 36",  grid = 'uw2' },
+}
+
 
 
 local function BuildOptionsForOptionsFrame()
@@ -19,7 +44,7 @@ local function BuildOptionsForOptionsFrame()
 
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
-        frame:SetSize(1, 30)
+        frame:SetSize(1, 25)
         frame:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
         frame:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
 
@@ -40,7 +65,7 @@ local function BuildOptionsForOptionsFrame()
         local currentScale = anchorFrame:GetScale()
         currentScale = math.floor(currentScale * 100) / 100
         local slider = CreateFrame("Slider", nil, frame, "MinimalSliderTemplate")
-        slider:SetSize(150, 25)
+        slider:SetSize(100, 20) -- change the size of the slider
         slider:SetPoint("RIGHT", frame, "RIGHT", 0, 0)
         slider:SetMinMaxValues(0.5, 2)
         slider:SetValueStep(0.01)
@@ -88,17 +113,148 @@ local function BuildOptionsForOptionsFrame()
         lastElement = frame
     end
 
-    local line = BetterAnchors.optionsFrame:CreateTexture(nil, "BACKGROUND")
-    line:SetColorTexture(1, 1, 1, 0.3)                         -- Set the color and alpha of the line
-    line:SetHeight(1)                                          -- Set the height of the line
-    line:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5) -- Set the position of the line
-    line:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
-end
+    -- Line Seperator
+    local optionsLineOne = BetterAnchors.optionsFrame:CreateTexture(nil, "BACKGROUND")
+    optionsLineOne:SetColorTexture(1, 1, 1, 0.3) -- Set the color and alpha of the line
+    optionsLineOne:SetHeight(2)
+    optionsLineOne:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    optionsLineOne:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
 
+    lastElement = optionsLineOne
+
+    -- Grid Overlay Title
+    local gridTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalmed2")
+    gridTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 10, -10)
+    gridTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -10, -10)
+    gridTitle:SetText("Grid Overlay")
+
+    lastElement = gridTitle
+
+    -- Standard Monitor Title
+    local standardMonitorTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    standardMonitorTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", -5, -10)
+    standardMonitorTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 5, -10)
+    standardMonitorTitle:SetText("Standard Monitors 16:9")
+    standardMonitorTitle:SetJustifyH("LEFT")
+
+    lastElement = standardMonitorTitle
+
+    -- Create an invisible frame inside the optionsFrame
+    local standardButtonFrame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    standardButtonFrame:SetSize(1, 25)
+    standardButtonFrame:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    standardButtonFrame:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
+
+    -- local bg = standardButtonFrame:CreateTexture(nil, "BACKGROUND")
+    -- bg:SetColorTexture(1, 1, 1, 0.3)
+    -- bg:SetAllPoints(standardButtonFrame)
+
+    local totalWidth = standardButtonFrame:GetWidth() -- Get the width of the buttonFrame
+    local buttonSpacing = 2
+    local buttonWidth = (totalWidth - (buttonSpacing * (#standardButtonData - 1))) /
+        #
+        standardButtonData -- Calculate the width of each button based on the buttonFrame width
+
+    for i, data in ipairs(standardButtonData) do
+        local button = CreateFrame("Button", nil, standardButtonFrame, "BigGoldRedThreeSliceButtonTemplate") -- Create the button inside the buttonFrame
+        button:SetNormalFontObject("GameFontNormalSmall")
+        button:SetText(data.text)
+        button:SetSize(buttonWidth, 25) -- Set the width of the button
+
+        if i == 1 then
+            -- Position the first button at the left of the buttonFrame without spacing
+            button:SetPoint("TOPLEFT", standardButtonFrame, "TOPLEFT", 0, 0)
+        else
+            -- Position subsequent buttons to the right of the last button with spacing
+            button:SetPoint("LEFT", lastElement, "RIGHT", buttonSpacing, 0)
+        end
+
+        button:SetScript("OnClick", function()
+            if data.func then
+                data.func()
+            else
+                BetterAnchors:ShowGrid(data.grid)
+            end
+        end)
+
+        lastElement = button
+    end
+
+    lastElement = standardButtonFrame
+
+    -- Ultrawide Monitor Title
+    local ultrawideMonitorTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    ultrawideMonitorTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -10)
+    ultrawideMonitorTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -10)
+    ultrawideMonitorTitle:SetText("Ultrawide Monitors 21:9")
+    ultrawideMonitorTitle:SetJustifyH("LEFT")
+
+    lastElement = ultrawideMonitorTitle
+
+    -- Create an invisible frame inside the optionsFrame
+    local ultrawideButtonFrame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    ultrawideButtonFrame:SetSize(1, 25)
+    ultrawideButtonFrame:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    ultrawideButtonFrame:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
+
+    totalWidth = ultrawideButtonFrame:GetWidth() -- Get the width of the buttonFrame
+    buttonSpacing = 2
+    buttonWidth = (totalWidth - (buttonSpacing * (#ultrawideButtonData - 1))) /
+        #
+        ultrawideButtonData -- Calculate the width of each button based on the buttonFrame width
+
+    for i, data in ipairs(ultrawideButtonData) do
+        local button = CreateFrame("Button", nil, ultrawideButtonFrame, "BigGoldRedThreeSliceButtonTemplate") -- Create the button inside the buttonFrame
+        button:SetNormalFontObject("GameFontNormalSmall")
+        button:SetText(data.text)
+        button:SetSize(buttonWidth, 25) -- Set the width of the button
+
+        if i == 1 then
+            -- Position the first button at the left of the buttonFrame without spacing
+            button:SetPoint("TOPLEFT", ultrawideButtonFrame, "TOPLEFT", 0, 0)
+        else
+            -- Position subsequent buttons to the right of the last button with spacing
+            button:SetPoint("LEFT", lastElement, "RIGHT", buttonSpacing, 0)
+        end
+
+        button:SetScript("OnClick", function()
+            if data.func then
+                data.func()
+            else
+                BetterAnchors:ShowGrid(data.grid)
+            end
+        end)
+
+        lastElement = button
+    end
+
+    lastElement = ultrawideButtonFrame
+
+    -- Line Seperator
+    local optionsLineTwo = BetterAnchors.optionsFrame:CreateTexture(nil, "BACKGROUND")
+    optionsLineTwo:SetColorTexture(1, 1, 1, 0.3) -- Set the color and alpha of the line
+    optionsLineTwo:SetHeight(2)
+    optionsLineTwo:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", -5, -5)
+    optionsLineTwo:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 5, -5)
+
+    lastElement = optionsLineTwo
+
+    local resetButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    resetButton:SetNormalFontObject("GameFontNormalSmall")
+    resetButton:SetText("Reset Positions and Scale")
+    resetButton:SetSize(1, 25)
+    resetButton:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 5, -5)
+    resetButton:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -5, -5)
+    resetButton:SetScript("OnClick", function()
+        StaticPopup_Show("BA_RESET_POSITIONS")
+    end)
+
+    lastElement = resetButton
+end
 
 local function CreateOptionsFrame()
     local optionsFrame = CreateFrame("Frame", "BetterAnchorsOptionsFrame", UIParent, "BackdropTemplate")
-    optionsFrame:SetSize(290, 600)
+    optionsFrame:SetSize(280, 600)
     optionsFrame:SetPoint("CENTER")
     optionsFrame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     optionsFrame:SetBackdrop({
@@ -163,7 +319,6 @@ function BetterAnchors:ToggleOptionsFrame()
     end
 end
 
--- TODO: add grid buttons
--- TODO: add close button to options frame
--- TODO: add reset button to reset all
+-- TODO: add grid buttons and keep pressed state for showing and hiding.
 -- TODO: If we are bored add grid snapping
+-- TODO: make the frame fit the height of the last element
