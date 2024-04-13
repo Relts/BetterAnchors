@@ -1,19 +1,5 @@
 local addonName, BetterAnchors = ...
 
-local buttonData = {
-    -- Standard Monitors 16:9
-    { text = "32",       grid = '32' },
-    { text = "64",       grid = '64' },
-    { text = "96",       grid = '96' },
-    { text = "128",      grid = '128' },
-    -- Ultrawide Monitors 21:9
-    { text = "128 x 54", grid = 'uw' },
-    { text = "86 x 36",  grid = 'uw2' },
-    -- 4k Monitors 16:9
-    { text = "128 x 72", grid = '4k' },
-    { text = "Hide",     func = function() BetterAnchors:HideGrid() end },
-}
-
 local standardButtonData = {
     -- Standard Monitors 16:9
     { text = "32",  grid = '32' },
