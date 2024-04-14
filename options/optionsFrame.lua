@@ -208,5 +208,3 @@ function BetterAnchors:ToggleOptionsFrame()
         self:ShowOptionsFrame()
     end
 end
-
--- TODO: make the frame fit the height of the last element
