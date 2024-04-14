@@ -70,11 +70,11 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
                 -- Show or hide the grid based on the button's state
                 if button.gridShown then
                     BetterAnchors:HideGrid(data.grid)
-                    button:SetButtonState("NORMAL", false)
+                    -- button:SetButtonState("NORMAL", false)
                     button.gridShown = false
                 else
                     BetterAnchors:ShowGrid(data.grid)
-                    button:SetButtonState("PUSHED", true)
+                    -- button:SetButtonState("PUSHED", true)
                     button.gridShown = true
                 end
 

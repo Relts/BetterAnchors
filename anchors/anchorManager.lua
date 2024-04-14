@@ -1,7 +1,7 @@
 local addonName, BetterAnchors = ...
 
 -- FIXME Frames not showing on clean install of addon, but do show on reload
-
+-- FIXME frames not being created in the correct order
 
 local ANCHOR_FRAMES = {
     { name = "BACastBars",          label = "Cast Bars",            width = 320, height = 120, scale = 1, moveable = true,  defaultPosition = { "TOP", 0, -247 }, },

@@ -32,15 +32,20 @@ local function BuildOptionsForOptionsFrame()
         frame:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
         frame:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
 
+        frame:EnableMouse(true)
 
+        -- Mouse over frame highlighting
         frame:SetScript("OnEnter", function()
-            anchorFrame:EnableDrawLayer("HIGHLIGHT")
+            if anchorFrame then
+                anchorFrame:EnableDrawLayer("HIGHLIGHT")
+            end
         end)
         frame:SetScript("OnLeave", function()
-            anchorFrame:DisableDrawLayer("HIGHLIGHT")
+            if anchorFrame then
+                anchorFrame:DisableDrawLayer("HIGHLIGHT")
+            end
         end)
 
-        frame:EnableMouse(true)
         frame.overlay = frame:CreateTexture(nil, "HIGHLIGHT")
         frame.overlay:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -1)
         frame.overlay:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -1, 1)
@@ -78,6 +83,7 @@ local function BuildOptionsForOptionsFrame()
             end
         end)
 
+        -- mouse over frame highlighting on slider
         slider:SetScript("OnEnter", function()
             frame:EnableDrawLayer("HIGHLIGHT")
             anchorFrame:EnableDrawLayer("HIGHLIGHT")
@@ -178,7 +184,6 @@ local function CreateOptionsFrame()
 
     return optionsFrame
 end
-
 
 function BetterAnchors:ShowOptionsFrame()
     if not self.optionsFrame then

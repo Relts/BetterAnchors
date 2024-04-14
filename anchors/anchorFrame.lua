@@ -95,7 +95,6 @@ local function CreateAnchorFrame(frameInfo)
     end)
 
 
-
     frame.LockFrame = function()
         if not frame.moveable then return end
         frame:SetMovable(false)
@@ -107,7 +106,6 @@ local function CreateAnchorFrame(frameInfo)
         frame:SetMovable(true)
         frame:EnableMouse(true)
     end
-
 
     frame.SetAnchorScale = function(self, scale)
         local roundedValue = math.floor(scale * 100) / 100
@@ -145,14 +143,13 @@ local function CreateAnchorFrame(frameInfo)
         end
     end
 
-
     frame.ResetPosition = function()
         frame:ClearAllPoints()
         local point, x, y = unpack(frameInfo.defaultPosition)
         frame:SetPoint(point, x, y)
         BetterAnchorsDB.positions[frameInfo.name] = { point, point, x, y }
     end
-
+    -- mouseover frame highlighting
     local highlight = frame:CreateTexture(nil, "HIGHLIGHT")
     highlight:SetAllPoints(true)
     highlight:SetColorTexture(1, 1, 0, 0.2)
@@ -170,11 +167,18 @@ function BetterAnchors:CreateAnchorFrame(frameInfo)
     frame:SetSize(frameInfo.width, frameInfo.height)
     frame:SetAnchorScale(frameInfo.scale)
 
-    frame:SetScript("OnEnter", function(self)
-        self.highlight:Show()
+    -- mouse over frame highlighting
+    frame:SetScript("OnEnter", function()
+        if anchorFrame then
+            anchorFrame:EnableDrawLayer("HIGHLIGHT")
+        end
     end)
-    frame:SetScript("OnLeave", function(self)
-        self.highlight:Hide()
+    frame:SetScript("OnLeave", function()
+        if anchorFrame then
+            if not MouseIsOver(anchorFrame) then
+                anchorFrame:DisableDrawLayer("HIGHLIGHT")
+            end
+        end
     end)
 
 
