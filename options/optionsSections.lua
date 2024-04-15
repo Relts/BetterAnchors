@@ -34,9 +34,9 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
 
     local totalWidth = buttonFrame:GetWidth() -- Get the width of the buttonFrame
     local buttonSpacing = 2
-    local buttonWidth = (totalWidth - (buttonSpacing * (#buttonData - 1))) /
-        #
-        buttonData -- Calculate the width of each button based on the buttonFrame width
+    local numButtons = #buttonData
+    local buttonWidth = (totalWidth - (buttonSpacing * (numButtons - 1))) /
+        numButtons -- Calculate the width of each button based on the buttonFrame width
 
 
     local lastButtonPressed = nil
@@ -47,6 +47,18 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
         button:SetText(data.text)
         button:SetSize(buttonWidth, 25)
 
+        button.SetTextureStyle = function(self, isActive)
+            if isActive then
+                button.Center:SetAtlas("_128-GoldRedButton-Center")
+                button.Left:SetAtlas("_128-GoldRedButton-Left")
+                button.Right:SetAtlas("_128-GoldRedButton-Right")
+            else
+                button.Center:SetAtlas("_128-RedButton-Center")
+                button.Left:SetAtlas("128-RedButton-Left")
+                button.Right:SetAtlas("128-RedButton-Right")
+            end
+        end
+        button:SetTextureStyle(false)
         button.gridShown = false
 
         if i == 1 then
@@ -65,6 +77,7 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
                 if lastButtonPressed and lastButtonPressed ~= button then
                     BetterAnchors:HideGrid(lastButtonPressed.grid)
                     lastButtonPressed.gridShown = false
+                    lastButtonPressed:SetTextureStyle(false)
                 end
 
                 -- Show or hide the grid based on the button's state
@@ -72,10 +85,12 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
                     BetterAnchors:HideGrid(data.grid)
                     -- button:SetButtonState("NORMAL", false)
                     button.gridShown = false
+                    button:SetTextureStyle(false)
                 else
                     BetterAnchors:ShowGrid(data.grid)
                     -- button:SetButtonState("PUSHED", true)
                     button.gridShown = true
+                    button:SetTextureStyle(true)
                 end
 
                 lastButtonPressed = button
