@@ -3,16 +3,16 @@ local addonName, BetterAnchors = ...
 -- FIXME Frames not showing on clean install of addon, but do show on reload
 
 local ANCHOR_FRAMES = {
-    { name = "BACastBars",          label = "Cast Bars",            width = 320, height = 120, scale = 1, moveable = true,  defaultPosition = { "TOP", 0, -247 }, },
-    { name = "BATextWarningsOne",   label = "Text Warnings One",    width = 350, height = 50,  scale = 1, moveable = true,  defaultPosition = { "CENTER", 0, 188 }, },
-    { name = "BAIcons",             label = "Icons",                width = 200, height = 60,  scale = 1, moveable = true,  defaultPosition = { "CENTER", -251, 83 }, },
-    { name = "BATankIcons",         label = "Tank Icons",           width = 70,  height = 215, scale = 1, moveable = true,  defaultPosition = { "TOP", -273, -193 }, },
-    { name = "BACoTankIcons",       label = "Co-Tank Icons",        width = 70,  height = 215, scale = 1, moveable = true,  defaultPosition = { "TOP", -359, -193 }, },
-    { name = "BAPrivateAuras",      label = "Private Auras",        width = 70,  height = 70,  scale = 1, moveable = true,  defaultPosition = { "CENTER", 114, 40 }, },
-    { name = "BAPlayerList",        label = "Player List",          width = 170, height = 180, scale = 1, moveable = true,  defaultPosition = { "CENTER", -263, -84 }, },
-    { name = "BARaidLeaderListOne", label = "Raid Leader List One", width = 170, height = 450, scale = 1, moveable = true,  defaultPosition = { "LEFT", 440, 52 }, },
-    { name = "BAMapFrame",          label = "Map Frame",            width = 320, height = 180, scale = 1, moveable = true,  defaultPosition = { "TOP", 1, -62 }, },
-    { name = "BAPlayerCircle",      label = "Player Circle",        width = 130, height = 130, scale = 1, moveable = false, defaultPosition = { "CENTER", 0, -20 }, },
+    { name = "BACastBars",          label = "Cast Bars",     width = 320, height = 120, scale = 1, moveable = true,  defaultPosition = { "TOP", 0, -247 }, },
+    { name = "BATextWarningsOne",   label = "Text Warnings", width = 350, height = 50,  scale = 1, moveable = true,  defaultPosition = { "CENTER", 0, 188 }, },
+    { name = "BAIcons",             label = "Icons",         width = 200, height = 60,  scale = 1, moveable = true,  defaultPosition = { "CENTER", -251, 83 }, },
+    { name = "BATankIcons",         label = "Tank Icons",    width = 70,  height = 215, scale = 1, moveable = true,  defaultPosition = { "TOP", -273, -193 }, },
+    { name = "BACoTankIcons",       label = "Co-Tank Icons", width = 70,  height = 215, scale = 1, moveable = true,  defaultPosition = { "TOP", -359, -193 }, },
+    { name = "BAPrivateAuras",      label = "Private Auras", width = 70,  height = 70,  scale = 1, moveable = true,  defaultPosition = { "CENTER", 114, 40 }, },
+    { name = "BAPlayerList",        label = "Player List",   width = 170, height = 180, scale = 1, moveable = true,  defaultPosition = { "CENTER", -263, -84 }, },
+    { name = "BARaidLeaderListOne", label = "Large List",    width = 170, height = 450, scale = 1, moveable = true,  defaultPosition = { "LEFT", 440, 52 }, },
+    { name = "BAMapFrame",          label = "Map Frame",     width = 320, height = 180, scale = 1, moveable = true,  defaultPosition = { "TOP", 1, -62 }, },
+    { name = "BAPlayerCircle",      label = "Player Circle", width = 130, height = 130, scale = 1, moveable = false, defaultPosition = { "CENTER", 0, -20 }, },
 }
 
 

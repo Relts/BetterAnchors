@@ -1,7 +1,9 @@
 local addonName, BetterAnchors = ...
 
+local LibStub = _G.LibStub
+local LDB = LibStub:GetLibrary("LibDataBroker-1.1")
+local icon = LibStub("LibDBIcon-1.0")
 
--- TODO: minimap icon
 
 local function OnLoad()
     -- called when all files and the saved variables of this addon are loaded
@@ -11,6 +13,30 @@ local function OnLoad()
         BetterAnchors:ShowOptionsFrame()
     end
 end
+
+-- mini map icon stuff
+local betterAnchorsDataBroker = LDB:NewDataObject(addonName, {
+    type = "data source",
+    text = addonName,
+    icon = "Interface\\Addons\\BetterAnchors\\assets\\onsIcon",
+    OnClick = function(clickedFrame, button)
+        if button == "LeftButton" then
+            BetterAnchors:ToggleOptionsFrame()
+            BetterAnchors:ToggleFrames()
+        elseif button == "RightButton" then
+            -- Handle right click
+        end
+    end,
+    OnTooltipShow = function(tooltip)
+        -- Add lines to the tooltip
+        tooltip:AddLine(addonName)
+        tooltip:AddLine("Left click to toggle frames")
+    end,
+})
+
+-- Register the data broker with LibDBIcon
+icon:Register(addonName, betterAnchorsDataBroker, BetterAnchorsDB)
+
 
 local eventFrame = CreateFrame("Frame")
 eventFrame:RegisterEvent("ADDON_LOADED")
@@ -28,7 +54,17 @@ end)
 
 BetterAnchors.eventFrame = eventFrame
 
-
+function BetterAnchors:ToggleMinimapIcon()
+    if BetterAnchorsDB.hide then
+        icon:Show(addonName)
+        BetterAnchorsDB.hide = false
+        print("Minimap icon shown")
+    else
+        icon:Hide(addonName)
+        BetterAnchorsDB.hide = true
+        print("Minimap icon hidden")
+    end
+end
 
 StaticPopupDialogs["BA_RESET_POSITIONS"] = {
     text = "Are you sure you want to reset all anchor positions and scales?",
@@ -55,6 +91,8 @@ SlashCmdList["BA"] = function(msg)
         BetterAnchors:HideFrames()
     elseif msg == "reset" then
         StaticPopup_Show("BA_RESET_POSITIONS")
+    elseif msg == "minimap" then
+        BetterAnchors:ToggleMinimapIcon()
     else
         BetterAnchors:ToggleOptionsFrame()
         BetterAnchors:ToggleFrames()
@@ -63,8 +101,8 @@ end
 
 
 -- Dev Mode
-C_Timer.After(5, function()
-    BetterAnchors:ToggleOptionsFrame()
-    BetterAnchors:ToggleFrames()
-    print("Dev Mode")
-end)
+-- C_Timer.After(5, function()
+--     BetterAnchors:ToggleOptionsFrame()
+--     BetterAnchors:ToggleFrames()
+--     print("Dev Mode")
+-- end)
