@@ -58,12 +58,16 @@ function BetterAnchors:ToggleMinimapIcon()
     if BetterAnchorsDB.hide then
         icon:Show(addonName)
         BetterAnchorsDB.hide = false
-        print("Minimap icon shown")
+        BetterAnchors:addonPrint("Minimap icon shown")
     else
         icon:Hide(addonName)
         BetterAnchorsDB.hide = true
-        print("Minimap icon hidden")
+        BetterAnchors:addonPrint("Minimap icon hidden")
     end
+end
+
+function BetterAnchors:addonPrint(msg)
+    print("|cff00FF00" .. addonName .. ":|r " .. msg)
 end
 
 StaticPopupDialogs["BA_RESET_POSITIONS"] = {
@@ -99,6 +103,18 @@ SlashCmdList["BA"] = function(msg)
     end
 end
 
+
+
+-- Welcome Message
+
+local function printWelcomeMessage()
+    BetterAnchors:addonPrint("Welcome to Better Anchors!")
+    BetterAnchors:addonPrint("Type /ba to toggle the options frame")
+    BetterAnchors:addonPrint("Type /ba reset to reset all anchor positions and scales")
+    BetterAnchors:addonPrint("Type /ba minimap to toggle the minimap icon")
+end
+
+C_Timer.After(7, printWelcomeMessage)
 
 -- Dev Mode
 -- C_Timer.After(5, function()
