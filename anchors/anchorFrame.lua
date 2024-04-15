@@ -168,16 +168,12 @@ function BetterAnchors:CreateAnchorFrame(frameInfo)
     frame:SetAnchorScale(frameInfo.scale)
 
     -- mouse over frame highlighting
-    frame:SetScript("OnEnter", function()
-        if anchorFrame then
-            anchorFrame:EnableDrawLayer("HIGHLIGHT")
-        end
+    frame:SetScript("OnEnter", function(self)
+        self:EnableDrawLayer("HIGHLIGHT")
     end)
-    frame:SetScript("OnLeave", function()
-        if anchorFrame then
-            if not MouseIsOver(anchorFrame) then
-                anchorFrame:DisableDrawLayer("HIGHLIGHT")
-            end
+    frame:SetScript("OnLeave", function(self)
+        if not self:IsMouseOver() then
+            self:DisableDrawLayer("HIGHLIGHT")
         end
     end)
 

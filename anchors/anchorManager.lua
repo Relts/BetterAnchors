@@ -1,7 +1,5 @@
 local addonName, BetterAnchors = ...
 
--- FIXME Frames not showing on clean install of addon, but do show on reload
-
 local ANCHOR_FRAMES = {
     { name = "BACastBars",          label = "Cast Bars",     width = 320, height = 120, scale = 1, moveable = true,  defaultPosition = { "TOP", 0, -247 }, },
     { name = "BATextWarningsOne",   label = "Text Warnings", width = 350, height = 50,  scale = 1, moveable = true,  defaultPosition = { "CENTER", 0, 188 }, },
@@ -17,6 +15,9 @@ local ANCHOR_FRAMES = {
 
 
 function BetterAnchors:ShowFrames()
+    if not self.anchorFrames then
+        self:CreateAllAnchorFrames()
+    end
     -- show the textures and unlock the frames
     for _, anchorFrame in pairs(self.anchorFrames) do
         anchorFrame:UnlockFrame()
@@ -26,6 +27,9 @@ function BetterAnchors:ShowFrames()
 end
 
 function BetterAnchors:HideFrames()
+    if not self.anchorFrames then
+        self:CreateAllAnchorFrames()
+    end
     -- hide the textures and lock the frames
     for _, anchorFrame in pairs(self.anchorFrames) do
         anchorFrame:LockFrame()
@@ -59,6 +63,9 @@ function BetterAnchors:ResetScales()
 end
 
 local function GetPositionForAnchorName(name)
+    if not BetterAnchorsDB or not BetterAnchorsDB.positions then
+        return
+    end
     if BetterAnchorsDB.positions then
         return BetterAnchorsDB.positions[name]
     end
@@ -66,6 +73,9 @@ end
 
 
 local function GetScaleForAnchorName(name)
+    if not BetterAnchorsDB or not BetterAnchorsDB.positions then
+        return
+    end
     if BetterAnchorsDB.scales then
         return BetterAnchorsDB.scales[name]
     end

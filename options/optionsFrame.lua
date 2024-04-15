@@ -189,7 +189,13 @@ function BetterAnchors:ShowOptionsFrame()
     if not self.optionsFrame then
         self.optionsFrame = CreateOptionsFrame()
         BuildOptionsForOptionsFrame()
-        local point, relativePoint, x, y = unpack(BetterAnchorsDB.positions.optionsFrame or { "RIGHT", "RIGHT", -100, 0 })
+        local optionPosition
+        if BetterAnchorsDB.positions and BetterAnchorsDB.positions.optionsFrame then
+            optionPosition = BetterAnchorsDB.positions.optionsFrame
+        else
+            optionPosition = { "RIGHT", "RIGHT", -100, 0 }
+        end
+        local point, relativePoint, x, y = unpack(optionPosition)
         self.optionsFrame:SetPoint(point, UIParent, relativePoint, x, y)
     end
     self.optionsFrame:Show()
