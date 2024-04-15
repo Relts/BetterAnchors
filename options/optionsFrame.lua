@@ -14,6 +14,13 @@ local ultrawideButtonData = {
     { text = "86 x 36",  grid = 'uw2' },
 }
 
+---1 equals 16:9, over 1 is ultrawide (like 21:9)
+---@return integer
+local function GetMonitorAspectRatio()
+    local width, height = GetPhysicalScreenSize()
+    return math.floor(width / height)
+end
+
 
 local function BuildOptionsForOptionsFrame()
     local anchorFrames = BetterAnchors.anchorFrames
@@ -123,10 +130,14 @@ local function BuildOptionsForOptionsFrame()
 
     lastElement = gridTitle
 
-    lastElement = BetterAnchors:CreateMonitorSection("Standard Monitors 16:9", standardButtonData, lastElement)
+    if GetMonitorAspectRatio() == 1 then
+        lastElement = BetterAnchors:CreateMonitorSection("Standard Monitors 16:9", standardButtonData, lastElement)
+    else
+        lastElement = BetterAnchors:CreateMonitorSection("Ultrawide Monitors 21:9", ultrawideButtonData, lastElement,
+            { left = 0, right = 0 })
+    end
 
-    lastElement = BetterAnchors:CreateMonitorSection("Ultrawide Monitors 21:9", ultrawideButtonData, lastElement,
-        { left = 0, right = 0 })
+
 
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = -5, right = 5, top = -10, bottom = -5 })
 
@@ -145,7 +156,7 @@ end
 
 local function CreateOptionsFrame()
     local optionsFrame = CreateFrame("Frame", "BetterAnchorsOptionsFrame", UIParent, "BackdropTemplate")
-    optionsFrame:SetSize(270, 515)
+    optionsFrame:SetSize(270, 460)
     optionsFrame:SetPoint("CENTER")
     optionsFrame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     optionsFrame:SetBackdrop({
