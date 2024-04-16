@@ -20,7 +20,8 @@ With BetterAnchors, you can:
 
 - `/ba` or `/betteranchors`: Opens the BetterAnchors options menu.
 - `/ba reset`: Resets all anchor positions and scales to their default state.
-- '/ba minimap': Toggles the minimap icon on and off.
+- '/ba minimap`: Toggles the minimap icon on and off.
+- '/ba help`: Shows a list of ingame commands
 
 ## Anchor Frames
 

@@ -106,6 +106,10 @@ SlashCmdList["BA"] = function(msg)
         StaticPopup_Show("BA_RESET_POSITIONS")
     elseif msg == "minimap" then
         BetterAnchors:ToggleMinimapIcon()
+    elseif msg == "help" then
+        BetterAnchors:addonPrint("Type /ba to toggle the options frame")
+        BetterAnchors:addonPrint("Type /ba reset to reset all anchor positions and scales")
+        BetterAnchors:addonPrint("Type /ba minimap to toggle the minimap icon")
     else
         BetterAnchors:ToggleOptionsFrame()
         BetterAnchors:ToggleFrames()
