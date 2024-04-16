@@ -83,6 +83,14 @@ StaticPopupDialogs["BA_RESET_POSITIONS"] = {
     hideOnEscape = true,
     preferredIndex = 3,
 }
+-- This function is called when the Game Menu is shown
+local function handleGameMenuShow(self)
+    BetterAnchors:HideFrames()
+    BetterAnchors:HideOptionsFrame()
+end
+
+-- Register the OnShow event for the Game Menu Frame
+GameMenuFrame:HookScript("OnShow", handleGameMenuShow)
 
 ---- Chat Commands ---
 SLASH_BA1 = "/ba"
