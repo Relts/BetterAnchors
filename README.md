@@ -61,4 +61,4 @@ Remember, you can always reset all anchor positions and scales to their default 
 ## Screenshot
 
 <p align="center">
-  <img width="70%" src="media/BA_InGame.png" />
+  <img width="100%" src="media/BA_InGame.png" />
