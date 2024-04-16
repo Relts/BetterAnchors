@@ -9,6 +9,7 @@ Libs/libdatabroker-1.1: https://repos.wowace.com/wow/libdatabroker-1-1/trunk
 ignore:
   - "*.md"
   - .vscode
+  - media
 
 manual-changelog:
   filename: Changelog.md
