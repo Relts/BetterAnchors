@@ -1,7 +1,7 @@
 <h1 align="center"> BetterAnchors </h1> <br>
 
 <p align="center">
-  <img width="70%" src="Ba_Anchor_Banner.png" />
+  <img width="70%" src="media/Ba_Anchor_Banner.png" />
 </p>
 <p align="center">
   Map Pin Enhanced enhances the ingame waypoint system.
