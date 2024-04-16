@@ -1,10 +1,8 @@
-<h1 align="center"> BetterAnchors </h1> <br>
-
 <p align="center">
-  <img width="70%" src="media/Ba_Anchor_Banner.png" />
+  <img width="70%" src="media/BA_Anchor_Banner.png" />
 </p>
 <p align="center">
-  Map Pin Enhanced enhances the ingame waypoint system.
+  BetterAnchors Provides a better way to anchor Weakauras!
 </p>
 
 ## Features
@@ -18,3 +16,4 @@ You can do these things with Map Pin Enhanced:
 - Make detected coordinates in chat clickable
 - Add Time to reach tracked pin
 - Unlimited distance for supertracking
+
