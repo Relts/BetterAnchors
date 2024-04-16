@@ -36,4 +36,29 @@ With BetterAnchors, you can:
 - **Tank ICons**: Shows your tank debuffs and buffs.
 - **Co-Tank Icons**: Shows your co-tanks debuffs and buffs.
 
-# How to use BetterAnchors with your WA Packages
+## How to use BetterAnchors with your WA Packages
+
+Follow these steps to anchor your own WeakAuras to the addon frames:
+
+1. Open the BetterAnchors options. You can do this by typing `/ba` in the chat or by clicking the BetterAnchors icon on your minimap.
+
+2. Navigate to your WeakAuras (WA) settings. You can do this by typing `/wa` in the chat.
+
+3. In the WA settings, find the aura you want to anchor to a BetterAnchors frame. Click on it to open its settings.
+
+4. Navigate to the "Display" tab of the aura settings.
+
+5. Scroll down to the "Position Settings" section.
+
+6. In the "Anchor To" dropdown menu, select "Select Frame".
+
+7. A text box will appear below the dropdown menu. In this box, type the name of the BetterAnchors frame you want to anchor your aura to. The frame names are case-sensitive and must be spelled exactly as they are in the BetterAnchors documentation.
+
+8. Click "Okay" to save your changes. Your aura should now be anchored to the selected BetterAnchors frame.
+
+Remember, you can always reset all anchor positions and scales to their default state by typing `/ba reset` in the chat.
+
+## Screenshot
+
+<p align="center">
+  <img width="70%" src="media/BA_Screenshot.png" />
