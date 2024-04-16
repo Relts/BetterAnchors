@@ -18,7 +18,7 @@ end
 local betterAnchorsDataBroker = LDB:NewDataObject(addonName, {
     type = "data source",
     text = addonName,
-    icon = "Interface\\Addons\\BetterAnchors\\assets\\onsIcon",
+    icon = "Interface\\Addons\\BetterAnchors\\assets\\baIcon",
     OnClick = function(clickedFrame, button)
         if button == "LeftButton" then
             BetterAnchors:ToggleOptionsFrame()
