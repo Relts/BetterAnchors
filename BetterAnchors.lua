@@ -77,6 +77,7 @@ StaticPopupDialogs["BA_RESET_POSITIONS"] = {
     OnAccept = function()
         BetterAnchors:ResetPositions()
         BetterAnchors:ResetScales()
+        BetterAnchors:addonPrint("All anchor positions and scales have been reset")
     end,
     timeout = 0,
     whileDead = true,
