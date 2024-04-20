@@ -2,17 +2,9 @@ local addonName, BetterAnchors = ...
 
 local LibStub = _G.LibStub
 local LDB = LibStub:GetLibrary("LibDataBroker-1.1")
-local icon = LibStub("LibDBIcon-1.0")
+local LDBIcon = LibStub("LibDBIcon-1.0")
 
 
-local function OnLoad()
-    -- called when all files and the saved variables of this addon are loaded
-    if not BetterAnchorsDB then
-        BetterAnchorsDB = {}
-        BetterAnchors:ShowFrames()
-        BetterAnchors:ShowOptionsFrame()
-    end
-end
 
 -- mini map icon stuff
 local betterAnchorsDataBroker = LDB:NewDataObject(addonName, {
@@ -34,8 +26,17 @@ local betterAnchorsDataBroker = LDB:NewDataObject(addonName, {
     end,
 })
 
--- Register the data broker with LibDBIcon
-icon:Register(addonName, betterAnchorsDataBroker, BetterAnchorsDB)
+local function OnLoad()
+    -- called when all files and the saved variables of this addon are loaded
+    if not BetterAnchorsDB then
+        BetterAnchorsDB = {}
+        BetterAnchors:ShowFrames()
+        BetterAnchors:ShowOptionsFrame()
+    end
+    -- Register the data broker with LibDBIcon
+    LDBIcon:Register(addonName, betterAnchorsDataBroker, BetterAnchorsDB)
+end
+
 
 
 local eventFrame = CreateFrame("Frame")
@@ -56,11 +57,11 @@ BetterAnchors.eventFrame = eventFrame
 
 function BetterAnchors:ToggleMinimapIcon()
     if BetterAnchorsDB.hide then
-        icon:Show(addonName)
+        LDBIcon:Show(addonName)
         BetterAnchorsDB.hide = false
         BetterAnchors:addonPrint("Minimap icon shown")
     else
-        icon:Hide(addonName)
+        LDBIcon:Hide(addonName)
         BetterAnchorsDB.hide = true
         BetterAnchors:addonPrint("Minimap icon hidden")
     end
