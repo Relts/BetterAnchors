@@ -41,6 +41,7 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
 
     local lastButtonPressed = nil
 
+    -- FIXME: button not reseting texture when the user presses the close button when the grid has been loaded.
     for i, data in ipairs(buttonData) do
         local button = CreateFrame("Button", nil, buttonFrame, "BigGoldRedThreeSliceButtonTemplate") -- Create the button inside the buttonFrame
         button:SetNormalFontObject("GameFontNormalSmall")
