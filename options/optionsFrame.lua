@@ -232,10 +232,9 @@ end
 
 function BetterAnchors:ToggleOptionsFrame()
     if self.optionsFrame and self.optionsFrame:IsShown() then
+        self:HideGrid()
         self:HideOptionsFrame()
     else
         self:ShowOptionsFrame()
     end
 end
-
---FIXME: height of the frame not correct on ultra wide monitors. Need to adjust the height of the frame based on the monitor aspect ratio

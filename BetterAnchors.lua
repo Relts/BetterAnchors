@@ -89,6 +89,7 @@ StaticPopupDialogs["BA_RESET_POSITIONS"] = {
 local function handleGameMenuShow(self)
     BetterAnchors:HideFrames()
     BetterAnchors:HideOptionsFrame()
+    BetterAnchors:HideGrid()
 end
 
 -- Register the OnShow event for the Game Menu Frame
@@ -97,10 +98,11 @@ GameMenuFrame:HookScript("OnShow", handleGameMenuShow)
 ---- Chat Commands ---
 SLASH_BA1 = "/ba"
 SlashCmdList["BA"] = function(msg)
-    if msg == "lock" or msg == "aiaicaptain" or msg == "show" then
+    if msg == "not lock" or msg == "aiaicaptain" or msg == "show" then
         BetterAnchors:ShowOptionsFrame()
         BetterAnchors:ShowFrames()
-    elseif msg == "unlock" or msg == "hide" then
+    elseif msg == "not unlock" or msg == "hide" then
+        BetterAnchors:HideGrid()
         BetterAnchors:HideOptionsFrame()
         BetterAnchors:HideFrames()
     elseif msg == "reset" then
