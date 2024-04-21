@@ -32,13 +32,13 @@ local function BuildOptionsForOptionsFrame()
     title:SetText(addonName)
 
     lastElement = title
+    local optionsFrameHeight = title:GetHeight() + 10
 
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
         frame:SetSize(1, 25)
         frame:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
         frame:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
-
         frame:EnableMouse(true)
 
         -- Mouse over frame highlighting
@@ -121,10 +121,12 @@ local function BuildOptionsForOptionsFrame()
 
         anchorFrame.optionSliderFrame = frame
 
+        optionsFrameHeight = optionsFrameHeight + frame:GetHeight() + 5
         lastElement = frame
     end
 
-    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5, bottom = -5 })
+    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
+    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
 
     -- Grid Overlay Title
     local gridTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalmed2")
@@ -132,6 +134,7 @@ local function BuildOptionsForOptionsFrame()
     gridTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -10, -10)
     gridTitle:SetText("Grid Overlay")
 
+    optionsFrameHeight = optionsFrameHeight + gridTitle:GetHeight() + 10
     lastElement = gridTitle
 
     if GetMonitorAspectRatio() == 1 then
@@ -140,10 +143,10 @@ local function BuildOptionsForOptionsFrame()
         lastElement = BetterAnchors:CreateMonitorSection("Ultrawide Monitors 21:9", ultrawideButtonData, lastElement,
             { left = 0, right = 0 })
     end
+    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 20
 
-
-
-    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = -5, right = 5, top = -10, bottom = -5 })
+    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = -5, right = 5, top = -10 })
+    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 15
 
     local resetButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
     resetButton:SetNormalFontObject("GameFontNormalSmall")
@@ -154,13 +157,18 @@ local function BuildOptionsForOptionsFrame()
     resetButton:SetScript("OnClick", function()
         StaticPopup_Show("BA_RESET_POSITIONS")
     end)
-
+    optionsFrameHeight = optionsFrameHeight + resetButton:GetHeight() + 5
     lastElement = resetButton
+
+
+    -- padding at the bottom
+    optionsFrameHeight = optionsFrameHeight + 10
+    BetterAnchors.optionsFrame:SetHeight(optionsFrameHeight)
 end
 
 local function CreateOptionsFrame()
     local optionsFrame = CreateFrame("Frame", "BetterAnchorsOptionsFrame", UIParent, "BackdropTemplate")
-    optionsFrame:SetSize(270, 460)
+    optionsFrame:SetSize(270, 1)
     optionsFrame:SetPoint("CENTER")
     optionsFrame:SetFrameStrata("DIALOG") -- Set the frame strata to "HIGH"
     optionsFrame:SetBackdrop({
