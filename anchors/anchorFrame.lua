@@ -197,3 +197,7 @@ function BetterAnchors:CreateAnchorFrame(frameInfo)
     end
     self.anchorFrames[frameInfo.name] = frame
 end
+
+-- TODO: XY cords to better algin the frames.
+-- TODO: Grid Snapping
+-- NEWFEATURE
