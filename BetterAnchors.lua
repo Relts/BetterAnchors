@@ -123,11 +123,10 @@ end
 local function printWelcomeMessage()
     BetterAnchors:addonPrint("Welcome to Better Anchors!")
     BetterAnchors:addonPrint("Type /ba to toggle the options frame")
-    BetterAnchors:addonPrint("Type /ba reset to reset all anchor positions and scales")
-    BetterAnchors:addonPrint("Type /ba minimap to toggle the minimap icon")
+    BetterAnchors:addonPrint("Type /ba help for more commands")
 end
 
-C_Timer.After(7, printWelcomeMessage)
+C_Timer.After(5, printWelcomeMessage)
 
 -- Dev Mode
 -- C_Timer.After(5, function()
@@ -138,4 +137,3 @@ C_Timer.After(7, printWelcomeMessage)
 
 
 -- FIXME: saved variables still not loading correctly on first load. it creates a duplicate set of frames when /ba is called for the first time.
--- TODO: Individual Character anchor positions
