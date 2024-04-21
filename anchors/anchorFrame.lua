@@ -108,7 +108,7 @@ local function CreateAnchorFrame(frameInfo)
     end
 
     frame.SetAnchorScale = function(self, scale)
-        local roundedValue = math.floor(scale * 100) / 100
+        local roundedValue = Round(scale * 100) / 100
         if not BetterAnchorsDB.scales then
             BetterAnchorsDB.scales = {}
         end

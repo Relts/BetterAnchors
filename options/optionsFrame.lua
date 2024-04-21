@@ -66,7 +66,7 @@ local function BuildOptionsForOptionsFrame()
         frameLabel:SetText(anchorFrame.frameInfo.label)
 
         local currentScale = anchorFrame:GetScale()
-        currentScale = math.floor(currentScale * 100) / 100
+        currentScale = Round(currentScale * 100) / 100
         local slider = CreateFrame("Slider", nil, frame, "MinimalSliderTemplate")
         slider:SetSize(90, 20) -- change the size of the slider
         slider:SetPoint("RIGHT", frame, "RIGHT", 0, 0)
@@ -112,7 +112,7 @@ local function BuildOptionsForOptionsFrame()
 
         slider:SetScript("OnValueChanged", function(self, value)
             anchorFrame:SetAnchorScale(value)
-            local roundedValue = math.floor(value * 100) / 100
+            local roundedValue = Round(value * 100) / 100
             self.valueText:SetText(roundedValue)
         end)
 
