@@ -229,3 +229,6 @@ function BetterAnchors:ToggleOptionsFrame()
         self:ShowOptionsFrame()
     end
 end
+
+--FIXME: height of the frame not correct on ultra wide monitors. Need to adjust the height of the frame based on the monitor aspect ratio
+--FIXME: Scale slider not working correctly. should move in 0.01 increments
