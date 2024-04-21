@@ -140,5 +140,3 @@ C_Timer.After(5, printWelcomeMessage)
 --     BetterAnchors:ToggleFrames()
 --     print("Dev Mode")
 -- end)
-
--- FIXME: saved variables still not loading correctly on first load. it creates a duplicate set of frames when /ba is called for the first time.

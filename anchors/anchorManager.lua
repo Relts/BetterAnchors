@@ -82,9 +82,13 @@ local function GetScaleForAnchorName(name)
 end
 
 function BetterAnchors:CreateAllAnchorFrames()
+    if self.framesCreated then
+        return
+    end
     for _, frameInfo in ipairs(ANCHOR_FRAMES) do
         frameInfo.position = GetPositionForAnchorName(frameInfo.name) or frameInfo.defaultPosition
         frameInfo.scale = GetScaleForAnchorName(frameInfo.name) or 1
         self:CreateAnchorFrame(frameInfo)
     end
+    self.framesCreated = true
 end
