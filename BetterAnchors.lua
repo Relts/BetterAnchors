@@ -111,6 +111,9 @@ SlashCmdList["BA"] = function(msg)
         BetterAnchors:addonPrint("Type /ba to toggle the options frame")
         BetterAnchors:addonPrint("Type /ba reset to reset all anchor positions and scales")
         BetterAnchors:addonPrint("Type /ba minimap to toggle the minimap icon")
+    elseif msg == "version" then
+        local version = GetAddOnMetadata("BetterAnchors", "Version")
+        BetterAnchors:addonPrint("Version: " .. version)
     else
         BetterAnchors:ToggleOptionsFrame()
         BetterAnchors:ToggleFrames()
@@ -121,7 +124,8 @@ end
 -- Welcome Message
 
 local function printWelcomeMessage()
-    BetterAnchors:addonPrint("Welcome to Better Anchors!")
+    local version = GetAddOnMetadata("BetterAnchors", "Version")
+    BetterAnchors:addonPrint("Welcome to Better Anchors! Version: " .. version)
     BetterAnchors:addonPrint("Type /ba to toggle the options frame")
     BetterAnchors:addonPrint("Type /ba help for more commands")
 end
