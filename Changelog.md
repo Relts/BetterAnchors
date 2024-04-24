@@ -1,3 +1,7 @@
+# Version 1.0.2
+
+- Updated Interface Build Number
+
 # Version 1.0.1
 
 - Fixed Slider Bug where the slider would not correctly go up or down in incriments of 0.01.
