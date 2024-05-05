@@ -1,3 +1,7 @@
+# Version 1.0.3
+
+- Fixed issue with right clicking frames would make them disappear.
+
 # Version 1.0.2
 
 - Updated Interface Build Number

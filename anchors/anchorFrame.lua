@@ -80,18 +80,26 @@ local function CreateAnchorFrame(frameInfo)
         frame[alignPosition .. "Line"] = line
     end
 
-    frame:SetScript("OnMouseDown", function(self)
-        self:StartMoving()
+
+    -- Fix for right click making the frames dissapear.
+
+    frame:SetScript("OnMouseDown", function(self, button)
+        if button == "LeftButton" then
+            self:StartMoving()
+        end
+        -- self:StartMoving()
     end)
 
 
-    frame:SetScript("OnMouseUp", function(self)
-        self:StopMovingOrSizing()
-        if not BetterAnchorsDB.positions then
-            BetterAnchorsDB.positions = {}
+    frame:SetScript("OnMouseUp", function(self, button)
+        if button == "LeftButton" then
+            self:StopMovingOrSizing()
+            if not BetterAnchorsDB.positions then
+                BetterAnchorsDB.positions = {}
+            end
+            local point, _, relativePoint, xOfs, yOfs = self:GetPoint()
+            BetterAnchorsDB.positions[frameInfo.name] = { point, relativePoint, xOfs, yOfs }
         end
-        local point, _, relativePoint, xOfs, yOfs = self:GetPoint()
-        BetterAnchorsDB.positions[frameInfo.name] = { point, relativePoint, xOfs, yOfs }
     end)
 
 
