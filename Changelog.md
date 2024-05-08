@@ -1,3 +1,9 @@
+# Version 1.0.4
+
+- Fixed Issue with options frame crashing.
+- Added custom icons for the WA Packs.
+- Toc Bump
+
 # Version 1.0.3
 
 - Fixed issue with right clicking frames would make them disappear.
