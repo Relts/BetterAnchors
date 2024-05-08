@@ -1,7 +1,6 @@
 # Version 1.0.4
 
-- Fixed Issue with options frame crashing.
-- Added custom icons for the WA Packs.
+- Fixed JustifyV
 - Toc Bump
 
 # Version 1.0.3
