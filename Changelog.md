@@ -1,3 +1,8 @@
+# Version 1.0.5
+
+- Toc Bump
+- Custom Icons for Weakaura Packs
+
 # Version 1.0.4
 
 - Fixed JustifyV
