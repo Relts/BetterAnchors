@@ -127,12 +127,18 @@ end
 
 local function printWelcomeMessage()
     local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
-    BetterAnchors:addonPrint("Welcome to Better Anchors! Version: " .. version)
-    BetterAnchors:addonPrint("Type /ba to toggle the options frame")
-    BetterAnchors:addonPrint("Type /ba help for more commands")
+    BetterAnchors:addonPrint("Type /ba to toggle the options or /ba help for more commands | Version: " .. version)
 end
 
-C_Timer.After(5, printWelcomeMessage)
+
+-- local function printWelcomeMessage()
+--     local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
+--     BetterAnchors:addonPrint("Welcome to Better Anchors! Version: " .. version)
+--     BetterAnchors:addonPrint("Type /ba to toggle the options frame")
+--     BetterAnchors:addonPrint("Type /ba help for more commands")
+-- end
+
+C_Timer.After(3, printWelcomeMessage)
 
 -- Dev Mode
 -- C_Timer.After(5, function()

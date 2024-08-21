@@ -1,3 +1,7 @@
+# Version 1.0.6
+
+- Welcome message has been simplified.
+
 # Version 1.0.5
 
 - Toc Bump
