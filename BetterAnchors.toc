@@ -1,4 +1,4 @@
-## Interface: 100207,110000,110002 --FIXME remove old interface versions
+## Interface: 110002
 ## Title: BetterAnchors
 ## Author: Eminos
 ## Version: 1.0.7
