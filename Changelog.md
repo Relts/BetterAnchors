@@ -1,3 +1,8 @@
+# Version 1.0.7
+
+- Added Custom Icons for the WeakAura Packs.
+- Removed old build versions from the toc file.
+
 # Version 1.0.6
 
 - Welcome message has been simplified.
