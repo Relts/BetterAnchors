@@ -1,3 +1,8 @@
+# Version 1.0.8
+
+- Added Textures for Ovinax
+- Updated Icon Textures for WeakAuras
+
 # Version 1.0.7
 
 - Added Custom Icons for the WeakAura Packs.
