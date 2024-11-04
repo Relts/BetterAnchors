@@ -1,3 +1,8 @@
+# Version 1.0.10
+
+- Version now displays on options frame.
+- added slash command for version as /ba ver and /ba version.
+
 # Version 1.0.9
 
 - Toc Bump
