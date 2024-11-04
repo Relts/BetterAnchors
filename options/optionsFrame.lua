@@ -1,25 +1,6 @@
 local addonName, BetterAnchors = ...
 
-local standardButtonData = {
-    -- Standard Monitors 16:9
-    { text = "32",  grid = '32' },
-    { text = "64",  grid = '64' },
-    { text = "96",  grid = '96' },
-    { text = "128", grid = '128' },
-}
 
-local ultrawideButtonData = {
-    -- Ultrawide Monitors 21:9
-    { text = "128 x 54", grid = 'uw' },
-    { text = "86 x 36",  grid = 'uw2' },
-}
-
----1 equals 16:9, over 1 is ultrawide (like 21:9)
----@return integer
-local function GetMonitorAspectRatio()
-    local width, height = GetPhysicalScreenSize()
-    return math.floor(width / height)
-end
 
 
 local function BuildOptionsForOptionsFrame()
@@ -43,6 +24,9 @@ local function BuildOptionsForOptionsFrame()
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = 0 })
     optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 5
 
+    -- Anchor Frame Scale Selection
+    --NEWFEATURE: add in slider to adjust the opacity.
+    --NEWFEATURE: Add in frame to switch views between scale and opacity
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
         frame:SetSize(1, 25)
@@ -140,6 +124,33 @@ local function BuildOptionsForOptionsFrame()
 
     local buttonWidth = (BetterAnchors.optionsFrame:GetWidth() - 30) / 2 -- Adjust the width to fit both buttons
 
+    -- Create the scale view button
+    local scaleViewButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    scaleViewButton:SetNormalFontObject("GameFontNormalSmall")
+    scaleViewButton:SetText("Change Scale")
+    scaleViewButton:SetSize(buttonWidth, 30)
+    scaleViewButton:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    scaleViewButton:SetScript("OnClick", function()
+        -- BetterAnchors:ToggleGridOptionsFrame()
+    end)
+
+    -- Create the opacity view button
+    local opacityViewButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    opacityViewButton:SetNormalFontObject("GameFontNormalSmall")
+    opacityViewButton:SetText("Change Opacity")
+    opacityViewButton:SetSize(buttonWidth, 30)
+    opacityViewButton:SetPoint("LEFT", scaleViewButton, "RIGHT", 10, 0) -- Adjusted to align horizontally
+    opacityViewButton:SetScript("OnClick", function()
+        -- StaticPopup_Show("BA_RESET_POSITIONS")
+    end)
+
+
+    lastElement = scaleViewButton
+    optionsFrameHeight = optionsFrameHeight + scaleViewButton:GetHeight() + 5
+
+    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
+    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
+
     local gridToggleButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
     gridToggleButton:SetNormalFontObject("GameFontNormalSmall")
     gridToggleButton:SetText("Toggle Grid")
@@ -163,7 +174,7 @@ local function BuildOptionsForOptionsFrame()
         gridToggleButton                                                       -- Adjusted to set lastElement to gridToggleButton
 
     -- padding at the bottom
-    optionsFrameHeight = optionsFrameHeight + 10
+    optionsFrameHeight = optionsFrameHeight + 0
     BetterAnchors.optionsFrame:SetHeight(optionsFrameHeight)
 end
 
@@ -189,7 +200,7 @@ local function CreateOptionsFrame()
         BetterAnchors:HideFrames()
         BetterAnchors:HideGrid()
     end)
-
+    -- FIXME: change getaddonmetadata to C_addon.getmetadata
     local versionTitle = optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
     versionTitle:SetPoint("TOPLEFT", optionsFrame, "TOPLEFT", 10, -10)
     versionTitle:SetText(GetAddOnMetadata(addonName, "Version"))
