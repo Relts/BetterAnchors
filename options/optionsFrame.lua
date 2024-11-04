@@ -30,7 +30,6 @@ local function BuildOptionsForOptionsFrame()
     title:SetPoint("TOPLEFT", BetterAnchors.optionsFrame, "TOPLEFT", 10, -10)
     title:SetPoint("TOPRIGHT", BetterAnchors.optionsFrame, "TOPRIGHT", -10, -10)
     title:SetText(addonName)
-
     lastElement = title
     local optionsFrameHeight = title:GetHeight() + 10
 
@@ -160,9 +159,15 @@ local function BuildOptionsForOptionsFrame()
     optionsFrameHeight = optionsFrameHeight + resetButton:GetHeight() + 5
     lastElement = resetButton
 
+    local versionTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
+    versionTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 10, -5)
+    versionTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -10, -5)
+    versionTitle:SetText("Version: " .. GetAddOnMetadata(addonName, "Version"))
+    lastElement = versionTitle
+
 
     -- padding at the bottom
-    optionsFrameHeight = optionsFrameHeight + 10
+    optionsFrameHeight = optionsFrameHeight + 20
     BetterAnchors.optionsFrame:SetHeight(optionsFrameHeight)
 end
 
