@@ -1,3 +1,9 @@
+# Version 1.1.0
+
+- Opacity Options for the frames
+- Ui Resdesign for the options frame
+- Logo added to header of the options frame
+
 # Version 1.0.10
 
 - Version now displays on options frame.

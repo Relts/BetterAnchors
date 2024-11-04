@@ -26,12 +26,22 @@ local function BuildOptionsForOptionsFrame()
     local anchorFrames = BetterAnchors.anchorFrames
     local lastElement = nil
 
-    local title = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge2")
-    title:SetPoint("TOPLEFT", BetterAnchors.optionsFrame, "TOPLEFT", 10, -10)
-    title:SetPoint("TOPRIGHT", BetterAnchors.optionsFrame, "TOPRIGHT", -10, -10)
-    title:SetText(addonName)
-    lastElement = title
-    local optionsFrameHeight = title:GetHeight() + 10
+    local titleContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    titleContainer:SetPoint("TOPLEFT", BetterAnchors.optionsFrame, "TOPLEFT", 10, -5)
+    titleContainer:SetPoint("TOPRIGHT", BetterAnchors.optionsFrame, "TOPRIGHT", -10, -5)
+    titleContainer:SetHeight(60)
+
+    local titleTexture = titleContainer:CreateTexture(nil, "OVERLAY")
+    titleTexture:SetTexture("Interface\\AddOns\\BetterAnchors\\assets\\baLogo.blp")
+    titleTexture:SetPoint("CENTER", titleContainer, "CENTER")
+    titleTexture:SetWidth(titleContainer:GetWidth() - 25)
+    titleTexture:SetHeight(titleContainer:GetHeight() - 10)
+    lastElement = titleContainer
+
+    local optionsFrameHeight = titleContainer:GetHeight()
+
+    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = 0 })
+    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 5
 
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
@@ -159,15 +169,8 @@ local function BuildOptionsForOptionsFrame()
     optionsFrameHeight = optionsFrameHeight + resetButton:GetHeight() + 5
     lastElement = resetButton
 
-    local versionTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
-    versionTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 10, -5)
-    versionTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -10, -5)
-    versionTitle:SetText("Version: " .. GetAddOnMetadata(addonName, "Version"))
-    lastElement = versionTitle
-
-
     -- padding at the bottom
-    optionsFrameHeight = optionsFrameHeight + 20
+    optionsFrameHeight = optionsFrameHeight + 10
     BetterAnchors.optionsFrame:SetHeight(optionsFrameHeight)
 end
 
@@ -193,6 +196,10 @@ local function CreateOptionsFrame()
         BetterAnchors:HideFrames()
         BetterAnchors:HideGrid()
     end)
+
+    local versionTitle = optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
+    versionTitle:SetPoint("TOPLEFT", optionsFrame, "TOPLEFT", 10, -10)
+    versionTitle:SetText(GetAddOnMetadata(addonName, "Version"))
 
     -- Set the background color of the frame --
     optionsFrame:SetBackdropColor(0, 0, 0, 0.8)
