@@ -137,37 +137,30 @@ local function BuildOptionsForOptionsFrame()
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
     optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
 
-    -- Grid Overlay Title
-    local gridTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalmed2")
-    gridTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 10, -10)
-    gridTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -10, -10)
-    gridTitle:SetText("Grid Overlay")
 
-    optionsFrameHeight = optionsFrameHeight + gridTitle:GetHeight() + 10
-    lastElement = gridTitle
+    local buttonWidth = (BetterAnchors.optionsFrame:GetWidth() - 30) / 2 -- Adjust the width to fit both buttons
 
-    if GetMonitorAspectRatio() == 1 then
-        lastElement = BetterAnchors:CreateMonitorSection("Standard Monitors 16:9", standardButtonData, lastElement)
-    else
-        lastElement = BetterAnchors:CreateMonitorSection("Ultrawide Monitors 21:9", ultrawideButtonData, lastElement,
-            { left = 0, right = 0 })
-    end
-    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 20
-
-    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = -5, right = 5, top = -10 })
-    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 15
+    local gridToggleButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    gridToggleButton:SetNormalFontObject("GameFontNormalSmall")
+    gridToggleButton:SetText("Toggle Grid")
+    gridToggleButton:SetSize(buttonWidth, 30)
+    gridToggleButton:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    gridToggleButton:SetScript("OnClick", function()
+        BetterAnchors:ToggleGridOptionsFrame()
+    end)
 
     local resetButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
     resetButton:SetNormalFontObject("GameFontNormalSmall")
-    resetButton:SetText("Reset Positions and Scale")
-    resetButton:SetSize(1, 25)
-    resetButton:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 5, -5)
-    resetButton:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -5, -5)
+    resetButton:SetText("Reset Anchors")
+    resetButton:SetSize(buttonWidth, 30)
+    resetButton:SetPoint("LEFT", gridToggleButton, "RIGHT", 10, 0) -- Adjusted to align horizontally
     resetButton:SetScript("OnClick", function()
         StaticPopup_Show("BA_RESET_POSITIONS")
     end)
-    optionsFrameHeight = optionsFrameHeight + resetButton:GetHeight() + 5
-    lastElement = resetButton
+
+    optionsFrameHeight = optionsFrameHeight + gridToggleButton:GetHeight() + 5 -- Adjusted to add height only once
+    lastElement =
+        gridToggleButton                                                       -- Adjusted to set lastElement to gridToggleButton
 
     -- padding at the bottom
     optionsFrameHeight = optionsFrameHeight + 10

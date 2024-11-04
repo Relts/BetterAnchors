@@ -119,6 +119,10 @@ SlashCmdList["BA"] = function(msg)
     elseif msg == "ver" then
         local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
         BetterAnchors:addonPrint("Version: " .. version)
+    elseif msg == "test" then
+        BetterAnchors:ToggleGridOptionsFrame()
+        BetterAnchors:addonPrint("Test Frame Toggled")
+        -- REVIEW: This is a test function
     else
         BetterAnchors:ToggleOptionsFrame()
         BetterAnchors:ToggleFrames()

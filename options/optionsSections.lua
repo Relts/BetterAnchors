@@ -11,6 +11,16 @@ function BetterAnchors:CreateLineSeparator(lastElement, padding)
     return lineSeparator
 end
 
+function BetterAnchors:CreateLineSeparatorGridFrame(lastElement, padding)
+    local lineSeparator = BetterAnchors.gridOptionsFrame:CreateTexture(nil, "OVERLAY")
+    lineSeparator:SetColorTexture(1, 1, 1, 0.3) -- Set the color and alpha of the line
+    lineSeparator:SetHeight(1)
+    lineSeparator:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", padding.left, padding.top)
+    lineSeparator:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", padding.right, padding.top)
+
+    return lineSeparator
+end
+
 function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, titlePadding)
     local paddingLeft = titlePadding and titlePadding.left or -5
     local paddingRight = titlePadding and titlePadding.right or 5
@@ -18,7 +28,7 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
 
 
     -- Monitor Title
-    local monitorTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    local monitorTitle = BetterAnchors.gridOptionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     monitorTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", paddingLeft, paddingTop)
     monitorTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", paddingRight, paddingTop)
     monitorTitle:SetText(titleText)
@@ -27,7 +37,7 @@ function BetterAnchors:CreateMonitorSection(titleText, buttonData, lastElement, 
     lastElement = monitorTitle
 
     -- Create an invisible frame inside the optionsFrame
-    local buttonFrame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    local buttonFrame = CreateFrame("Frame", nil, BetterAnchors.gridOptionsFrame)
     buttonFrame:SetSize(1, 25)
     buttonFrame:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
     buttonFrame:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)

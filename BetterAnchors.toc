@@ -14,5 +14,6 @@ BetterAnchors.lua
 anchors/anchorFrame.lua
 anchors/anchorManager.lua
 options/optionsFrame.lua
+options/gridOverlayFrame.lua
 options/gridOverlay.lua
 options/optionsSections.lua
