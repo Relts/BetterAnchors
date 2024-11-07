@@ -28,6 +28,8 @@ local function BuildOptionsForOptionsFrame()
     --NEWFEATURE: add in slider to adjust the opacity.
     --NEWFEATURE: Add in frame to switch views between scale and opacity
 
+
+
     -- Anchor Frame Scale Selection
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
@@ -120,6 +122,9 @@ local function BuildOptionsForOptionsFrame()
         lastElement = frame
     end
 
+
+
+
     -- Line Separator
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
     optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
@@ -140,6 +145,7 @@ local function BuildOptionsForOptionsFrame()
     scaleViewButton:SetPoint("LEFT", optionSelectButtonContainer, "LEFT", 0, 0)
     scaleViewButton:SetScript("OnClick", function()
         -- BetterAnchors:ToggleGridOptionsFrame()
+        BetterAnchors:addonPrint("Scale View Button Clicked")
     end)
 
     local opacityViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
@@ -149,6 +155,7 @@ local function BuildOptionsForOptionsFrame()
     opacityViewButton:SetPoint("RIGHT", optionSelectButtonContainer, "RIGHT", 0, 0)
     opacityViewButton:SetScript("OnClick", function()
         -- StaticPopup_Show("BA_RESET_POSITIONS")
+        BetterAnchors:addonPrint("Opacity View Button Clicked")
     end)
 
     lastElement = optionSelectButtonContainer
