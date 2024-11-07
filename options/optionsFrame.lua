@@ -162,7 +162,7 @@ local function BuildOptionsForOptionsFrame()
     local versionTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
     versionTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 10, -5)
     versionTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -10, -5)
-    versionTitle:SetText("Version: " .. GetAddOnMetadata(addonName, "Version"))
+    versionTitle:SetText("Version: " .. C_AddOns.GetAddOnMetadata(addonName, "Version"))
     lastElement = versionTitle
 
 

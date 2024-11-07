@@ -1,3 +1,7 @@
+# Version 1.0.11
+
+- Fixed issue with version on options frame
+
 # Version 1.0.10
 
 - Version now displays on options frame.
