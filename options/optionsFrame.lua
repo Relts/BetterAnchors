@@ -6,7 +6,7 @@ local addonName, BetterAnchors = ...
 local function BuildOptionsForOptionsFrame()
     local anchorFrames = BetterAnchors.anchorFrames
     local lastElement = nil
-
+    --  Title Image Container
     local titleContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
     titleContainer:SetPoint("TOPLEFT", BetterAnchors.optionsFrame, "TOPLEFT", 10, -5)
     titleContainer:SetPoint("TOPRIGHT", BetterAnchors.optionsFrame, "TOPRIGHT", -10, -5)
@@ -20,13 +20,15 @@ local function BuildOptionsForOptionsFrame()
     lastElement = titleContainer
 
     local optionsFrameHeight = titleContainer:GetHeight()
-
+    -- Line Separator
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = 0 })
     optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 5
 
     -- Anchor Frame Scale Selection
     --NEWFEATURE: add in slider to adjust the opacity.
     --NEWFEATURE: Add in frame to switch views between scale and opacity
+
+    -- Anchor Frame Scale Selection
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
         frame:SetSize(1, 25)
@@ -118,60 +120,75 @@ local function BuildOptionsForOptionsFrame()
         lastElement = frame
     end
 
+    -- Line Separator
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
     optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
 
-
+    -- Option Select buttons container
     local buttonWidth = (BetterAnchors.optionsFrame:GetWidth() - 30) / 2 -- Adjust the width to fit both buttons
 
-    -- Create the scale view button
-    local scaleViewButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    -- Option Select buttons container
+    local optionSelectButtonContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    optionSelectButtonContainer:SetSize(BetterAnchors.optionsFrame:GetWidth(), 30)
+    optionSelectButtonContainer:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    optionSelectButtonContainer:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
+
+    local scaleViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
     scaleViewButton:SetNormalFontObject("GameFontNormalSmall")
     scaleViewButton:SetText("Change Scale")
     scaleViewButton:SetSize(buttonWidth, 30)
-    scaleViewButton:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    scaleViewButton:SetPoint("LEFT", optionSelectButtonContainer, "LEFT", 0, 0)
     scaleViewButton:SetScript("OnClick", function()
         -- BetterAnchors:ToggleGridOptionsFrame()
     end)
 
-    -- Create the opacity view button
-    local opacityViewButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    local opacityViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
     opacityViewButton:SetNormalFontObject("GameFontNormalSmall")
     opacityViewButton:SetText("Change Opacity")
     opacityViewButton:SetSize(buttonWidth, 30)
-    opacityViewButton:SetPoint("LEFT", scaleViewButton, "RIGHT", 10, 0) -- Adjusted to align horizontally
+    opacityViewButton:SetPoint("RIGHT", optionSelectButtonContainer, "RIGHT", 0, 0)
     opacityViewButton:SetScript("OnClick", function()
         -- StaticPopup_Show("BA_RESET_POSITIONS")
     end)
 
-
-    lastElement = scaleViewButton
+    lastElement = optionSelectButtonContainer
     optionsFrameHeight = optionsFrameHeight + scaleViewButton:GetHeight() + 5
 
+    -- Line Separator
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
     optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
 
-    local gridToggleButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    -- Grid Toggle and Reset Button Container
+    local gridToggleResetButtonContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    gridToggleResetButtonContainer:SetSize(BetterAnchors.optionsFrame:GetWidth(), 30)
+    gridToggleResetButtonContainer:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    gridToggleResetButtonContainer:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
+
+
+    local gridToggleButton = CreateFrame("Button", nil, gridToggleResetButtonContainer, "BigRedThreeSliceButtonTemplate")
     gridToggleButton:SetNormalFontObject("GameFontNormalSmall")
     gridToggleButton:SetText("Toggle Grid")
     gridToggleButton:SetSize(buttonWidth, 30)
-    gridToggleButton:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    gridToggleButton:SetPoint("LEFT", gridToggleResetButtonContainer, "LEFT", 0, 0)
     gridToggleButton:SetScript("OnClick", function()
         BetterAnchors:ToggleGridOptionsFrame()
     end)
 
-    local resetButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    local resetButton = CreateFrame("Button", nil, gridToggleResetButtonContainer, "BigRedThreeSliceButtonTemplate")
     resetButton:SetNormalFontObject("GameFontNormalSmall")
     resetButton:SetText("Reset Anchors")
     resetButton:SetSize(buttonWidth, 30)
-    resetButton:SetPoint("LEFT", gridToggleButton, "RIGHT", 10, 0) -- Adjusted to align horizontally
+    resetButton:SetPoint("RIGHT", gridToggleResetButtonContainer, "RIGHT", 0, 0)
     resetButton:SetScript("OnClick", function()
         StaticPopup_Show("BA_RESET_POSITIONS")
     end)
 
+    lastElement = gridToggleResetButtonContainer
+
+
     optionsFrameHeight = optionsFrameHeight + gridToggleButton:GetHeight() + 5 -- Adjusted to add height only once
     lastElement =
-        gridToggleButton                                                       -- Adjusted to set lastElement to gridToggleButton
+        gridToggleResetButtonContainer                                         -- Adjusted to set lastElement to gridToggleButton
 
     -- padding at the bottom
     optionsFrameHeight = optionsFrameHeight + 0
