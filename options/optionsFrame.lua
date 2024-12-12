@@ -224,10 +224,10 @@ local function CreateOptionsFrame()
         BetterAnchors:HideFrames()
         BetterAnchors:HideGrid()
     end)
-    -- FIXME: change getaddonmetadata to C_addon.getmetadata
+
     local versionTitle = optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
     versionTitle:SetPoint("TOPLEFT", optionsFrame, "TOPLEFT", 10, -10)
-    versionTitle:SetText(GetAddOnMetadata(addonName, "Version"))
+    versionTitle:SetText(C_AddOns.GetAddOnMetadata(addonName, "Version"))
 
     -- Set the background color of the frame --
     optionsFrame:SetBackdropColor(0, 0, 0, 0.8)
