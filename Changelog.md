@@ -1,3 +1,7 @@
+# Version 1.0.12
+
+- TOC Bump
+
 # Version 1.0.11
 
 - Fixed issue with version on options frame
