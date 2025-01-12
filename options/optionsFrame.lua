@@ -223,6 +223,7 @@ local function CreateOptionsFrame()
         BetterAnchors:HideOptionsFrame()
         BetterAnchors:HideFrames()
         BetterAnchors:HideGrid()
+        BetterAnchors:HideGridOptionsFrame()
     end)
 
     local versionTitle = optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
