@@ -15,6 +15,7 @@ local betterAnchorsDataBroker = LDB:NewDataObject(addonName, {
         if button == "LeftButton" then
             BetterAnchors:ToggleOptionsFrame()
             BetterAnchors:ToggleFrames()
+            BetterAnchors:HideGridOptionsFrame()
         elseif button == "RightButton" then
             -- Handle right click
         end
@@ -36,7 +37,7 @@ local function OnLoad()
     end
     -- Register the data broker with LibDBIcon
     LDBIcon:Register(addonName, betterAnchorsDataBroker, BetterAnchorsDB)
-    
+
     BetterAnchors.versionManager:Initialize()
 end
 
@@ -92,6 +93,7 @@ local function handleGameMenuShow(self)
     BetterAnchors:HideFrames()
     BetterAnchors:HideOptionsFrame()
     BetterAnchors:HideGrid()
+    BetterAnchors:HideGridOptionsFrame()
 end
 
 -- Register the OnShow event for the Game Menu Frame
@@ -105,11 +107,11 @@ SlashCmdList["BETTERANCHORS"] = function(msg)
     if command == "version" or command == "ver" then
         BetterAnchors.versionManager:HandleVersionCommand()
         return
-    ----- TESTING COMMAND START -----
+        ----- TESTING COMMAND START -----
     elseif command == "vertest" then
         BetterAnchors.versionManager:TestVersionCheck()
         return
-    ----- TESTING COMMAND END -----
+        ----- TESTING COMMAND END -----
     end
     if msg == "not lock" or msg == "aiaicaptain" or msg == "show" then
         BetterAnchors:ShowOptionsFrame()
@@ -126,6 +128,7 @@ SlashCmdList["BETTERANCHORS"] = function(msg)
         BetterAnchors:addonPrint("Type /ba to toggle the options frame")
         BetterAnchors:addonPrint("Type /ba reset to reset all anchor positions and scales")
         BetterAnchors:addonPrint("Type /ba minimap to toggle the minimap icon")
+        BetterAnchors:addonPrint("Type /ba ver to check the addons version")
     elseif msg == "test" then
         BetterAnchors:ToggleGridOptionsFrame()
         BetterAnchors:addonPrint("Test Frame Toggled")
@@ -133,6 +136,7 @@ SlashCmdList["BETTERANCHORS"] = function(msg)
     else
         BetterAnchors:ToggleOptionsFrame()
         BetterAnchors:ToggleFrames()
+        BetterAnchors:HideGridOptionsFrame()
     end
 end
 
