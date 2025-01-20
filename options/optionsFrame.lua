@@ -28,9 +28,14 @@ local function BuildOptionsForOptionsFrame()
     --NEWFEATURE: add in slider to adjust the opacity.
     --NEWFEATURE: Add in frame to switch views between scale and opacity
 
+    -- Add a frame to contain the sliders
+    -- add a title for the sliders
+    -- make it so that I can toggle with the sliders with the button and maintain the size
+    -- work out how to add in opacity to the sliders under another section
+    -- add in the sliders for opacity and store them to saved variables.
+    -- check that we are updating the saved variables on a install where they already have variables.
 
-
-    -- Anchor Frame Scale Selection
+    -- Anchor Frame Scale Selection Start
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
         frame:SetSize(1, 25)
@@ -121,7 +126,7 @@ local function BuildOptionsForOptionsFrame()
         optionsFrameHeight = optionsFrameHeight + frame:GetHeight() + 5
         lastElement = frame
     end
-
+    -- Anchor Frame Scale Selection end
 
 
 
@@ -174,7 +179,7 @@ local function BuildOptionsForOptionsFrame()
 
     local gridToggleButton = CreateFrame("Button", nil, gridToggleResetButtonContainer, "BigRedThreeSliceButtonTemplate")
     gridToggleButton:SetNormalFontObject("GameFontNormalSmall")
-    gridToggleButton:SetText("Toggle Grid")
+    gridToggleButton:SetText("Grid")
     gridToggleButton:SetSize(buttonWidth, 30)
     gridToggleButton:SetPoint("LEFT", gridToggleResetButtonContainer, "LEFT", 0, 0)
     gridToggleButton:SetScript("OnClick", function()
