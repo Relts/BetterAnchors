@@ -12,7 +12,7 @@ local ANCHOR_FRAMES = {
     { name = "BAMapFrame",          label = "Map Frame",     width = 320, height = 180, scale = 1, moveable = true,  defaultPosition = { "TOP", 1, -62 }, },
     { name = "BAPlayerCircle",      label = "Player Circle", width = 130, height = 130, scale = 1, moveable = false, defaultPosition = { "CENTER", 0, -20 }, },
 }
-
+-- NEWFEATURE: Add Anchor frames for ERT and Kick Weakaura
 
 function BetterAnchors:ShowFrames()
     if not self.anchorFrames then

@@ -35,6 +35,7 @@ local function BuildOptionsForOptionsFrame()
     -- add in the sliders for opacity and store them to saved variables.
     -- check that we are updating the saved variables on a install where they already have variables.
 
+
     -- Anchor Frame Scale Selection Start
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
@@ -143,6 +144,7 @@ local function BuildOptionsForOptionsFrame()
     optionSelectButtonContainer:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
     optionSelectButtonContainer:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
 
+    -- Change Scale Button
     local scaleViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
     scaleViewButton:SetNormalFontObject("GameFontNormalSmall")
     scaleViewButton:SetText("Change Scale")
@@ -153,6 +155,23 @@ local function BuildOptionsForOptionsFrame()
         BetterAnchors:addonPrint("Scale View Button Clicked")
     end)
 
+    -- Disable the button and change its text color to grey
+    scaleViewButton:Disable()
+    scaleViewButton:GetFontString():SetTextColor(0.5, 0.5, 0.5)
+
+    -- Add tooltip for disabled button
+    scaleViewButton:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:SetText("This feature is coming soon!", nil, nil, nil, nil, true)
+        GameTooltip:Show()
+    end)
+    scaleViewButton:SetScript("OnLeave", function(self)
+        GameTooltip:Hide()
+    end)
+
+
+    -- Change opacity button
+
     local opacityViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
     opacityViewButton:SetNormalFontObject("GameFontNormalSmall")
     opacityViewButton:SetText("Change Opacity")
@@ -161,6 +180,20 @@ local function BuildOptionsForOptionsFrame()
     opacityViewButton:SetScript("OnClick", function()
         -- StaticPopup_Show("BA_RESET_POSITIONS")
         BetterAnchors:addonPrint("Opacity View Button Clicked")
+    end)
+
+    -- Disable the button and change its text color to grey
+    opacityViewButton:Disable()
+    opacityViewButton:GetFontString():SetTextColor(0.5, 0.5, 0.5)
+
+    -- Add tooltip for disabled button
+    opacityViewButton:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:SetText("This feature is coming soon!", nil, nil, nil, nil, true)
+        GameTooltip:Show()
+    end)
+    opacityViewButton:SetScript("OnLeave", function(self)
+        GameTooltip:Hide()
     end)
 
     lastElement = optionSelectButtonContainer
