@@ -46,8 +46,8 @@ function versionManager:Initialize()
         end
     end)
 
-    -- Print version on load
-    BetterAnchors:addonPrint(string.format("Version %s loaded", self.CURRENT_VERSION))
+    --REMOVE: Print version on load not used
+    -- BetterAnchors:addonPrint(string.format("Version %s loaded", self.CURRENT_VERSION))
 end
 
 function versionManager:BroadcastVersion()
