@@ -28,12 +28,29 @@ local function BuildOptionsForOptionsFrame()
     --NEWFEATURE: add in slider to adjust the opacity.
     --NEWFEATURE: Add in frame to switch views between scale and opacity
 
-    -- Add a frame to contain the sliders
-    -- add a title for the sliders
-    -- make it so that I can toggle with the sliders with the button and maintain the size
-    -- work out how to add in opacity to the sliders under another section
-    -- add in the sliders for opacity and store them to saved variables.
-    -- check that we are updating the saved variables on a install where they already have variables.
+    --TODO: Add a frame to contain the sliders
+    --TODO: add a title for the sliders
+    --TODO: make it so that I can toggle with the sliders with the button and maintain the size
+    --TODO: work out how to add in opacity to the sliders under another section
+    --TODO: add in the sliders for opacity and store them to saved variables.
+    --TODO: check that we are updating the saved variables on a install where they already have variables.
+
+
+    -- Title for Change Scale
+    -- local subTitleContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    -- subTitleContainer:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    -- subTitleContainer:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
+    -- subTitleContainer:SetHeight(25)
+
+    -- local subTitleLabel = subTitleContainer:CreateFontString(nil, "OVERLAY", "GameFontHighlightLarge")
+    -- subTitleLabel:SetPoint("CENTER", 5, 0)
+    -- -- subTitleLabel:SetJustifyH("LEFT")
+    -- -- subTitleLabel:SetJustifyV("MIDDLE")
+    -- subTitleLabel:SetText("Change Scale")
+
+    -- lastElement = subTitleContainer
+    -- optionsFrameHeight = optionsFrameHeight + subTitleContainer:GetHeight() + 5
+
 
 
     -- Anchor Frame Scale Selection Start
@@ -145,32 +162,32 @@ local function BuildOptionsForOptionsFrame()
     optionSelectButtonContainer:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
 
     -- Change Scale Button
-    local scaleViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
+    -- local scaleViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
+    local scaleViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigGoldRedThreeSliceButtonTemplate")
     scaleViewButton:SetNormalFontObject("GameFontNormalSmall")
     scaleViewButton:SetText("Change Scale")
     scaleViewButton:SetSize(buttonWidth, 30)
     scaleViewButton:SetPoint("LEFT", optionSelectButtonContainer, "LEFT", 0, 0)
     scaleViewButton:SetScript("OnClick", function()
-        -- BetterAnchors:ToggleGridOptionsFrame()
-        BetterAnchors:addonPrint("Scale View Button Clicked")
+        -- BetterAnchors:addonPrint("Scale View Button Clicked")
     end)
+    -- change scale button to disabled
+    scaleViewButton:SetEnabled(false)
 
-    -- Disable the button and change its text color to grey
-    scaleViewButton:Disable()
-    scaleViewButton:GetFontString():SetTextColor(0.5, 0.5, 0.5)
 
     -- Add tooltip for disabled button
-    scaleViewButton:SetScript("OnEnter", function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:SetText("This feature is coming soon!", nil, nil, nil, nil, true)
-        GameTooltip:Show()
-    end)
-    scaleViewButton:SetScript("OnLeave", function(self)
-        GameTooltip:Hide()
-    end)
+
+    -- scaleViewButton:SetScript("OnEnter", function(self)
+    --     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    --     GameTooltip:SetText("This feature is coming soon!", nil, nil, nil, nil, true)
+    --     GameTooltip:Show()
+    -- end)
+    -- scaleViewButton:SetScript("OnLeave", function(self)
+    --     GameTooltip:Hide()
+    -- end)
 
 
-    -- Change opacity button
+    -- Opacity View Button
 
     local opacityViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
     opacityViewButton:SetNormalFontObject("GameFontNormalSmall")
@@ -178,7 +195,6 @@ local function BuildOptionsForOptionsFrame()
     opacityViewButton:SetSize(buttonWidth, 30)
     opacityViewButton:SetPoint("RIGHT", optionSelectButtonContainer, "RIGHT", 0, 0)
     opacityViewButton:SetScript("OnClick", function()
-        -- StaticPopup_Show("BA_RESET_POSITIONS")
         BetterAnchors:addonPrint("Opacity View Button Clicked")
     end)
 
