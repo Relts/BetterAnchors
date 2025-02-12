@@ -129,10 +129,6 @@ SlashCmdList["BETTERANCHORS"] = function(msg)
         BetterAnchors:addonPrint("Type /ba reset to reset all anchor positions and scales")
         BetterAnchors:addonPrint("Type /ba minimap to toggle the minimap icon")
         BetterAnchors:addonPrint("Type /ba ver to check the addons version")
-    elseif msg == "test" then
-        BetterAnchors:ToggleGridOptionsFrame()
-        BetterAnchors:addonPrint("Test Frame Toggled")
-        -- REVIEW: This is a test function
     else
         BetterAnchors:ToggleOptionsFrame()
         BetterAnchors:ToggleFrames()
