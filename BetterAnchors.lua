@@ -135,7 +135,7 @@ SlashCmdList["BETTERANCHORS"] = function(msg)
         BetterAnchors:HideGridOptionsFrame()
     end
 end
-
+--REVIEW: command and msg in the console command is not consistent with the rest of the code
 
 -- Welcome Message
 
@@ -145,12 +145,7 @@ local function printWelcomeMessage()
 end
 
 
--- local function printWelcomeMessage()
---     local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
---     BetterAnchors:addonPrint("Welcome to Better Anchors! Version: " .. version)
---     BetterAnchors:addonPrint("Type /ba to toggle the options frame")
---     BetterAnchors:addonPrint("Type /ba help for more commands")
--- end
+
 
 C_Timer.After(3, printWelcomeMessage)
 
@@ -161,7 +156,6 @@ C_Timer.After(3, printWelcomeMessage)
 --     print("Dev Mode")
 -- end)
 
--- function BetterAnchors:OpacityTest()
 
 
 -- end
