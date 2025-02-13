@@ -5,6 +5,20 @@
   BetterAnchors Provides a better way to anchor Weakauras!
 </p>
 
+## Planned Updates
+
+- **Version 1.1.0**
+  > New Interface layout ready to support custom opacity of weakauras.
+
+> Version Checker.
+
+- **Version 1.2.0**
+
+  > Opacity feature implemented for WeakAuras.
+
+- **Version 2.0.0**
+  > Support for Liquid and Northersky Anchors.
+
 ## Features
 
 With BetterAnchors, you can:
