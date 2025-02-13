@@ -107,24 +107,16 @@ SlashCmdList["BETTERANCHORS"] = function(msg)
     if command == "version" or command == "ver" then
         BetterAnchors.versionManager:HandleVersionCommand()
         return
-        ----- TESTING COMMAND START -----
+        ----- VERSION TESTING COMMAND START -----
     elseif command == "vertest" then
         BetterAnchors.versionManager:TestVersionCheck()
         return
-        ----- TESTING COMMAND END -----
-    end
-    if msg == "not lock" or msg == "aiaicaptain" or msg == "show" then
-        BetterAnchors:ShowOptionsFrame()
-        BetterAnchors:ShowFrames()
-    elseif msg == "not unlock" or msg == "hide" then
-        BetterAnchors:HideGrid()
-        BetterAnchors:HideOptionsFrame()
-        BetterAnchors:HideFrames()
-    elseif msg == "reset" then
+        ----- VERSION TESTING COMMAND END -----
+    elseif command == "reset" then
         StaticPopup_Show("BA_RESET_POSITIONS")
-    elseif msg == "minimap" then
+    elseif command == "minimap" then
         BetterAnchors:ToggleMinimapIcon()
-    elseif msg == "help" then
+    elseif command == "help" then
         BetterAnchors:addonPrint("Type /ba to toggle the options frame")
         BetterAnchors:addonPrint("Type /ba reset to reset all anchor positions and scales")
         BetterAnchors:addonPrint("Type /ba minimap to toggle the minimap icon")
@@ -135,16 +127,13 @@ SlashCmdList["BETTERANCHORS"] = function(msg)
         BetterAnchors:HideGridOptionsFrame()
     end
 end
---REVIEW: command and msg in the console command is not consistent with the rest of the code
+
 
 -- Welcome Message
-
 local function printWelcomeMessage()
     local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
     BetterAnchors:addonPrint("Type /ba to toggle the options or /ba help for more commands | Version: " .. version)
 end
-
-
 
 
 C_Timer.After(3, printWelcomeMessage)
@@ -155,7 +144,5 @@ C_Timer.After(3, printWelcomeMessage)
 --     BetterAnchors:ToggleFrames()
 --     print("Dev Mode")
 -- end)
-
-
 
 -- end
