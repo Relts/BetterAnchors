@@ -205,6 +205,3 @@ function BetterAnchors:CreateAnchorFrame(frameInfo)
     end
     self.anchorFrames[frameInfo.name] = frame
 end
-
--- NEWFEATURE: XY cords to better algin the frames.
--- NEWFEATURE: Grid Snapping
