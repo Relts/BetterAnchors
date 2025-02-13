@@ -36,6 +36,7 @@ With BetterAnchors, you can:
 - `/ba reset`: Resets all anchor positions and scales to their default state.
 - `/ba minimap`: Toggles the minimap icon on and off.
 - `/ba help`: Shows a list of ingame commands
+- `/ba version` or `/ba ver`: Shows the current version of BetterAnchors
 
 ## Anchor Frames
 
@@ -49,6 +50,7 @@ With BetterAnchors, you can:
 - **Private Auras**: The private auras frame is for auras that are only visible to you.
 - **Tank ICons**: Shows your tank debuffs and buffs.
 - **Co-Tank Icons**: Shows your co-tanks debuffs and buffs.
+- **Interrupt Bar**: Interrupt Reminders from the ERT note
 
 ## How to use BetterAnchors with your WA Packages
 
