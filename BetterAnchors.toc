@@ -1,4 +1,4 @@
-## Interface: 110005, 110007
+## Interface: 110005, 110007, 110100
 ## Title: BetterAnchors
 ## Author: Eminos
 ## Version: 1.1.0
