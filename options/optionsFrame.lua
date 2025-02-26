@@ -1,8 +1,5 @@
 local addonName, BetterAnchors = ...
 
-
-
-
 local function BuildOptionsForOptionsFrame()
     local anchorFrames = BetterAnchors.anchorFrames
     local lastElement = nil
@@ -147,7 +144,6 @@ local function BuildOptionsForOptionsFrame()
     -- Anchor Frame Scale Selection end
 
 
-
     -- Line Separator
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
     optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
@@ -173,7 +169,6 @@ local function BuildOptionsForOptionsFrame()
     end)
     -- change scale button to disabled
     scaleViewButton:SetEnabled(false)
-
 
     -- Add tooltip for disabled button
 
