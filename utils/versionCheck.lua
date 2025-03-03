@@ -17,8 +17,8 @@ versionManager.COMPATIBLE_VERSIONS = {
 
 -- Version comparison function
 local function CompareVersions(v1, v2)
-    local v1_major, v1_minor, v1_patch = string.match(v1, "(%d+)%.(%d+)%.(%d+)")
-    local v2_major, v2_minor, v2_patch = string.match(v2, "(%d+)%.(%d+)%.(%d+)")
+    local v1_major, v1_minor, v1_patch = v1:match("(%d+)%.(%d+)%.(%d+)")
+    local v2_major, v2_minor, v2_patch = v2:match("(%d+)%.(%d+)%.(%d+)")
 
     v1_major, v1_minor, v1_patch = tonumber(v1_major), tonumber(v1_minor), tonumber(v1_patch)
     v2_major, v2_minor, v2_patch = tonumber(v2_major), tonumber(v2_minor), tonumber(v2_patch)
@@ -96,8 +96,10 @@ function versionManager:TestVersionCheck()
         { name = "InvalidPlayer", version = "2.0.0" }
     }
 
-    BetterAnchors:addonPrint("=== Starting Version Check Test ===")
-    BetterAnchors:addonPrint(string.format("Your version: %s", self.CURRENT_VERSION))
+    local output = {
+        "=== Starting Version Check Test ===",
+        string.format("Your version: %s", self.CURRENT_VERSION)
+    }
 
     for _, test in ipairs(testCases) do
         -- Simulate receiving version from other player
@@ -109,7 +111,8 @@ function versionManager:TestVersionCheck()
         )
     end
 
-    BetterAnchors:addonPrint("=== Version Check Test Complete ===")
+    table.insert(output, "=== Version Check Test Complete ===")
+    BetterAnchors:addonPrint(table.concat(output, "\n"))
 end
 
 ----- TESTING FUNCTION END -----
