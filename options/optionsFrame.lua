@@ -242,6 +242,7 @@ local function BuildOptionsForOptionsFrame()
     lastElement = gridToggleResetButtonContainer
 
 
+
     optionsFrameHeight = optionsFrameHeight + gridToggleButton:GetHeight() + 5 -- Adjusted to add height only once
     lastElement =
         gridToggleResetButtonContainer                                         -- Adjusted to set lastElement to gridToggleButton

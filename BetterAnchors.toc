@@ -6,6 +6,7 @@
 ## IconTexture: Interface\AddOns\BetterAnchors\assets\baIcon.blp
 ## SavedVariables: BetterAnchorsDB
 ## X-Curse-Project-ID: 1004591
+## Category-enUS: User Interface
 
 embeds.xml
 
