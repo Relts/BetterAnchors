@@ -5,6 +5,20 @@
   BetterAnchors Provides a better way to anchor Weakauras!
 </p>
 
+## Planned Updates
+
+- **Version 1.1.0**
+
+  > New Interface layout ready to support custom opacity of weakauras.
+  > Version Checker.
+
+- **Version 1.2.0**
+
+  > Opacity feature implemented for WeakAuras.
+
+- **Version 2.0.0**
+  > Support for Liquid and Northern Sky Anchors.
+
 ## Features
 
 With BetterAnchors, you can:
@@ -22,6 +36,7 @@ With BetterAnchors, you can:
 - `/ba reset`: Resets all anchor positions and scales to their default state.
 - `/ba minimap`: Toggles the minimap icon on and off.
 - `/ba help`: Shows a list of ingame commands
+- `/ba version` or `/ba ver`: Shows the current version of BetterAnchors
 
 ## Anchor Frames
 
@@ -35,6 +50,7 @@ With BetterAnchors, you can:
 - **Private Auras**: The private auras frame is for auras that are only visible to you.
 - **Tank ICons**: Shows your tank debuffs and buffs.
 - **Co-Tank Icons**: Shows your co-tanks debuffs and buffs.
+- **Interrupt Bar**: Interrupt Reminders from the ERT note
 
 ## How to use BetterAnchors with your WA Packages
 

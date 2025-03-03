@@ -1,38 +1,56 @@
 local addonName, BetterAnchors = ...
 
-local standardButtonData = {
-    -- Standard Monitors 16:9
-    { text = "32",  grid = '32' },
-    { text = "64",  grid = '64' },
-    { text = "96",  grid = '96' },
-    { text = "128", grid = '128' },
-}
-
-local ultrawideButtonData = {
-    -- Ultrawide Monitors 21:9
-    { text = "128 x 54", grid = 'uw' },
-    { text = "86 x 36",  grid = 'uw2' },
-}
-
----1 equals 16:9, over 1 is ultrawide (like 21:9)
----@return integer
-local function GetMonitorAspectRatio()
-    local width, height = GetPhysicalScreenSize()
-    return math.floor(width / height)
-end
-
-
 local function BuildOptionsForOptionsFrame()
     local anchorFrames = BetterAnchors.anchorFrames
     local lastElement = nil
+    --  Title Image Container
+    local titleContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    titleContainer:SetPoint("TOPLEFT", BetterAnchors.optionsFrame, "TOPLEFT", 10, -5)
+    titleContainer:SetPoint("TOPRIGHT", BetterAnchors.optionsFrame, "TOPRIGHT", -10, -5)
+    titleContainer:SetHeight(60)
 
-    local title = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge2")
-    title:SetPoint("TOPLEFT", BetterAnchors.optionsFrame, "TOPLEFT", 10, -10)
-    title:SetPoint("TOPRIGHT", BetterAnchors.optionsFrame, "TOPRIGHT", -10, -10)
-    title:SetText(addonName)
-    lastElement = title
-    local optionsFrameHeight = title:GetHeight() + 10
+    local titleTexture = titleContainer:CreateTexture(nil, "OVERLAY")
+    titleTexture:SetTexture("Interface\\AddOns\\BetterAnchors\\assets\\baLogo.blp")
+    titleTexture:SetPoint("CENTER", titleContainer, "CENTER")
+    titleTexture:SetWidth(titleContainer:GetWidth() - 25)
+    titleTexture:SetHeight(titleContainer:GetHeight() - 10)
+    lastElement = titleContainer
 
+    local optionsFrameHeight = titleContainer:GetHeight()
+    -- Line Separator
+    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = 0 })
+    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 5
+
+    -- Anchor Frame Scale Selection
+    --NEWFEATURE: add in slider to adjust the opacity.
+    --NEWFEATURE: Add in frame to switch views between scale and opacity
+
+    --TODO: Add a frame to contain the sliders
+    --TODO: add a title for the sliders
+    --TODO: make it so that I can toggle with the sliders with the button and maintain the size
+    --TODO: work out how to add in opacity to the sliders under another section
+    --TODO: add in the sliders for opacity and store them to saved variables.
+    --TODO: check that we are updating the saved variables on a install where they already have variables.
+
+
+    -- Title for Change Scale
+    -- local subTitleContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    -- subTitleContainer:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    -- subTitleContainer:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
+    -- subTitleContainer:SetHeight(25)
+
+    -- local subTitleLabel = subTitleContainer:CreateFontString(nil, "OVERLAY", "GameFontHighlightLarge")
+    -- subTitleLabel:SetPoint("CENTER", 5, 0)
+    -- -- subTitleLabel:SetJustifyH("LEFT")
+    -- -- subTitleLabel:SetJustifyV("MIDDLE")
+    -- subTitleLabel:SetText("Change Scale")
+
+    -- lastElement = subTitleContainer
+    -- optionsFrameHeight = optionsFrameHeight + subTitleContainer:GetHeight() + 5
+
+
+
+    -- Anchor Frame Scale Selection Start
     for anchorName, anchorFrame in pairs(anchorFrames) do
         local frame = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
         frame:SetSize(1, 25)
@@ -123,51 +141,114 @@ local function BuildOptionsForOptionsFrame()
         optionsFrameHeight = optionsFrameHeight + frame:GetHeight() + 5
         lastElement = frame
     end
+    -- Anchor Frame Scale Selection end
 
+
+    -- Line Separator
     lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
     optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
 
-    -- Grid Overlay Title
-    local gridTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalmed2")
-    gridTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 10, -10)
-    gridTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -10, -10)
-    gridTitle:SetText("Grid Overlay")
+    -- Option Select buttons container
+    local buttonWidth = (BetterAnchors.optionsFrame:GetWidth() - 30) / 2 -- Adjust the width to fit both buttons
 
-    optionsFrameHeight = optionsFrameHeight + gridTitle:GetHeight() + 10
-    lastElement = gridTitle
+    -- Option Select buttons container
+    local optionSelectButtonContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    optionSelectButtonContainer:SetSize(BetterAnchors.optionsFrame:GetWidth(), 30)
+    optionSelectButtonContainer:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    optionSelectButtonContainer:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
 
-    if GetMonitorAspectRatio() == 1 then
-        lastElement = BetterAnchors:CreateMonitorSection("Standard Monitors 16:9", standardButtonData, lastElement)
-    else
-        lastElement = BetterAnchors:CreateMonitorSection("Ultrawide Monitors 21:9", ultrawideButtonData, lastElement,
-            { left = 0, right = 0 })
-    end
-    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 20
+    -- Change Scale Button
+    -- local scaleViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
+    local scaleViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigGoldRedThreeSliceButtonTemplate")
+    scaleViewButton:SetNormalFontObject("GameFontNormalSmall")
+    scaleViewButton:SetText("Change Scale")
+    scaleViewButton:SetSize(buttonWidth, 30)
+    scaleViewButton:SetPoint("LEFT", optionSelectButtonContainer, "LEFT", 0, 0)
+    scaleViewButton:SetScript("OnClick", function()
+        -- BetterAnchors:addonPrint("Scale View Button Clicked")
+    end)
+    -- change scale button to disabled
+    scaleViewButton:SetEnabled(false)
 
-    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = -5, right = 5, top = -10 })
-    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + 15
+    -- Add tooltip for disabled button
 
-    local resetButton = CreateFrame("Button", nil, BetterAnchors.optionsFrame, "BigRedThreeSliceButtonTemplate")
+    -- scaleViewButton:SetScript("OnEnter", function(self)
+    --     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    --     GameTooltip:SetText("This feature is coming soon!", nil, nil, nil, nil, true)
+    --     GameTooltip:Show()
+    -- end)
+    -- scaleViewButton:SetScript("OnLeave", function(self)
+    --     GameTooltip:Hide()
+    -- end)
+
+
+    -- Opacity View Button
+
+    local opacityViewButton = CreateFrame("Button", nil, optionSelectButtonContainer, "BigRedThreeSliceButtonTemplate")
+    opacityViewButton:SetNormalFontObject("GameFontNormalSmall")
+    opacityViewButton:SetText("Change Opacity")
+    opacityViewButton:SetSize(buttonWidth, 30)
+    opacityViewButton:SetPoint("RIGHT", optionSelectButtonContainer, "RIGHT", 0, 0)
+    opacityViewButton:SetScript("OnClick", function()
+        BetterAnchors:addonPrint("Opacity View Button Clicked")
+    end)
+
+    -- Disable the button and change its text color to grey
+    opacityViewButton:Disable()
+    opacityViewButton:GetFontString():SetTextColor(0.5, 0.5, 0.5)
+
+    -- Add tooltip for disabled button
+    opacityViewButton:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:SetText("This feature is coming soon!", nil, nil, nil, nil, true)
+        GameTooltip:Show()
+    end)
+    opacityViewButton:SetScript("OnLeave", function(self)
+        GameTooltip:Hide()
+    end)
+
+    lastElement = optionSelectButtonContainer
+    optionsFrameHeight = optionsFrameHeight + scaleViewButton:GetHeight() + 5
+
+    -- Line Separator
+    lastElement = BetterAnchors:CreateLineSeparator(lastElement, { left = 0, right = 0, top = -5 })
+    optionsFrameHeight = optionsFrameHeight + lastElement:GetHeight() + (5 * 2)
+
+    -- Grid Toggle and Reset Button Container
+    local gridToggleResetButtonContainer = CreateFrame("Frame", nil, BetterAnchors.optionsFrame)
+    gridToggleResetButtonContainer:SetSize(BetterAnchors.optionsFrame:GetWidth(), 30)
+    gridToggleResetButtonContainer:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 0, -5)
+    gridToggleResetButtonContainer:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", 0, -5)
+
+
+    local gridToggleButton = CreateFrame("Button", nil, gridToggleResetButtonContainer, "BigRedThreeSliceButtonTemplate")
+    gridToggleButton:SetNormalFontObject("GameFontNormalSmall")
+    gridToggleButton:SetText("Grid")
+    gridToggleButton:SetSize(buttonWidth, 30)
+    gridToggleButton:SetPoint("LEFT", gridToggleResetButtonContainer, "LEFT", 0, 0)
+    gridToggleButton:SetScript("OnClick", function()
+        BetterAnchors:ToggleGridOptionsFrame()
+    end)
+
+    local resetButton = CreateFrame("Button", nil, gridToggleResetButtonContainer, "BigRedThreeSliceButtonTemplate")
     resetButton:SetNormalFontObject("GameFontNormalSmall")
-    resetButton:SetText("Reset Positions and Scale")
-    resetButton:SetSize(1, 25)
-    resetButton:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 5, -5)
-    resetButton:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -5, -5)
+    resetButton:SetText("Reset Anchors")
+    resetButton:SetSize(buttonWidth, 30)
+    resetButton:SetPoint("RIGHT", gridToggleResetButtonContainer, "RIGHT", 0, 0)
     resetButton:SetScript("OnClick", function()
         StaticPopup_Show("BA_RESET_POSITIONS")
     end)
-    optionsFrameHeight = optionsFrameHeight + resetButton:GetHeight() + 5
-    lastElement = resetButton
 
-    local versionTitle = BetterAnchors.optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
-    versionTitle:SetPoint("TOPLEFT", lastElement, "BOTTOMLEFT", 10, -5)
-    versionTitle:SetPoint("TOPRIGHT", lastElement, "BOTTOMRIGHT", -10, -5)
-    versionTitle:SetText("Version: " .. C_AddOns.GetAddOnMetadata(addonName, "Version"))
-    lastElement = versionTitle
+    lastElement = gridToggleResetButtonContainer
 
+
+
+    optionsFrameHeight = optionsFrameHeight + gridToggleButton:GetHeight() + 5 -- Adjusted to add height only once
+    lastElement =
+        gridToggleResetButtonContainer                                         -- Adjusted to set lastElement to gridToggleButton
 
     -- padding at the bottom
-    optionsFrameHeight = optionsFrameHeight + 20
+    optionsFrameHeight = optionsFrameHeight + 0
     BetterAnchors.optionsFrame:SetHeight(optionsFrameHeight)
 end
 
@@ -192,7 +273,12 @@ local function CreateOptionsFrame()
         BetterAnchors:HideOptionsFrame()
         BetterAnchors:HideFrames()
         BetterAnchors:HideGrid()
+        BetterAnchors:HideGridOptionsFrame()
     end)
+
+    local versionTitle = optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
+    versionTitle:SetPoint("TOPLEFT", optionsFrame, "TOPLEFT", 10, -10)
+    versionTitle:SetText(C_AddOns.GetAddOnMetadata(addonName, "Version"))
 
     -- Set the background color of the frame --
     optionsFrame:SetBackdropColor(0, 0, 0, 0.8)

@@ -15,6 +15,7 @@ local betterAnchorsDataBroker = LDB:NewDataObject(addonName, {
         if button == "LeftButton" then
             BetterAnchors:ToggleOptionsFrame()
             BetterAnchors:ToggleFrames()
+            BetterAnchors:HideGridOptionsFrame()
         elseif button == "RightButton" then
             -- Handle right click
         end
@@ -36,6 +37,8 @@ local function OnLoad()
     end
     -- Register the data broker with LibDBIcon
     LDBIcon:Register(addonName, betterAnchorsDataBroker, BetterAnchorsDB)
+
+    BetterAnchors.versionManager:Initialize()
 end
 
 
@@ -90,56 +93,48 @@ local function handleGameMenuShow(self)
     BetterAnchors:HideFrames()
     BetterAnchors:HideOptionsFrame()
     BetterAnchors:HideGrid()
+    BetterAnchors:HideGridOptionsFrame()
 end
 
 -- Register the OnShow event for the Game Menu Frame
 GameMenuFrame:HookScript("OnShow", handleGameMenuShow)
 
 ---- Chat Commands ---
-SLASH_BA1 = "/ba"
-SlashCmdList["BA"] = function(msg)
-    if msg == "not lock" or msg == "aiaicaptain" or msg == "show" then
-        BetterAnchors:ShowOptionsFrame()
-        BetterAnchors:ShowFrames()
-    elseif msg == "not unlock" or msg == "hide" then
-        BetterAnchors:HideGrid()
-        BetterAnchors:HideOptionsFrame()
-        BetterAnchors:HideFrames()
-    elseif msg == "reset" then
+SLASH_BETTERANCHORS1 = "/ba"
+SLASH_BETTERANCHORS2 = "/betteranchors"
+SlashCmdList["BETTERANCHORS"] = function(msg)
+    local command = string.lower(msg)
+    if command == "version" or command == "ver" then
+        BetterAnchors.versionManager:HandleVersionCommand()
+        return
+        ----- VERSION TESTING COMMAND START -----
+    elseif command == "vertest" then
+        BetterAnchors.versionManager:TestVersionCheck()
+        return
+        ----- VERSION TESTING COMMAND END -----
+    elseif command == "reset" then
         StaticPopup_Show("BA_RESET_POSITIONS")
-    elseif msg == "minimap" then
+    elseif command == "minimap" then
         BetterAnchors:ToggleMinimapIcon()
-    elseif msg == "help" then
+    elseif command == "help" then
         BetterAnchors:addonPrint("Type /ba to toggle the options frame")
         BetterAnchors:addonPrint("Type /ba reset to reset all anchor positions and scales")
         BetterAnchors:addonPrint("Type /ba minimap to toggle the minimap icon")
-    elseif msg == "version" then
-        local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
-        BetterAnchors:addonPrint("Version: " .. version)
-    elseif msg == "ver" then
-        local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
-        BetterAnchors:addonPrint("Version: " .. version)
+        BetterAnchors:addonPrint("Type /ba ver to check the addons version")
     else
         BetterAnchors:ToggleOptionsFrame()
         BetterAnchors:ToggleFrames()
+        BetterAnchors:HideGridOptionsFrame()
     end
 end
 
 
 -- Welcome Message
-
 local function printWelcomeMessage()
     local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
     BetterAnchors:addonPrint("Type /ba to toggle the options or /ba help for more commands | Version: " .. version)
 end
 
-
--- local function printWelcomeMessage()
---     local version = C_AddOns.GetAddOnMetadata("BetterAnchors", "Version")
---     BetterAnchors:addonPrint("Welcome to Better Anchors! Version: " .. version)
---     BetterAnchors:addonPrint("Type /ba to toggle the options frame")
---     BetterAnchors:addonPrint("Type /ba help for more commands")
--- end
 
 C_Timer.After(3, printWelcomeMessage)
 
@@ -149,8 +144,5 @@ C_Timer.After(3, printWelcomeMessage)
 --     BetterAnchors:ToggleFrames()
 --     print("Dev Mode")
 -- end)
-
--- function BetterAnchors:OpacityTest()
-
 
 -- end

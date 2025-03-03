@@ -1,8 +1,8 @@
-## Interface: 110007
+## Interface: 110005, 110007, 110100
 ## Title: BetterAnchors
 ## Author: Eminos
-## Version: 1.0.13
-## Notes: BetterAnchors is a simple addon that allows you to move weakauras in the edit mode.
+## Version: 1.1.0
+## Notes: BetterAnchors is a simple addon that allows you to move weakauras with more precision.
 ## IconTexture: Interface\AddOns\BetterAnchors\assets\baIcon.blp
 ## SavedVariables: BetterAnchorsDB
 ## X-Curse-Project-ID: 1004591
@@ -12,8 +12,10 @@ embeds.xml
 
 # Files
 BetterAnchors.lua
+utils/versionCheck.lua
 anchors/anchorFrame.lua
 anchors/anchorManager.lua
 options/optionsFrame.lua
+options/gridOverlayFrame.lua
 options/gridOverlay.lua
 options/optionsSections.lua
