@@ -1,9 +1,14 @@
+# Version 1.1.1
+
+- Fixed Typo in the anchor manager
+- Removed old toc version numbers
+
 # Version 1.1.0
 
 - Ui Resdesign for the options frame
 - Logo added to header of the options frame
 - Version Checker
-- Buttons added for opacity options, this is coming in a future update. 
+- Buttons added for opacity options, this is coming in a future update.
 
 # Version 1.0.12
 
@@ -12,7 +17,6 @@
 # Version 1.0.11
 
 - Fixed issue with version on options frame
-
 
 # Version 1.0.10
 
