@@ -11,7 +11,7 @@ local ANCHOR_FRAMES = {
     { name = "BARaidLeaderListOne", label = "Large List",    width = 170, height = 450, scale = 1, moveable = true,  defaultPosition = { "LEFT", 440, 52 }, },
     { name = "BAMapFrame",          label = "Map Frame",     width = 320, height = 180, scale = 1, moveable = true,  defaultPosition = { "TOP", 1, -62 }, },
     { name = "BAPlayerCircle",      label = "Player Circle", width = 130, height = 130, scale = 1, moveable = false, defaultPosition = { "CENTER", 0, -20 }, },
-    { name = "BAInterruptBar",      label = "Interrupt Bar", width = 320, height = 40,  scale = 1, moveable = true,  defaultPosition = { "CEMTER", 0, 207 }, },
+    { name = "BAInterruptBar",      label = "Interrupt Bar", width = 320, height = 40,  scale = 1, moveable = true,  defaultPosition = { "CENTER", 0, 207 }, },
     { name = "BAMRTReminders",      label = "MRT Reminders", width = 220, height = 65,  scale = 1, moveable = true,  defaultPosition = { "CENTER", -300, 135 }, },
 }
 
