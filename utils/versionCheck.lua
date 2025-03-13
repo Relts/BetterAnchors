@@ -66,24 +66,39 @@ function versionManager:OnVersionReceived(prefix, message, channel, sender)
 
     local theirVersion = message
 
-    -- Check if their version is compatible
-    if not self.COMPATIBLE_VERSIONS[theirVersion] then
-        -- Version mismatch detected
-        if CompareVersions(theirVersion, self.CURRENT_VERSION) then
-            -- Their version is older
-            BetterAnchors:addonPrint(string.format(
-                "|cffff0000Warning:|r %s is using an older version (%s). Please ask them to update.",
-                sender, theirVersion
-            ))
-        else
-            -- Their version is newer
-            BetterAnchors:addonPrint(string.format(
-                "|cffff0000Warning:|r %s is using a newer version (%s). Please update your addon.",
-                sender, theirVersion
-            ))
-        end
+    -- Check if their version is newer
+    if CompareVersions(self.CURRENT_VERSION, theirVersion) then
+        -- Their version is newer
+        BetterAnchors:addonPrint(string.format(
+            "|cffff0000Warning:|r Addon is out of date. Please update to the latest version (%s -> %s).",
+            self.CURRENT_VERSION, theirVersion
+        ))
     end
 end
+
+-- function versionManager:OnVersionReceived(prefix, message, channel, sender)
+--     if prefix ~= addonName or sender == UnitName("player") then return end
+
+--     local theirVersion = message
+
+--     -- Check if their version is compatible
+--     if not self.COMPATIBLE_VERSIONS[theirVersion] then
+--         -- Version mismatch detected
+--         if CompareVersions(theirVersion, self.CURRENT_VERSION) then
+--             -- Their version is older
+--             BetterAnchors:addonPrint(string.format(
+--                 "|cffff0000Warning:|r %s is using an older version (%s). Please ask them to update.",
+--                 sender, theirVersion
+--             ))
+--         else
+--             -- Their version is newer
+--             BetterAnchors:addonPrint(string.format(
+--                 "|cffff0000Warning:|r %s is using a newer version (%s). Please update your addon.",
+--                 sender, theirVersion
+--             ))
+--         end
+--     end
+-- end
 
 function versionManager:HandleVersionCommand()
     BetterAnchors:addonPrint(string.format("Current version: %s", self.CURRENT_VERSION))
