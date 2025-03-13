@@ -1,3 +1,7 @@
+# Version 1.1.3
+- Reduced the amount of chat spam from the version checker
+- Added group version check with chat commands '/ba vc' and '/ba versioncheck'
+
 # Version 1.1.2
 - New Icons Added
 
