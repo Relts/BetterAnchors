@@ -1,3 +1,6 @@
+# Version 1.1.2
+- New Icons Added
+
 # Version 1.1.1
 
 - Fixed Typo in the anchor manager
