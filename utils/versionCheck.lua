@@ -54,6 +54,10 @@ function versionManager:BroadcastVersion()
     if IsInGroup() or IsInRaid() then
         local message = self.CURRENT_VERSION
         C_ChatInfo.SendAddonMessage(addonName, message, IsInRaid() and "RAID" or "PARTY")
+        self.versionBroadcasted = true
+        C_Timer.After(10, function()
+            self.versionBroadcasted = false
+        end) -- Reset flag after 10 seconds to resolve the players phasing in to the zone and triggering the status update event.
     end
 end
 
