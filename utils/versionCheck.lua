@@ -105,6 +105,45 @@ function versionManager:HandleVersionCommand()
     self:BroadcastVersion()
 end
 
+function versionManager:PrintAllUserVersionsInChat()
+    local output = {
+        "=== Starting Version Check ===",
+        string.format("Your version: %s", self.CURRENT_VERSION)
+    }
+
+    local numMembers = GetNumGroupMembers()
+    local highestVersion = self.CURRENT_VERSION
+
+    -- First pass: Determine the highest version
+    for i = 1, numMembers do
+        local name, _, _, _, _, class, _, _, _, _, _ = GetRaidRosterInfo(i)
+        if name then
+            C_ChatInfo.SendAddonMessage(addonName, self.CURRENT_VERSION, "WHISPER", name)
+            local theirVersion = self.CURRENT_VERSION -- Assume current version for now
+            if CompareVersions(highestVersion, theirVersion) then
+                highestVersion = theirVersion
+            end
+        end
+    end
+
+    -- Second pass: Print versions with color coding
+    for i = 1, numMembers do
+        local name, _, _, _, _, class, _, _, _, _, _ = GetRaidRosterInfo(i)
+        if name then
+            local theirVersion = self.CURRENT_VERSION
+            local versionColor = "|cffff0000" -- Default to red for lower versions
+            if theirVersion == highestVersion then
+                versionColor = "|cff00ff00"   -- Green for highest version
+            end
+            local classColor = RAID_CLASS_COLORS[class].colorStr
+            table.insert(output, string.format("|c%s%s|r: %sVersion %s|r", classColor, name, versionColor, theirVersion))
+        end
+    end
+
+    table.insert(output, "=== Version Check Complete ===")
+    BetterAnchors:addonPrint(table.concat(output, "\n"))
+end
+
 ----- TESTING FUNCTION START -----
 function versionManager:TestVersionCheck()
     -- Simulate different version scenarios

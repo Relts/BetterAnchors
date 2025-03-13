@@ -112,6 +112,9 @@ SlashCmdList["BETTERANCHORS"] = function(msg)
         BetterAnchors.versionManager:TestVersionCheck()
         return
         ----- VERSION TESTING COMMAND END -----
+    elseif command == "versioncheck" or command == "vc" or command == "vercheck" then
+        BetterAnchors.versionManager:PrintAllUserVersionsInChat()
+        return
     elseif command == "reset" then
         StaticPopup_Show("BA_RESET_POSITIONS")
     elseif command == "minimap" then
