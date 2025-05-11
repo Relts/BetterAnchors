@@ -37,6 +37,11 @@ local FRAME_DEFAULT_ALIGN_HELPERS = {
     },
 }
 
+-- Rounds a number to the nearest integer
+local function Round(num)
+    return math.floor(num + 0.5)
+end
+
 local function CreateAnchorFrame(frameInfo)
     local frame = CreateFrame("Frame", frameInfo.name, UIParent, BackdropTemplateMixin and "BackdropTemplate")
     frame:SetSize(100, 100)

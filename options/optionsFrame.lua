@@ -1,5 +1,11 @@
 local addonName, BetterAnchors = ...
 
+-- Rounds a number to the specified number of decimal places (default 0)
+local function Round(num, numDecimalPlaces)
+    local mult = 10 ^ (numDecimalPlaces or 0)
+    return math.floor(num * mult + 0.5) / mult
+end
+
 local function BuildOptionsForOptionsFrame()
     local anchorFrames = BetterAnchors.anchorFrames
     local lastElement = nil
@@ -31,6 +37,8 @@ local function BuildOptionsForOptionsFrame()
     --TODO: work out how to add in opacity to the sliders under another section
     --TODO: add in the sliders for opacity and store them to saved variables.
     --TODO: check that we are updating the saved variables on a install where they already have variables.
+    --TODO: Profiles for different classes, Specs
+    --TODO: Anchors for Liquid, Northern Sky, Causeese etc
 
 
     -- Title for Change Scale

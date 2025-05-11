@@ -1,9 +1,16 @@
+RAID_CLASS_COLORS = RAID_CLASS_COLORS or {}
+
 local addonName, BetterAnchors = ...
 
 -- Get version from TOC file metadata using the correct API
 local version = C_AddOns.GetAddOnMetadata(addonName, "Version") or "0.0.0"
 local versionManager = {}
 BetterAnchors.versionManager = versionManager
+
+-- Spam prevention: track last warning time and version
+versionManager.lastWarningTime = 0
+versionManager.lastWarnedVersion = nil
+versionManager.WARNING_COOLDOWN = 600 -- 10 minutes in seconds
 
 -- Version tracking
 versionManager.CURRENT_VERSION = version
@@ -64,17 +71,29 @@ end
 function versionManager:OnVersionReceived(prefix, message, channel, sender)
     if prefix ~= addonName or sender == UnitName("player") then return end
 
+    if message == "REQ_VERSION" then
+        -- Reply with our version
+        C_ChatInfo.SendAddonMessage(addonName, self.CURRENT_VERSION, "WHISPER", sender)
+        return
+    end
+
+    -- Otherwise, treat as version reply
     local theirVersion = message
     self.receivedVersions = self.receivedVersions or {}
     self.receivedVersions[sender] = theirVersion
 
     -- Check if their version is newer
     if CompareVersions(self.CURRENT_VERSION, theirVersion) then
-        -- Their version is newer
-        BetterAnchors:addonPrint(string.format(
-            "|cffff0000Warning:|r Addon is out of date. Please update to the latest version (%s -> %s).",
-            self.CURRENT_VERSION, theirVersion
-        ))
+        -- Only warn if not already warned for this version recently
+        local now = time()
+        if self.lastWarnedVersion ~= theirVersion or (now - (self.lastWarningTime or 0)) > self.WARNING_COOLDOWN then
+            BetterAnchors:addonPrint(string.format(
+                "|cffff0000Warning:|r Addon is out of date. Please update to the latest version (%s -> %s).",
+                self.CURRENT_VERSION, theirVersion
+            ))
+            self.lastWarningTime = now
+            self.lastWarnedVersion = theirVersion
+        end
     end
 end
 
@@ -93,53 +112,46 @@ function versionManager:PrintAllUserVersionsInChat()
     }
 
     local numMembers = GetNumGroupMembers()
-    local highestVersion = self.CURRENT_VERSION
+    self.receivedVersions = {} -- Reset before requesting
 
-    -- First pass: Determine the highest version
+    -- Send version request to all group members
     for i = 1, numMembers do
-        local name, _, _, _, _, class, _, _, _, _, _ = GetRaidRosterInfo(i)
-        if name then
-            C_ChatInfo.SendAddonMessage(addonName, self.CURRENT_VERSION, "WHISPER", name)
-            local theirVersion = self.CURRENT_VERSION -- Assume current version for now
-            if CompareVersions(highestVersion, theirVersion) then
-                highestVersion = theirVersion
-            end
+        local name = GetRaidRosterInfo(i)
+        if name and name ~= UnitName("player") then
+            C_ChatInfo.SendAddonMessage(addonName, "REQ_VERSION", "WHISPER", name)
         end
     end
 
-    -- Second pass: Print versions with color coding
-    for i = 1, numMembers do
-        local name, _, _, _, _, class, _, _, _, _, _ = GetRaidRosterInfo(i)
-        if name then
-            local theirVersion = self.CURRENT_VERSION
-            local versionColor = "|cffff0000" -- Default to red for lower versions
-            if theirVersion == highestVersion then
-                versionColor = "|cff00ff00"   -- Green for highest version
+    -- Wait 2 seconds for responses, then print
+    C_Timer.After(2, function()
+        local highestVersion = self.CURRENT_VERSION
+        -- First pass: Determine the highest version
+        for i = 1, numMembers do
+            local name = GetRaidRosterInfo(i)
+            if name then
+                local theirVersion = self.receivedVersions[name] or self.CURRENT_VERSION
+                if CompareVersions(highestVersion, theirVersion) then
+                    highestVersion = theirVersion
+                end
             end
-            local classColor = RAID_CLASS_COLORS[class].colorStr
-            table.insert(output, string.format("|c%s%s|r: %sVersion %s|r", classColor, name, versionColor, theirVersion))
         end
-    end
-
-    table.insert(output, "=== Version Check Complete ===")
-    BetterAnchors:addonPrint(table.concat(output, "\n"))
-end
-
-function versionManager:OnVersionReceived(prefix, message, channel, sender)
-    if prefix ~= addonName or sender == UnitName("player") then return end
-
-    local theirVersion = message
-    self.receivedVersions = self.receivedVersions or {}
-    self.receivedVersions[sender] = theirVersion
-
-    -- Check if their version is newer
-    if CompareVersions(self.CURRENT_VERSION, theirVersion) then
-        -- Their version is newer
-        BetterAnchors:addonPrint(string.format(
-            "|cffff0000Warning:|r Addon is out of date. Please update to the latest version (%s -> %s).",
-            self.CURRENT_VERSION, theirVersion
-        ))
-    end
+        -- Second pass: Print versions with color coding
+        for i = 1, numMembers do
+            local name, _, _, _, _, class = GetRaidRosterInfo(i)
+            if name then
+                local theirVersion = self.receivedVersions[name] or "Unknown"
+                local versionColor = "|cffff0000"
+                if theirVersion == highestVersion then
+                    versionColor = "|cff00ff00"
+                end
+                local classColor = RAID_CLASS_COLORS[class] and RAID_CLASS_COLORS[class].colorStr or "ffffffff"
+                table.insert(output,
+                    string.format("|c%s%s|r: %sVersion %s|r", classColor, name, versionColor, theirVersion))
+            end
+        end
+        table.insert(output, "=== Version Check Complete ===")
+        BetterAnchors:addonPrint(table.concat(output, "\n"))
+    end)
 end
 
 ----- TESTING FUNCTION START -----
