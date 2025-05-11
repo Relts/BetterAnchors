@@ -1,4 +1,4 @@
-RAID_CLASS_COLORS = RAID_CLASS_COLORS or {}
+---@diagnostic disable: undefined-global
 
 local addonName, BetterAnchors = ...
 
