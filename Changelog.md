@@ -1,3 +1,6 @@
+# Version 1.1.6
+- Toc Bump
+
 # Version 1.1.5
 - Fixed issue with CLASS_RAID_COLORS causing taint. 
 
