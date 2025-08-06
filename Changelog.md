@@ -1,3 +1,8 @@
+# Version 1.1.7
+- Toc Bump
+- Fixed issues for 11.2 
+- New Weakaua icons for 11.2
+
 # Version 1.1.6
 - Toc Bump
 
