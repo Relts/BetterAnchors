@@ -284,7 +284,7 @@ local function CreateOptionsFrame()
         BetterAnchors:HideGridOptionsFrame()
     end)
 
-    local versionTitle = optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalGraySmall")
+    local versionTitle = optionsFrame:CreateFontString(nil, "OVERLAY", "GameFontDarkGraySmall")
     versionTitle:SetPoint("TOPLEFT", optionsFrame, "TOPLEFT", 10, -10)
     versionTitle:SetText(C_AddOns.GetAddOnMetadata(addonName, "Version"))
 
