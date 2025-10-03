@@ -1,3 +1,6 @@
+# Version 1.1.8
+- Nexus King Map
+
 # Version 1.1.7
 - Toc Bump
 - Fixed issues for 11.2 
